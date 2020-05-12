@@ -29,5 +29,10 @@ class Book extends Model
         return $this->hasMany(FileUpload::class,'book_id','book_id');
     }
 
+    public function favorites()
+    {
+        return $this->belongsToMany(User::class,'favorites','book_id','user_id');
+    }
+
     
 }
