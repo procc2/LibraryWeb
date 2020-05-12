@@ -1,0 +1,124 @@
+<?php
+
+namespace App\Http\Controllers\Api\V1;
+
+use App\Book;
+use App\Category;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+
+class BookController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        return Book::with('author:author_id,author_name', 'publisher:publisher_id,publisher_name','images:book_id,name')->get();
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    { }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $book = Book::create($request->all());
+        $categoryIds = $request->input('categoryIds');
+        foreach ($categoryIds as $categoryId) {
+            $book->categories()->attach($categoryId);
+        }
+        return $book;
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $book = Book::with('author:author_id,author_name', 'publisher:publisher_id,publisher_name','images')->findOrFail($id);
+        $book->setAttribute("categoryIds", $book->categories()->get());
+
+        return $book;
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $book = Book::findOrFail($id);
+        $book->update($request->all());
+        $categoryIds = $request->input('categoryIds');
+        if(!is_array($categoryIds[0]) && (!$categoryIds[0] instanceof Traversable))
+        $book->categories()->sync($categoryIds);
+        return $book;
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        $book = Book::findOrFail($id);
+        $book->delete();
+        return '';
+    }
+
+    public function getWithFilter(Request $request)
+    {
+        $books = [];
+        $categoryId = $request->input('categoryId');
+        if ($categoryId != NULL) {
+            $category = Category::findOrFail($categoryId);
+            return $category->books()->with('author:author_id,author_name', 'publisher:publisher_id,publisher_name','images:book_id,name')->get();
+        }
+        if ($request->exists('special')) {
+            $books = Book::with('author:author_id,author_name', 'publisher:publisher_id,publisher_name','images:book_id,name')->where('is_special', 1)->limit(10)->get();
+        }
+        if ($request->exists('new')) {
+            $books = Book::with('author:author_id,author_name', 'publisher:publisher_id,publisher_name','images:book_id,name')->orderBy('created_at','desc')->limit(10)->get();
+        }
+
+        // foreach ($books as $key => $book) {
+        //     $author = $book->author()->pluck('author_name');
+        //     $publisher = $book->publisher()->pluck('publisher_name');
+        //     $books[$key]->setAttribute("author",$author);
+        //     $books[$key]->setAttribute("publisher",$publisher);
+        // }
+        return $books;
+    }
+}
