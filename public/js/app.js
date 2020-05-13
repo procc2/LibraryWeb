@@ -2859,15 +2859,33 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     var app = this;
     var id = app.$route.params.id;
     console.log(app.$route.params.id);
 
-    if (typeof id !== 'undefined') {
+    if (typeof id !== "undefined") {
       app.author_id = id;
-      axios.get('/api/v1/authors/' + id).then(function (resp) {
+      axios.get("/api/v1/authors/" + id).then(function (resp) {
         app.author = resp.data;
       })["catch"](function () {
         alert("Could not load your company");
@@ -2877,7 +2895,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       author: {
-        author_name: ''
+        author_name: ""
       }
     };
   },
@@ -2888,27 +2906,27 @@ __webpack_require__.r(__webpack_exports__);
       var author = app.author;
       console.log(author);
 
-      if (typeof app.$route.params.id !== 'undefined') {
+      if (typeof app.$route.params.id !== "undefined") {
         axios.put("/api/v1/authors/" + app.$route.params.id, author).then(function (resp) {
           console.log(resp);
           app.$router.push({
-            path: '/author'
+            path: "/author"
+          });
+        })["catch"](function (e) {
+          throw e;
+          alert("Could not create new author");
+        });
+      } else {
+        axios.post("/api/v1/authors", author).then(function (resp) {
+          console.log(resp);
+          app.$router.push({
+            path: "/author"
           });
         })["catch"](function (e) {
           throw e;
           alert("Could not create new author");
         });
       }
-
-      axios.post("/api/v1/authors", author).then(function (resp) {
-        console.log(resp);
-        app.$router.push({
-          path: '/author'
-        });
-      })["catch"](function (e) {
-        throw e;
-        alert("Could not create new author");
-      });
     }
   }
 });
@@ -3360,15 +3378,33 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     var app = this;
     var id = app.$route.params.id;
     console.log(app.$route.params.id);
 
-    if (typeof id !== 'undefined') {
+    if (typeof id !== "undefined") {
       app.category_id = id;
-      axios.get('/api/v1/categories/' + id).then(function (resp) {
+      axios.get("/api/v1/categories/" + id).then(function (resp) {
         app.category = resp.data;
       })["catch"](function () {
         alert("Could not load your company");
@@ -3378,7 +3414,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       category: {
-        category_name: ''
+        category_name: ""
       }
     };
   },
@@ -3389,27 +3425,27 @@ __webpack_require__.r(__webpack_exports__);
       var category = app.category;
       console.log(category);
 
-      if (typeof app.$route.params.id !== 'undefined') {
-        axios.put("/api/v1/categorys/" + app.$route.params.id, category).then(function (resp) {
+      if (typeof app.$route.params.id !== "undefined") {
+        axios.put("/api/v1/categories/" + app.$route.params.id, category).then(function (resp) {
           console.log(resp);
           app.$router.push({
-            path: '/category'
+            path: "/category"
+          });
+        })["catch"](function (e) {
+          throw e;
+          alert("Could not create new category");
+        });
+      } else {
+        axios.post("/api/v1/categories", category).then(function (resp) {
+          console.log(resp);
+          app.$router.push({
+            path: "/category"
           });
         })["catch"](function (e) {
           throw e;
           alert("Could not create new category");
         });
       }
-
-      axios.post("/api/v1/categories", category).then(function (resp) {
-        console.log(resp);
-        app.$router.push({
-          path: '/category'
-        });
-      })["catch"](function (e) {
-        throw e;
-        alert("Could not create new category");
-      });
     }
   }
 });
@@ -3465,15 +3501,33 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     var app = this;
     var id = app.$route.params.id;
     console.log(app.$route.params.id);
 
-    if (typeof id !== 'undefined') {
+    if (typeof id !== "undefined") {
       app.publisher_id = id;
-      axios.get('/api/v1/publishers/' + id).then(function (resp) {
+      axios.get("/api/v1/publishers/" + id).then(function (resp) {
         app.publisher = resp.data;
       })["catch"](function () {
         alert("Could not load your company");
@@ -3483,7 +3537,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       publisher: {
-        publisher_name: ''
+        publisher_name: ""
       }
     };
   },
@@ -3494,27 +3548,27 @@ __webpack_require__.r(__webpack_exports__);
       var publisher = app.publisher;
       console.log(publisher);
 
-      if (typeof app.$route.params.id !== 'undefined') {
+      if (typeof app.$route.params.id !== "undefined") {
         axios.put("/api/v1/publishers/" + app.$route.params.id, publisher).then(function (resp) {
           console.log(resp);
           app.$router.push({
-            path: '/publisher'
+            path: "/publisher"
+          });
+        })["catch"](function (e) {
+          throw e;
+          alert("Could not create new publisher");
+        });
+      } else {
+        axios.post("/api/v1/publishers", publisher).then(function (resp) {
+          console.log(resp);
+          app.$router.push({
+            path: "/publisher"
           });
         })["catch"](function (e) {
           throw e;
           alert("Could not create new publisher");
         });
       }
-
-      axios.post("/api/v1/publishers", publisher).then(function (resp) {
-        console.log(resp);
-        app.$router.push({
-          path: '/publisher'
-        });
-      })["catch"](function (e) {
-        throw e;
-        alert("Could not create new publisher");
-      });
     }
   }
 });
@@ -41747,7 +41801,11 @@ var render = function() {
                         staticClass: "btn btn-primary",
                         attrs: { type: "submit", name: "submit" }
                       },
-                      [_vm._v("Thêm mới")]
+                      [
+                        _vm._v(
+                          "\n                                Thêm mới\n                            "
+                        )
+                      ]
                     ),
                     _vm._v(" "),
                     _c(
@@ -41756,7 +41814,11 @@ var render = function() {
                         staticClass: "btn btn-default",
                         attrs: { type: "reset" }
                       },
-                      [_vm._v("Làm mới")]
+                      [
+                        _vm._v(
+                          "\n                                Làm mới\n                            "
+                        )
+                      ]
                     )
                   ]
                 )
@@ -42281,7 +42343,11 @@ var render = function() {
                         staticClass: "btn btn-primary",
                         attrs: { type: "submit", name: "submit" }
                       },
-                      [_vm._v("Thêm mới")]
+                      [
+                        _vm._v(
+                          "\n                                Thêm mới\n                            "
+                        )
+                      ]
                     ),
                     _vm._v(" "),
                     _c(
@@ -42290,7 +42356,11 @@ var render = function() {
                         staticClass: "btn btn-default",
                         attrs: { type: "reset" }
                       },
-                      [_vm._v("Làm mới")]
+                      [
+                        _vm._v(
+                          "\n                                Làm mới\n                            "
+                        )
+                      ]
                     )
                   ]
                 )
@@ -42588,7 +42658,11 @@ var render = function() {
                         staticClass: "btn btn-primary",
                         attrs: { type: "submit", name: "submit" }
                       },
-                      [_vm._v("Thêm mới")]
+                      [
+                        _vm._v(
+                          "\n                                Thêm mới\n                            "
+                        )
+                      ]
                     ),
                     _vm._v(" "),
                     _c(
@@ -42597,7 +42671,11 @@ var render = function() {
                         staticClass: "btn btn-default",
                         attrs: { type: "reset" }
                       },
-                      [_vm._v("Làm mới")]
+                      [
+                        _vm._v(
+                          "\n                                Làm mới\n                            "
+                        )
+                      ]
                     )
                   ]
                 )

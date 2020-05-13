@@ -71,7 +71,10 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $category = Category::findOrFail($id);
+        $category->update($request->all());
+
+        return $category;
     }
 
     /**
@@ -86,4 +89,12 @@ class CategoryController extends Controller
        $category->delete();
        return '';
     }
+
+    // public function getCategoriesByBook($bookId)
+    // {
+    //     return Category::whereHas('books', function ($query) use($bookId)
+    //     {
+    //         $query->where('books.book_id',$bookId);
+    //     })->get();
+    // }
 }

@@ -71,7 +71,10 @@ class PublisherController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $publisher = Publisher::findOrFail($id);
+        $publisher->update($request->all());
+
+        return $publisher;
     }
 
     /**

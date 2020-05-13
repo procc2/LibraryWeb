@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Author;
 use App\Book;
 use App\Category;
 use App\Http\Controllers\Controller;
+use App\Publisher;
 use Illuminate\Http\Request;
 
 class BookController extends Controller
@@ -16,7 +18,7 @@ class BookController extends Controller
      */
     public function index()
     {
-        return Book::with('author:author_id,author_name', 'publisher:publisher_id,publisher_name','images:book_id,name')->get();
+        return Book::with('author:author_id,author_name', 'publisher:publisher_id,publisher_name','images:book_id,name','categories:category_name')->get();
     }
 
     /**
@@ -51,7 +53,7 @@ class BookController extends Controller
      */
     public function show($id)
     {
-        $book = Book::with('author:author_id,author_name', 'publisher:publisher_id,publisher_name','images')->findOrFail($id);
+        $book = Book::with('author:author_id,author_name', 'publisher:publisher_id,publisher_name','images','categories:category_name')->findOrFail($id);
         $book->setAttribute("categoryIds", $book->categories()->get());
 
         return $book;
@@ -104,7 +106,17 @@ class BookController extends Controller
         $categoryId = $request->input('categoryId');
         if ($categoryId != NULL) {
             $category = Category::findOrFail($categoryId);
-            return $category->books()->with('author:author_id,author_name', 'publisher:publisher_id,publisher_name','images:book_id,name')->get();
+            return $category->books()->with('author:author_id,author_name', 'publisher:publisher_id,publisher_name','images:book_id,name','categories:category_name')->get();
+        }
+        $authorId = $request->input('authorId');
+        if ($authorId != NULL) {
+            $author = Author::findOrFail($authorId);
+            return $author->books()->with('author:author_id,author_name', 'publisher:publisher_id,publisher_name','images:book_id,name','categories:category_name')->get();
+        }
+        $publisherId = $request->input('publisherId');
+        if ($publisherId != NULL) {
+            $publisher = Publisher::findOrFail($publisherId);
+            return $publisher->books()->with('author:author_id,author_name', 'publisher:publisher_id,publisher_name','images:book_id,name','categories:category_name')->get();
         }
         if ($request->exists('special')) {
             $books = Book::with('author:author_id,author_name', 'publisher:publisher_id,publisher_name','images:book_id,name')->where('is_special', 1)->limit(10)->get();
