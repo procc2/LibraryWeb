@@ -21,10 +21,25 @@ Route::group(['prefix' => '/v1', 'namespace' => 'Api\V1', 'as' => 'api.'], funct
     Route::resource('companies', 'CompaniesController', ['except' => ['create', 'edit']]);
 });
 
+Route::group([
+    'prefix' => 'auth'
+], function () {
+    Route::post('login', 'AuthController@login');
+    Route::post('signup', 'AuthController@signup');
+  
+    Route::group([
+      'middleware' => 'auth:api'
+    ], function() {
+        Route::get('logout', 'AuthController@logout');
+        Route::get('user', 'AuthController@user');
+    });
+});
+
 Route::group(['prefix' => '/v1', 'namespace' => 'Api\V1', 'as' => 'api.'], function () {
     Route::resource('books', 'BookController', ['except' => ['create', 'edit']]);
     Route::get("/filterBooks",'BookController@getWithFilter');
     Route::resource('categories', 'CategoryController', ['except' => ['create', 'edit']]);
+    // Route::get('categories/{bookId}/book', 'CategoryController@getCategoriesByBook');
     Route::resource('authors', 'AuthorController', ['except' => ['create', 'edit']]);
     Route::resource('publishers', 'PublisherController', ['except' => ['create', 'edit']]);
     Route::resource('loans', 'LoanController', ['except' => ['create', 'edit']]);
