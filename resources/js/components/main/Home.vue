@@ -42,7 +42,7 @@ data: function() {
     axios
       .get("/api/v1/filterBooks?new")
       .then(function(res) {
-        console.log(res.data);
+        // console.log(res.data);
         app.newProducts = res.data;
       })
       .catch(function(e) {
@@ -51,7 +51,7 @@ data: function() {
     axios
       .get("/api/v1/filterBooks?special")
       .then(function(res) {
-        console.log(res.data);
+        // console.log(res.data);
         app.specialProducts = res.data;
       })
       .catch(function(e) {

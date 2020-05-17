@@ -18,6 +18,10 @@
 </html> -->
 @extends('layouts.main')
 
+@section('nav_bar')
+<nav-bar></nav-bar>
+@endsection
+
 @section('y-cart')
 <infor></infor>
 @endsection

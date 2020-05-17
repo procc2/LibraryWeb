@@ -27,13 +27,7 @@
 <body>
     <div id="app">
         <div class="container">
-            <div class="clearfix">
-                <ul class="secondary_menu">
-                    <li><a href="index.php?page_layout=login">Đăng nhập</a></li>
-                    <li><a href="#">Đăng ký</a></li>
-                </ul>
-                <div class="phone-top">Hotline: <a href="tel:0983010597">0983010597</a><span> Xin chào</span></div>
-            </div>
+        @yield('nav_bar')
 
             <!-- Header -->
             <div id="header">

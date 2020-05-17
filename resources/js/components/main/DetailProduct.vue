@@ -92,7 +92,7 @@ data: function() {
     axios
       .get("/api/v1/books/"+app.$route.params.bookId)
       .then(function(res) {
-        console.log(res.data);
+        // console.log(res.data);
         app.book = res.data;
       })
       .catch(function(e) {

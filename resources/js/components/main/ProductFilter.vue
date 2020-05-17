@@ -35,11 +35,11 @@ data: function() {
   },
   mounted() {
     var app = this;
-    console.log(app.$route.params);
+    // console.log(app.$route.params);
     axios
       .get("/api/v1/filterBooks?categoryId="+app.$route.params.categoryId)
       .then(function(res) {
-        console.log(res.data);
+        // console.log(res.data);
         app.products = res.data;
       })
       .catch(function(e) {
