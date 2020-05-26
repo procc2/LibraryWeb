@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Loan;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class LoanController extends Controller
@@ -36,7 +37,17 @@ class LoanController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $exist = Loan::where( [
+            'book_id'       => $request->book_id,
+            'user_id'       => $request->user_id,
+        ])->first();
+        if($exist){
+            return response()->json([
+                'message' => 'Duplicated'
+            ], 409);
+        }
+        $loan = Loan::create($request->all());
+        return $loan;
     }
 
     /**
@@ -70,7 +81,12 @@ class LoanController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $loan = Loan::findOrFail($id);
+        $loan->loan_is_active = $request->status;
+        $loan->loan_date = Carbon::now();
+        $loan->save();
+
+        return $loan;
     }
 
     /**

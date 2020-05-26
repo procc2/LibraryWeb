@@ -18,27 +18,7 @@
 </html> -->
 @extends('layouts.main')
 
-@section('nav_bar')
-<nav-bar></nav-bar>
-@endsection
-
-@section('y-cart')
-<infor></infor>
-@endsection
-
-@section('search_bar')
-<search-bar></search-bar>
-@endsection
-
-@section('category_sidebar')
-<category-sidebar></category-sidebar>
-@endsection
-
-@section('analysis_chart')
-<analysis></analysis>
-@endsection
-
 @section('content')
-<router-view :key="$route.fullPath"></router-view>
+<app/>
 
 @endsection

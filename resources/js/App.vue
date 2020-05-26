@@ -1,22 +1,42 @@
 <template>
-  <div class="wrapper" style="position: relative">
-    <nav-bar></nav-bar>
-    <side-bar></side-bar>
-    <router-view></router-view>
-  </div>
+    <div>
+        <top />
+        <search-bar/>
+        <slider v-if="$router.currentRoute.path == '/'" />
+        <bread-crumb v-if="$router.currentRoute.path != '/'"/>
+        <router-view :key="$route.fullPath"></router-view>
+        <foot />
+        <login/>
+        <register/>
+    </div>
 </template>
 
 <script>
-import NavBar from "./components/admin/NavBar";
-import SideBar from "./components/admin/SideBar";
-import Introduction from "./components/admin/main/Introduction";
+import Slider from "./components/main/Slider.vue";
+import BreadCrumb from "./components/main/BreadCrumb";
+import SearchBar from "./components/main/SearchBar.vue";
+import Header from "./components/main/Header.vue";
+import Footer from "./components/main/Footer.vue";
+import Login from "./components/main/Login.vue";
+import Register from "./components/main/Register.vue";
 
+import { mapState, mapActions } from "vuex";
 export default {
-  name: "App",
-  components: {
-    NavBar,
-    SideBar,
-    Introduction
-  },
+    name: "App",
+    components: {
+        'top': Header,
+        'slider': Slider,
+        'foot': Footer,
+        "search-bar": SearchBar,
+        "bread-crumb": BreadCrumb,
+        "login" : Login,
+        "register" : Register,
+    },
+    created() {
+        this.getLoginState();
+    },
+    methods: {
+        ...mapActions("account", ["getLoginState"])
+    }
 };
 </script>

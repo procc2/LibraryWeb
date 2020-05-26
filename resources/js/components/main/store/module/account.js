@@ -6,14 +6,14 @@ const token = localStorage.getItem('token');
 const state = { status: {}, user: null };
 
 const actions = {
-    login({ dispatch, commit }, { email, password }) {
+    async login({ dispatch, commit }, { email, password }) {
         commit('loginRequest', { email });
     
-        userService.login(email, password)
+        await userService.login(email, password)
             .then(
                 user => {
                     commit('loginSuccess', user);
-                    router.push('/');
+                    // router.push('/');
                 },
                 error => {
                     commit('loginFailure', error);
@@ -25,8 +25,8 @@ const actions = {
         userService.logout();
         commit('logout');
     },
-    getLoginState({ commit }){
-        userService.getUserByToken(token)
+    async getLoginState({ commit }){
+        await userService.getUserByToken(token)
         .then(
             user => {
                 commit('loginSuccess', user);

@@ -44,7 +44,10 @@ const backendRoutes = [
 import Home from './components/main/Home.vue';
 import ProductFilter from './components/main/ProductFilter.vue';
 import DetailProduct from './components/main/DetailProduct.vue';
+import Grid from './components/main/Grid.vue';
 import Login from './components/main/Login.vue';
+import ChangeInformation from './components/main/ChangeInformation.vue';
+import WishList from './components/main/WishList.vue';
 
 const mainRoutes = [
     {
@@ -54,6 +57,9 @@ const mainRoutes = [
     {path: '/products/:categoryId', component: ProductFilter, name: 'productFilter'},
     {path: '/detail/:bookId', component: DetailProduct, name: 'detailProduct'},
     {path: '/login', component: Login, name: 'login'},
+    {path: '/grid-view',component: Grid, name : 'grid'},
+    {path: '/change-information',component: ChangeInformation, name : 'changeInformation'},
+    {path: '/wish-list',component: WishList, name : 'wishList'},
     { path: '*', redirect: '/' }
 ]
 

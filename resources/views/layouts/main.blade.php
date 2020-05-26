@@ -4,146 +4,47 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Thư viện') }}</title>
 
-    <!-- Scripts -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="{{ asset('js/app.js') }}" defer></script>
-    <script src="{{ asset('main/js/main.min.js') }}"></script>
+    <!-- Favicons -->
+	<link rel="shortcut icon" href="images/favicon.ico">
+	<link rel="apple-touch-icon" href="images/icon.png">
 
-    <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    <!-- Scripts -->
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+    <!-- <script src="{{ asset('main/js/vendor/modernizr-3.5.0.min.js') }}"></script> -->
+
+    <!-- <script src="{{ asset('js/vendor/jquery-3.2.1.min.js') }}"></script> -->
+    <!-- <script src="{{ asset('js/popper.min.js') }}"></script>
+    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('js/plugins.js') }}"></script>
+    <script src="{{ asset('js/active.js') }}"></script> -->
+    
+
+    <!-- Google font (font-family: 'Roboto', sans-serif; Poppins ; Satisfy) -->
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet"> 
+	<link href="https://fonts.googleapis.com/css?family=Poppins:300,300i,400,400i,500,600,600i,700,700i,800" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet"> 
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="{{ asset('css/plugins/material-design-iconic-font.min.css') }}" /> -->
     <link href="{{ asset('main/css/main.min.css') }}" rel="stylesheet">
+
+    <!-- Modernizer js
+	<script src="js/vendor/modernizr-3.5.0.min.js"></script> -->
 </head>
 
 <body>
     <div id="app">
-        <div class="container">
-        @yield('nav_bar')
-
-            <!-- Header -->
-            <div id="header">
-                <div class="row">
-                    <!-- search -->
-                    @yield('search_bar')
-                    <!-- end search -->
-
-                    <!-- y-cart -->
-                    @yield('y-cart')
-                    <!-- end y-cart -->
-                </div>
-            </div>
-            <!-- End Header -->
-
-            <!-- Banner  -->
-            <div id="banner">
-                <div class="row">
-                    <div id="logo" class="col-md-4 col-sm-12 col-xs-12">
-                        <h1>
-                            <a href="index.php">
-                                <img src="images/lg.jpg" height="110px">
-                            </a>
-                        </h1>
-                    </div>
-
-                </div>
-            </div>
-            <!-- End Banner -->
-
-            <!-- Body -->
-            <div id="body">
-                <div class="row">
-                    <div class="col-md-3 col-sm-12 col-xs-12">
-                        @yield('category_sidebar')
-                        <div id="banner-l">
-                            <h2 class="h2-bar">Đối tác</h2>
-                            <a href="#">
-                                <img class="img-thumbnail" src="images/quangcao.png">
-                            </a>
-                        </div>
-                        @yield('analysis_chart')
-                    </div>
-                    <div class="col-md-9 col-sm-12 col-xs-12">
-                        <div id="slider">
-                            <div id="myCarousel" class="carousel slide" data-ride="carousel">
-                                <!-- Indicators -->
-                                <ol class="carousel-indicators">
-                                    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-                                    <li data-target="#myCarousel" data-slide-to="1"></li>
-                                    <li data-target="#myCarousel" data-slide-to="2"></li>
-
-
-                                </ol>
-
-                                <!-- Wrapper for slides -->
-                                <div class="carousel-inner" role="listbox">
-                                    <div class="item active">
-                                        <img src="images/sl11.jpg" alt="Chania">
-                                    </div>
-
-                                    <div class="item">
-                                        <img src="images/sl21.png" alt="Chania">
-                                    </div>
-
-                                    <div class="item">
-                                        <img src="images/sl31.png" alt="Flower">
-                                    </div>
-
-
-                                </div>
-
-                                <!-- Left and right controls -->
-                                <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-                                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                                    <span class="sr-only">Previous</span>
-                                </a>
-                                <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-                                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                                    <span class="sr-only">Next</span>
-                                </a>
-                            </div>
-                        </div>
-
-                        <div id="main">
-                            @yield('content')
-                        </div>
-
-
-                    </div>
-                </div>
-            </div>
-            <!-- End Body -->
-
-            <div id="brand">
-                <div class="row">
-                    <div class="col-md-12 text-center">
-                        <img class="img-thumbnail" src="">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Footer -->
-            <div id="footer">
-                <div class="row">
-                    <div id="footer-main" class="col-md-12 col-sm-12 col-xs-12">
-                        <h4>Thư Viện Điện Tử</h4>
-                        <p><b>Trụ sở chính:</b> 141 Đường chiến thắng, Hà Đông, Hà Nội | <b>Hotline</b> 0983010597</p>
-
-
-                    </div>
-                </div>
-            </div>
-            <!-- End Footer -->
-        </div>
+    @yield('content')
     </div>
+    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('main/js/main.min.js') }}"></script>
 </body>
 
 </html>

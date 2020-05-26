@@ -40,6 +40,9 @@ Route::group(['prefix' => '/v1', 'namespace' => 'Api\V1', 'as' => 'api.'], funct
     Route::get("/filterBooks",'BookController@getWithFilter');
     Route::resource('categories', 'CategoryController', ['except' => ['create', 'edit']]);
     // Route::get('categories/{bookId}/book', 'CategoryController@getCategoriesByBook');
+    Route::get('/favorites', 'BookController@getLike');
+    Route::post('/favorites', 'BookController@like');
+    Route::delete('/favorites', 'BookController@dislike');
     Route::resource('authors', 'AuthorController', ['except' => ['create', 'edit']]);
     Route::resource('publishers', 'PublisherController', ['except' => ['create', 'edit']]);
     Route::resource('loans', 'LoanController', ['except' => ['create', 'edit']]);
