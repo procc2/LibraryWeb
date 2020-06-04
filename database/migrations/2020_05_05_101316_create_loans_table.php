@@ -20,8 +20,6 @@ class CreateLoansTable extends Migration
 
             $table->integer('user_id')->unsigned()->index();
             $table->foreign('user_id')->references('user_id')->on('users');
-            $table->integer('book_id')->unsigned()->index();
-            $table->foreign('book_id')->references('book_id')->on('books');
             $table->timestamps();
 
         });

@@ -24,15 +24,25 @@ class Book extends Model
         return $this->belongsTo(Publisher::class,'publisher_id');
     }
 
-    public function images()
+    public function files()
     {
         return $this->hasMany(FileUpload::class,'book_id','book_id');
+    }
+
+    public function images(){
+        return $this->files()->where('type','=','image');
+    }
+
+    public function ebooks(){
+        return $this->files()->where('type','=','document');
     }
 
     public function favorites()
     {
         return $this->belongsToMany(User::class,'favorites','book_id','user_id');
     }
-
+    public function cart(){
+        return $this->belongsTo(Cart::class,'book_id','book_id');
+    }
     
 }

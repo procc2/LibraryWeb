@@ -74,7 +74,16 @@
                                     />
                                 </div>
 
-                                <ImageUpload ref="imageUpload" v-bind:image ="book.images[0] ? '/dist/book/image/'  + book.images[0].name :null" />
+                                <ImageUpload
+                                    ref="imageUpload"
+                                    v-bind:image="
+                                        book.images[0]
+                                            ? '/dist/book/image/' +
+                                              book.images[0].name
+                                            : null
+                                    "
+                                />
+                                <ebookUpload ref="ebookUpload" />
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -160,9 +169,11 @@
 </template>
 <script>
 import ImageUpload from "./imageUpload";
+import ebookUpload from "./ebookUpload";
 export default {
     components: {
-        ImageUpload
+        ImageUpload,
+        ebookUpload
     },
     mounted() {
         let app = this;
@@ -203,7 +214,7 @@ export default {
                 is_special: 0,
                 categoryIds: [],
                 book_description: "",
-                images:[],
+                images: []
             },
             categories: [],
             publishers: [],
@@ -211,42 +222,62 @@ export default {
         };
     },
     methods: {
-        saveForm() {
+        async saveForm() {
             event.preventDefault();
             var app = this;
             var book = app.book;
-            if (app.$route.params.bookId == parseInt(app.$route.params.bookId, 10)) {
-              console.log(book.categoryIds);
-                axios
+            if (
+                app.$route.params.bookId ==
+                parseInt(app.$route.params.bookId, 10)
+            ) {
+                await axios
                     .put("/api/v1/books/" + app.$route.params.bookId, book)
-                    .then(function(resp) {
+                    .then(async function(resp) {
                         console.log(resp);
-                        if(book.images){
-                        app.$refs.imageUpload
-                            .uploadImage(app.$route.params.bookId)
-                            .then(() => app.$router.push({ path: "/book" }));
+                        if (book.images) {
+                            await app.$refs.imageUpload.uploadImage(
+                                app.$route.params.bookId
+                            );
+                            // .then(() => app.$router.push({ path: "/book" }));
                         }
-                        else app.$router.push({ path: "/book" });
+
+                        // if(book.ebooks.length)
+                            await app.$refs.ebookUpload
+                                .uploadEbook(app.$route.params.bookId)
+                            // .then(res => {
+                            //     console.log(res);
+                            // });
+
+                        // else app.$router.push({ path: "/book" });
+                        console.log("done")
+                        app.$router.push({ path: "/book" })
                     })
                     .catch(function(e) {
                         throw e;
                         alert("Could not edit this book");
                     });
-            } else
-                axios
+
+            } else{
+                await axios
                     .post("/api/v1/books", book)
-                    .then(function(resp) {
-                        console.log(resp);
-                        if(book.images){
-                        app.$refs.imageUpload
-                            .uploadImage(resp.data.book_id)
-                            .then(() => app.$router.push({ path: "/book" }));
+                    .then(async function(resp) {
+                        if (book.images) {
+                            await app.$refs.imageUpload.uploadImage(
+                                resp.data.book_id
+                            );
+                            // .then(() => app.$router.push({ path: "/book" }));
                         }
+                        await app.$refs.ebookUpload
+                                .uploadEbook(app.$route.params.bookId)
+
+                        app.$router.push({ path: "/book" })
                     })
                     .catch(function(e) {
                         throw e;
                         alert("Could not create new book");
                     });
+                
+            }
         }
     }
 };

@@ -147,14 +147,16 @@ export default {
     },
     methods: {
         ...mapActions("account", ["login", "logout"]),
+        ...mapActions("cart", ["getUserCart"]),
         handleSubmit(e) {
             this.submitted = true;
             const { email, password } = this.user;
             if (email && password) {
                 this.login({ email, password }).then((res)=>{
-                    console.log(this.status.loggedIn);
-                    if(this.status.loggedIn)
+                    if(this.status.loggedIn){
                     this.$modal.hide('login');
+                    this.getUserCart();
+                    }
                 });
             }
         },

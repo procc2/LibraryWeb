@@ -21,8 +21,9 @@ const actions = {
                 }
             );
     },
-    logout({ commit }) {
+    logout({ dispatch, commit }) {
         userService.logout();
+        dispatch('cart/removeAllProduct', null, { root: true });
         commit('logout');
     },
     async getLoginState({ commit }){

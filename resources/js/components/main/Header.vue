@@ -340,7 +340,7 @@
                         </li>
                         <li class="shopcart">
                             <a class="cartbox_active" href="#"
-                                ><span class="product_qun">3</span></a
+                                ><span class="product_qun">{{items.length}}</span></a
                             >
                             <!-- Start Shopping Cart -->
                             <div class="block-minicart minicart__active">
@@ -358,29 +358,21 @@
                                         <span>$66.00</span>
                                     </div>
                                     <div class="mini_action checkout">
-                                        <a
+                                        <router-link
                                             class="checkout__btn"
-                                            href="cart.html"
-                                            >Go to Checkout</a
+                                            :to="{ name : 'cart'}"
+                                            >Go to Checkout</router-link
                                         >
                                     </div>
                                     <div class="single__items">
                                         <div class="miniproduct">
-                                            <div class="item01 d-flex">
+                                            <div class="item01 d-flex" v-for="item in items" :key="item.id">
                                                 <div class="thumb">
-                                                    <a
-                                                        href="product-details.html"
-                                                        ><img
-                                                            src="images/product/sm-img/1.jpg"
-                                                            alt="product images"
-                                                    /></a>
+                                                    <router-link :to="{ name : 'detailProduct', params : {bookId: item.book_id}}" v-if="item.images[0]"><img :src="'/dist/book/image/'  + item.images[0].name" alt="product image"></router-link>
                                                 </div>
                                                 <div class="content">
                                                     <h6>
-                                                        <a
-                                                            href="product-details.html"
-                                                            >Voyage Yoga Bag</a
-                                                        >
+                                                        <router-link :to="{ name : 'detailProduct', params : {bookId: item.book_id}}">{{item.book_name}}</router-link>
                                                     </h6>
                                                     <span class="prize"
                                                         >$30.00</span
@@ -402,100 +394,7 @@
                                                                 ></a>
                                                             </li>
                                                             <li>
-                                                                <a href="#"
-                                                                    ><i
-                                                                        class="zmdi zmdi-delete"
-                                                                    ></i
-                                                                ></a>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="item01 d-flex mt--20">
-                                                <div class="thumb">
-                                                    <a
-                                                        href="product-details.html"
-                                                        ><img
-                                                            src="images/product/sm-img/3.jpg"
-                                                            alt="product images"
-                                                    /></a>
-                                                </div>
-                                                <div class="content">
-                                                    <h6>
-                                                        <a
-                                                            href="product-details.html"
-                                                            >Impulse Duffle</a
-                                                        >
-                                                    </h6>
-                                                    <span class="prize"
-                                                        >$40.00</span
-                                                    >
-                                                    <div
-                                                        class="product_prize d-flex justify-content-between"
-                                                    >
-                                                        <span class="qun"
-                                                            >Qty: 03</span
-                                                        >
-                                                        <ul
-                                                            class="d-flex justify-content-end"
-                                                        >
-                                                            <li>
-                                                                <a href="#"
-                                                                    ><i
-                                                                        class="zmdi zmdi-settings"
-                                                                    ></i
-                                                                ></a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#"
-                                                                    ><i
-                                                                        class="zmdi zmdi-delete"
-                                                                    ></i
-                                                                ></a>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="item01 d-flex mt--20">
-                                                <div class="thumb">
-                                                    <a
-                                                        href="product-details.html"
-                                                        ><img
-                                                            src="images/product/sm-img/2.jpg"
-                                                            alt="product images"
-                                                    /></a>
-                                                </div>
-                                                <div class="content">
-                                                    <h6>
-                                                        <a
-                                                            href="product-details.html"
-                                                            >Compete Track
-                                                            Tote</a
-                                                        >
-                                                    </h6>
-                                                    <span class="prize"
-                                                        >$40.00</span
-                                                    >
-                                                    <div
-                                                        class="product_prize d-flex justify-content-between"
-                                                    >
-                                                        <span class="qun"
-                                                            >Qty: 03</span
-                                                        >
-                                                        <ul
-                                                            class="d-flex justify-content-end"
-                                                        >
-                                                            <li>
-                                                                <a href="#"
-                                                                    ><i
-                                                                        class="zmdi zmdi-settings"
-                                                                    ></i
-                                                                ></a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#"
+                                                                <a href="javascript:void(0)" v-on:click="removeProduct(item)"
                                                                     ><i
                                                                         class="zmdi zmdi-delete"
                                                                     ></i
@@ -734,10 +633,12 @@
 import { mapState, mapActions } from "vuex";
 export default {
     computed: {
-        ...mapState("account", ["status", "user"])
+        ...mapState("account", ["status", "user"]),
+        ...mapState("cart", ["items"])
     },
     methods: {
         ...mapActions("account", ["logout"]),
+        ...mapActions("cart", ["removeProduct"]),
         show() {
             this.$modal.show("login");
         },

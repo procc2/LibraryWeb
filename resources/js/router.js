@@ -48,6 +48,8 @@ import Grid from './components/main/Grid.vue';
 import Login from './components/main/Login.vue';
 import ChangeInformation from './components/main/ChangeInformation.vue';
 import WishList from './components/main/WishList.vue';
+import Cart from './components/main/Cart.vue';
+// import BookViewer from './components/main/BookViewer.vue';
 
 const mainRoutes = [
     {
@@ -60,6 +62,8 @@ const mainRoutes = [
     {path: '/grid-view',component: Grid, name : 'grid'},
     {path: '/change-information',component: ChangeInformation, name : 'changeInformation'},
     {path: '/wish-list',component: WishList, name : 'wishList'},
+    {path: '/cart',component: Cart, name : 'cart'},
+    // {path: '/viewer',component: BookViewer, name : 'viewer'},
     { path: '*', redirect: '/' }
 ]
 

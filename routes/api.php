@@ -46,6 +46,8 @@ Route::group(['prefix' => '/v1', 'namespace' => 'Api\V1', 'as' => 'api.'], funct
     Route::resource('authors', 'AuthorController', ['except' => ['create', 'edit']]);
     Route::resource('publishers', 'PublisherController', ['except' => ['create', 'edit']]);
     Route::resource('loans', 'LoanController', ['except' => ['create', 'edit']]);
+    Route::resource('carts', 'CartsController', ['except' => ['create', 'edit']]);
+    Route::resource('loanDetails', 'LoanDetailsController', ['except' => ['create', 'edit']]);
     Route::resource('users', 'UserController', ['except' => ['create', 'edit']]);
 });
 

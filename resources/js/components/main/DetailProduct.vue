@@ -102,17 +102,20 @@
     											<li class="off"><i class="zmdi zmdi-star-outline"></i></li>
         									</ul>
         								</div>
-        								<div class="price-box">
+        								<!-- <div class="price-box">
         									<span>$52.00</span>
-        								</div>
+        								</div> -->
 										<div class="product__overview">
         									<p>{{book.book_description}}</p>
         								</div>
         								<div class="box-tocart d-flex">
-        									<span>Qty</span>
-        									<input id="qty" class="input-text qty" name="qty" min="1" value="1" title="Qty" type="number">
+        									<!-- <span>Qty</span>
+        									<input id="qty" class="input-text qty" name="qty" min="1" value="1" title="Qty" type="number"> -->
+											<div v-if="book.ebooks.length" class="review-form-actions">
+												<button v-on:click="read()">Đọc Trực Tuyến</button>
+											</div>
         									<div class="addtocart__actions">
-        										<button class="tocart" type="submit" title="Add to Cart" v-on:click="addBorrowRequest()">Add to Cart</button>
+        										<button class="tocart" type="submit" title="Add to Cart" v-on:click="addItemToCart()">Add to Cart</button>
         									</div>
 											<div class="product-addto-links clearfix">
 												<a class="wishlist" href="javascript:void(0)" v-bind:class="{'active': isFavorite}" v-on:click="toggleLike()"></a>
@@ -829,13 +832,18 @@
 			<modal name="notAuthorization">
 				Please log in 
 			</modal>
+			<BookViewer v-if="book.ebooks.length" v-bind:ebook="book.ebooks" :key="book.book_id" />
         </div>
         <!-- End main Content -->
 </template>
 
 <script>
 import { mapState, mapActions } from "vuex";
+import BookViewer from "./BookViewer";
 export default {
+	components:{
+		BookViewer
+	},
     data: function() {
         return {
             book: {
@@ -896,30 +904,21 @@ export default {
             });
     },
     methods: {
-		addBorrowRequest(){
+		...mapActions("cart", ["addProductToCart"]),
+		addItemToCart(){
 			var app = this;
 			if(!app.status.loggedIn){
 				app.$modal.show('notAuthorization');
 				return null;
 			}else{
-			var loan = {
-				loan_is_active : "0",
+			var cartDetail = {
 				user_id : app.user.user_id,
 				book_id: app.book.book_id
 			}
-			axios
-                    .post("/api/v1/loans", loan)
-                    .then(function(resp) {
-						console.log(resp);
-						// this.$modal.show("login");
-						app.$modal.show('borrowRequestSuccess');
-                    })
-                    .catch(function(e) {
-						console.log(e.response);
-						if(e.response.status == 409){
-							app.$modal.show('error')
-						}
-					});
+			var book = app.book;
+			app.addProductToCart({cartDetail,book}).then((res)=>{
+				console.log(res);
+			})
 			}
 		},
         toggleLike() {
@@ -961,7 +960,10 @@ export default {
             console.log(app.isFavorite);
 			app.isFavorite = !app.isFavorite;
 			}
-        }
+		},
+		read() {
+			this.$modal.show('viewer');
+		}
     }
 };
 </script>

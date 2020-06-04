@@ -16,7 +16,7 @@ class LoanController extends Controller
      */
     public function index()
     {
-        return Loan::all();
+        return Loan::with('user:name,user_id','details','details.book')->get();
     }
 
     /**
@@ -37,15 +37,14 @@ class LoanController extends Controller
      */
     public function store(Request $request)
     {
-        $exist = Loan::where( [
-            'book_id'       => $request->book_id,
-            'user_id'       => $request->user_id,
-        ])->first();
-        if($exist){
-            return response()->json([
-                'message' => 'Duplicated'
-            ], 409);
-        }
+        // $exist = Loan::where( [
+        //     'user_id'       => $request->user_id,
+        // ])->first();
+        // if($exist){
+        //     return response()->json([
+        //         'message' => 'Duplicated'
+        //     ], 409);
+        // }
         $loan = Loan::create($request->all());
         return $loan;
     }

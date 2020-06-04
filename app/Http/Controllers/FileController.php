@@ -16,13 +16,15 @@ class FileController extends Controller
 
     public function store(Request $request)
     {
-        $max_size = (int) ini_get('upload_max_filesize') * 1000;
+        $max_size = (int) ini_get('upload_max_filesize') * 1024;
         $all_ext = implode(',', $this->allExtensions());
-        $validator = Validator::make($request->all(), [
-            'image' => 'required|image64:' . $all_ext . '|max:' . $max_size
-        ]);
+        
         //TODO: 
-        if ($request->get('image') && $validator) {
+        if ($request->get('image')) {
+            $validator = Validator::make($request->all(), [
+                'image' => 'required|image64:' . $all_ext . '|max:' . $max_size
+            ]);
+            if($validator){
             $imageUpload = $request->get('image');
             $image = new FileUpload();
 
@@ -37,6 +39,36 @@ class FileController extends Controller
                 'extension' => $ext,
                 'book_id' => $request->input('bookId')
             ]);
+            }
+        }
+        if ($request->file('ebook')) {
+            $ebookFile = $request->file('ebook');
+            $ext = $ebookFile->getClientOriginalExtension();
+            $size = $ebookFile->getSize()/1048576;
+            if(in_array($ext,$this->document_ext) && $size < $max_size){
+            $ebook = new FileUpload();
+
+            $upload_path = config('const.book_ebook_dir');
+            $generated_new_name = time() . '.' . $ext;
+            $type = $this->getType($ext);
+
+            $old_file = FileUpload::where([
+                ['book_id', $request->input('bookId')],
+                ['type','=',$type],
+                ['extension','=',$ext]
+            ])->first();
+            if($old_file){
+                File::delete(config('const.book_ebook_dir').$old_file->name);
+                $old_file->delete();
+            }
+            $ebookFile->move($upload_path, $generated_new_name);
+            return $ebook::create([
+                'name' => $generated_new_name,
+                'type' => $type,
+                'extension' => $ext,
+                'book_id' => $request->input('bookId')
+            ]);
+            }
         }
         return response()->json(false);
     }
@@ -52,18 +84,21 @@ class FileController extends Controller
         $max_size = (int) ini_get('upload_max_filesize') * 1000;
         $all_ext = implode(',', $this->allExtensions());
 
-        $file = FileUpload::where('book_id', $id)->first();
+        
 
-        $validator = Validator::make($request->all(), [
-            'image' => 'required|image64:' . $all_ext . '|max:' . $max_size
-        ]);
-
-        if ($request->get('image') && $validator) {
+        if ($request->get('image')) {
+            $validator = Validator::make($request->all(), [
+                'image' => 'required|image64:' . $all_ext . '|max:' . $max_size
+            ]);
+            if($validator){
             $imageUpload = $request->get('image');
             $name = time() . '.' . explode('/', explode(':', substr($imageUpload, 0, strpos($imageUpload, ';')))[1])[1];
             $ext = explode('/', mime_content_type($imageUpload))[1];
             $type = $this->getType($ext);
-            
+            $file = FileUpload::where([
+                ['book_id', $id],
+                ['type','=',$type]
+            ])->first();
             $old_filename = config('const.book_asset_dir') . $file->type . '/' . $file->name;
             $new_filename = config('const.book_asset_dir') . $type . '/' . $name;
             File::delete($old_filename);
@@ -75,7 +110,7 @@ class FileController extends Controller
             //         $file->name = $name;
             //         return response()->json($file->save());
             //     }
-            // }
+            }
         }
 
         return response()->json(false);

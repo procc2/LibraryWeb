@@ -54,7 +54,7 @@ class BookController extends Controller
      */
     public function show($id)
     {
-        $book = Book::with('author:author_id,author_name', 'publisher:publisher_id,publisher_name', 'images', 'categories:category_name')->findOrFail($id);
+        $book = Book::with('author:author_id,author_name', 'publisher:publisher_id,publisher_name', 'images','ebooks', 'categories:category_name')->findOrFail($id);
         $book->setAttribute("categoryIds", $book->categories()->get());
 
         return $book;

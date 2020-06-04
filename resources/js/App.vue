@@ -33,10 +33,14 @@ export default {
         "register" : Register,
     },
     created() {
-        this.getLoginState();
+        this.getLoginState().then(()=>{
+            this.getUserCart();
+        })
+        
     },
     methods: {
-        ...mapActions("account", ["getLoginState"])
+        ...mapActions("account", ["getLoginState"]),
+        ...mapActions("cart", ["getUserCart"])
     }
 };
 </script>
