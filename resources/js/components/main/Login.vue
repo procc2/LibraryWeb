@@ -56,7 +56,7 @@
     <modal name="login" width="800" height="400">
         <div class="my__account__wrapper">
             <h3 class="account__title">Login</h3>
-            <form v-on:submit="handleSubmit()">
+            <form v-on:submit.prevent="handleSubmit()">
                 <div class="account__form">
                     <div class="input__box">
                         <label>Username or email address <span>*</span></label>

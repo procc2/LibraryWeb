@@ -128,6 +128,24 @@ export default {
         ...mapActions("cart", ["removeProduct"]),
         addBorrowRequest() {
             var app = this;
+            let options = {
+                okText: 'Xác nhận',
+                cancelText: 'Hủy',
+                animation: 'zoom', // Available: "zoom", "bounce", "fade"
+            };
+            this.$dialog
+                .confirm('Bạn chắc chắn muốn mượn ?',options)
+                .then(function(dialog) {
+                    console.log('Clicked on proceed');
+                    app.requestLoan();
+                })
+                .catch(function(e) {
+                    console.log(e);
+                    console.log('Clicked on cancel');
+                });
+        },
+        requestLoan(){
+            var app = this;
             var loan = {
                 loan_is_active: "0",
                 user_id: app.user.user_id

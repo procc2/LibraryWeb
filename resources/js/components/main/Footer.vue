@@ -22,11 +22,11 @@
 									</ul>
 									<ul class="mainmenu d-flex justify-content-center">
 										<li><a href="index.html">Trending</a></li>
-										<li><a href="index.html">Best Seller</a></li>
-										<li><a href="index.html">All Product</a></li>
-										<li><a href="index.html">Wishlist</a></li>
+										<li><a href="index.html">Đặc biệt</a></li>
+										<li><a href="index.html">Toàn bộ sách</a></li>
+										<li><a href="index.html">Yêu thích</a></li>
 										<li><a href="index.html">Blog</a></li>
-										<li><a href="index.html">Contact</a></li>
+										<li><a href="index.html">Liên hệ</a></li>
 									</ul>
 								</div>
 							</div>

@@ -49,7 +49,9 @@ import Login from './components/main/Login.vue';
 import ChangeInformation from './components/main/ChangeInformation.vue';
 import WishList from './components/main/WishList.vue';
 import Cart from './components/main/Cart.vue';
-// import BookViewer from './components/main/BookViewer.vue';
+import About from './components/main/About.vue';
+import Blog from './components/main/Blog.vue';
+import Contact from './components/main/Contact.vue';
 
 const mainRoutes = [
     {
@@ -63,7 +65,9 @@ const mainRoutes = [
     {path: '/change-information',component: ChangeInformation, name : 'changeInformation'},
     {path: '/wish-list',component: WishList, name : 'wishList'},
     {path: '/cart',component: Cart, name : 'cart'},
-    // {path: '/viewer',component: BookViewer, name : 'viewer'},
+    {path: '/blog',component: Blog, name : 'blog'},
+    {path: '/about',component: About, name : 'about'},
+    {path: '/contact',component: Contact, name : 'contact'},
     { path: '*', redirect: '/' }
 ]
 

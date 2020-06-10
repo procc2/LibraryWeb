@@ -4,8 +4,8 @@ import axios from 'axios';
 export const userService = {
     login,
     logout,
-    getUserByToken
-    // register,
+    getUserByToken,
+    register,
     // getAll,
     // getById,
     // update,
@@ -80,15 +80,9 @@ function logout() {
     localStorage.removeItem('token');
 }
 
-// function register(user) {
-//     const requestOptions = {
-//         method: 'POST',
-//         headers: { 'Content-Type': 'application/json' },
-//         body: JSON.stringify(user)
-//     };
-
-//     return fetch(`${config.apiUrl}/users/register`, requestOptions).then(handleResponse);
-// }
+async function register(user) {
+    return await axios.post("api/auth/signup", user).then(res => res.data);
+}
 
 // function getAll() {
 //     const requestOptions = {

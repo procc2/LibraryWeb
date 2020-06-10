@@ -11,7 +11,7 @@
 		<div class="brown--color box-search-content search_active block-bg close__top">
 			<form id="search_mini_form" class="minisearch" action="#">
 				<div class="field__search">
-					<input type="text" v-model="keyWord" placeholder="Search entire store here...">
+					<input type="text" v-model="keyWord" placeholder="Tìm kiếm toàn bộ sách tại đây...">
 					<div class="action">
 						<router-link
                                 :to="{
@@ -25,7 +25,7 @@
 				</div>
 			</form>
 			<div class="close__wrap">
-				<span>close</span>
+				<span>đóng</span>
 			</div>
 		</div>
 		<!-- End Search Popup -->

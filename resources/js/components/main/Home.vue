@@ -34,7 +34,7 @@
                     <div class="col-lg-12">
                         <div class="section__title text-center">
                             <h2 class="title__be--2">
-                                New <span class="color--theme">Products</span>
+                                Sách <span class="color--theme">Mới</span>
                             </h2>
                             <p>
                                 There are many variations of passages of Lorem
@@ -95,10 +95,10 @@
                             </div>
                             <div class="product__content content--center">
                                 <h4><router-link :to="{ name : 'detailProduct', params : {bookId: book.book_id}}">{{book.book_name}}</router-link></h4>
-                                <ul class="prize d-flex">
+                                <!-- <ul class="prize d-flex">
                                     <li>$35.00</li>
                                     <li class="old_prize">$35.00</li>
-                                </ul>
+                                </ul> -->
                                 <div class="action">
                                     <div class="actions_inner">
                                         <ul class="add_to_links">
@@ -196,7 +196,7 @@
                     <div class="col-lg-12">
                         <div class="section__title text-center">
                             <h2 class="title__be--2">
-                                All <span class="color--theme">Products</span>
+                                Toàn bộ <span class="color--theme">sách</span>
                             </h2>
                             <p>
                                 There are many variations of passages of Lorem
@@ -305,7 +305,7 @@
                                             /></router-link>
                                             <div class="hot__box">
                                                 <span class="hot-label"
-                                                    >BEST SALER</span
+                                                    >Đặc biệt</span
                                                 >
                                             </div>
                                         </div>
@@ -317,12 +317,12 @@
                                                     >{{products[2*index].book_name}}</router-link
                                                 >
                                             </h4>
-                                            <ul class="prize d-flex">
+                                            <!-- <ul class="prize d-flex">
                                                 <li>$50.00</li>
                                                 <li class="old_prize">
                                                     $35.00
                                                 </li>
-                                            </ul>
+                                            </ul> -->
                                             <div class="action">
                                                 <div class="actions_inner">
                                                     <ul class="add_to_links">
@@ -428,12 +428,12 @@
                                                     >{{products[2*index + 1].book_name}}</router-link
                                                 >
                                             </h4>
-                                            <ul class="prize d-flex">
+                                            <!-- <ul class="prize d-flex">
                                                 <li>$50.00</li>
                                                 <li class="old_prize">
                                                     $35.00
                                                 </li>
-                                            </ul>
+                                            </ul> -->
                                             <div class="action">
                                                 <div class="actions_inner">
                                                     <ul class="add_to_links">
@@ -586,12 +586,12 @@
                                                     >Bowen Greenwood</a
                                                 >
                                             </h4>
-                                            <ul class="prize d-flex">
+                                            <!-- <ul class="prize d-flex">
                                                 <li>$40.00</li>
                                                 <li class="old_prize">
                                                     $35.00
                                                 </li>
-                                            </ul>
+                                            </ul> -->
                                             <div class="action">
                                                 <div class="actions_inner">
                                                     <ul class="add_to_links">
@@ -4519,7 +4519,7 @@
                     <div class="col-lg-12">
                         <div class="section__title text-center pb--50">
                             <h2 class="title__be--2">
-                                Best <span class="color--theme">Seller </span>
+                                Đặc <span class="color--theme">Biệt </span>
                             </h2>
                             <p>
                                 There are many variations of passages of Lorem

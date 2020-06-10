@@ -12,12 +12,11 @@ function addItem(item) {
     .post("/api/v1/carts", item)
     .then(function(resp) {
         return resp.data;
-        app.$modal.show('borrowRequestSuccess');
     })
     .catch(function(e) {
         console.log(e.response);
         if(e.response.status == 409){
-            app.$modal.show('error')
+            return false;
         }
     });
     

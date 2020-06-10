@@ -111,11 +111,11 @@
         								<div class="box-tocart d-flex">
         									<!-- <span>Qty</span>
         									<input id="qty" class="input-text qty" name="qty" min="1" value="1" title="Qty" type="number"> -->
-											<div v-if="book.ebooks.length" class="review-form-actions">
-												<button v-on:click="read()">Đọc Trực Tuyến</button>
+											<div v-if="book.ebooks.length" class="addtocart__actions">
+												<button class="tocart" style="background: #8f85e5 none repeat scroll 0 0;" v-on:click="read()">Đọc Trực Tuyến</button>
 											</div>
         									<div class="addtocart__actions">
-        										<button class="tocart" type="submit" title="Add to Cart" v-on:click="addItemToCart()">Add to Cart</button>
+        										<button class="tocart" type="submit" title="Add to Cart" v-on:click="addItemToCart()">Thêm vào giỏ</button>
         									</div>
 											<div class="product-addto-links clearfix">
 												<a class="wishlist" href="javascript:void(0)" v-bind:class="{'active': isFavorite}" v-on:click="toggleLike()"></a>
@@ -124,7 +124,7 @@
         								</div>
 										<div class="product_meta">
 											<span class="posted_in">Categories: 
-												<a href="#" v-for="category in book.categories" :key="category.category_name"> {{category.category_name}}, </a> 
+												<router-link v-for="category in book.categories" :key="category.category_name" :to="{ name : 'grid', params : {categoryId: category.category_id}}"> {{category.category_name}}, </router-link> 
 												<!-- <a href="#">Kids' Music</a> -->
 											</span>
 										</div>
@@ -178,52 +178,54 @@
 	                        	<!-- Start Single Tab Content -->
 	                        	<div class="pro__tab_label tab-pane fade" id="nav-review" role="tabpanel">
 									<div class="review__attribute">
-										<h1>Customer Reviews</h1>
-										<h2>Hastech</h2>
-										<div class="review__ratings__type d-flex">
-											<div class="review-ratings">
-												<div class="rating-summary d-flex">
-													<span>Quality</span>
-			    									<ul class="rating d-flex">
-														<li><i class="zmdi zmdi-star"></i></li>
-														<li><i class="zmdi zmdi-star"></i></li>
-														<li><i class="zmdi zmdi-star"></i></li>
-														<li class="off"><i class="zmdi zmdi-star"></i></li>
-														<li class="off"><i class="zmdi zmdi-star"></i></li>
-			    									</ul>
+										<h1>Nhận xét thành viên</h1>
+										<div v-for="(comment) in book.comments" :key="comment.id">
+											<h2>{{comment.user.name}}</h2>
+											<div class="review__ratings__type d-flex">
+												<div class="review-ratings">
+													<div class="rating-summary d-flex">
+														<span>Quality</span>
+				    									<ul class="rating d-flex">
+															<li><i class="zmdi zmdi-star"></i></li>
+															<li><i class="zmdi zmdi-star"></i></li>
+															<li><i class="zmdi zmdi-star"></i></li>
+															<li class="off"><i class="zmdi zmdi-star"></i></li>
+															<li class="off"><i class="zmdi zmdi-star"></i></li>
+				    									</ul>
+													</div>
+	
+													<div class="rating-summary d-flex">
+														<span>Price</span>
+				    									<ul class="rating d-flex">
+															<li><i class="zmdi zmdi-star"></i></li>
+															<li><i class="zmdi zmdi-star"></i></li>
+															<li><i class="zmdi zmdi-star"></i></li>
+															<li class="off"><i class="zmdi zmdi-star"></i></li>
+															<li class="off"><i class="zmdi zmdi-star"></i></li>
+				    									</ul>
+													</div>
+													<div class="rating-summary d-flex">
+														<span>value</span>
+				    									<ul class="rating d-flex">
+															<li><i class="zmdi zmdi-star"></i></li>
+															<li><i class="zmdi zmdi-star"></i></li>
+															<li><i class="zmdi zmdi-star"></i></li>
+															<li class="off"><i class="zmdi zmdi-star"></i></li>
+															<li class="off"><i class="zmdi zmdi-star"></i></li>
+				    									</ul>
+													</div>
 												</div>
-
-												<div class="rating-summary d-flex">
-													<span>Price</span>
-			    									<ul class="rating d-flex">
-														<li><i class="zmdi zmdi-star"></i></li>
-														<li><i class="zmdi zmdi-star"></i></li>
-														<li><i class="zmdi zmdi-star"></i></li>
-														<li class="off"><i class="zmdi zmdi-star"></i></li>
-														<li class="off"><i class="zmdi zmdi-star"></i></li>
-			    									</ul>
+												<div class="review-content">
+													<p>{{comment.overview}}</p>
+													<p>{{comment.content}}</p>
+													<p>Đăng vào lúc {{comment.updated_at}}</p>
 												</div>
-												<div class="rating-summary d-flex">
-													<span>value</span>
-			    									<ul class="rating d-flex">
-														<li><i class="zmdi zmdi-star"></i></li>
-														<li><i class="zmdi zmdi-star"></i></li>
-														<li><i class="zmdi zmdi-star"></i></li>
-														<li class="off"><i class="zmdi zmdi-star"></i></li>
-														<li class="off"><i class="zmdi zmdi-star"></i></li>
-			    									</ul>
-												</div>
-											</div>
-											<div class="review-content">
-												<p>Hastech</p>
-												<p>Review by Hastech</p>
-												<p>Posted on 11/6/2018</p>
 											</div>
 										</div>
 									</div>
 									<div class="review-fieldset">
-										<h2>You're reviewing:</h2>
-										<h3>Chaz Kangeroo Hoodie</h3>
+										<h2>Bạn đang review cho mọi người về quyển sách:</h2>
+										<h3>{{ book.book_name }}</h3>
 										<div class="review-field-ratings">
 											<div class="product-review-table">
 												<div class="review-field-rating d-flex">
@@ -260,24 +262,25 @@
 										</div>
 										<div class="review_form_field">
 											<div class="input__box">
-												<span>Nickname</span>
-												<input id="nickname_field" type="text" name="nickname">
+												<span>Tên</span>
+												<input id="nickname_field" v-model="user.name" type="text" name="nickname" disabled>
 											</div>
 											<div class="input__box">
-												<span>Summary</span>
-												<input id="summery_field" type="text" name="summery">
+												<span>Đánh giá</span>
+												<input id="summery_field" type="text" v-model="comment.overview" name="summery">
 											</div>
 											<div class="input__box">
-												<span>Review</span>
-												<textarea name="review"></textarea>
+												<span>Chi tiết hơn ?</span>
+												<textarea name="review" v-model="comment.content"></textarea>
 											</div>
 											<div class="review-form-actions">
-												<button>Submit Review</button>
+												<button v-on:click="addComment()">Đăng</button>
 											</div>
 										</div>
 									</div>
 	                        	</div>
 	                        	<!-- End Single Tab Content -->
+								
 	                        </div>
         				</div>
 						<div class="wn__related__product pt--80 pb--50">
@@ -823,15 +826,6 @@
         			</div>
         		</div>
         	</div>
-			<modal name="borrowRequestSuccess">
-				Succeess
-			</modal>
-			<modal name="error">
-				Duplicated !!
-			</modal>
-			<modal name="notAuthorization">
-				Please log in 
-			</modal>
 			<BookViewer v-if="book.ebooks.length" v-bind:ebook="book.ebooks" :key="book.book_id" />
         </div>
         <!-- End main Content -->
@@ -858,10 +852,15 @@ export default {
                 is_on_load: 1,
                 is_special: "",
                 categoryIds: [],
-                book_description: ""
+				book_description: "",
+				comments:[]
             },
             categories:[],
-            isFavorite: false
+            isFavorite: false,
+			comment:{
+				overview : "",
+				content : ""
+			},
         };
     },
     computed: {
@@ -908,7 +907,7 @@ export default {
 		addItemToCart(){
 			var app = this;
 			if(!app.status.loggedIn){
-				app.$modal.show('notAuthorization');
+				app.$modal.show('login');
 				return null;
 			}else{
 			var cartDetail = {
@@ -917,7 +916,12 @@ export default {
 			}
 			var book = app.book;
 			app.addProductToCart({cartDetail,book}).then((res)=>{
-				console.log(res);
+				let options = {
+				okText: "Đóng",
+                animation: 'zoom',
+            };
+            this.$dialog
+                .alert(res ? 'Bạn đã thêm vào giỏ hàng thành công !' : "Thêm vào giỏ hàng thất bại ! Bạn đã có sản phẩm này trong giỏ hàng",options);
 			})
 			}
 		},
@@ -925,7 +929,7 @@ export default {
 			var app = this;
 			console.log(app.status);
 			if(!app.status.loggedIn){
-				app.$modal.show('notAuthorization');
+				app.$modal.show('login');
 				return null;
 			}else{
             if (!app.isFavorite) {
@@ -962,7 +966,36 @@ export default {
 			}
 		},
 		read() {
+			if(!this.status.loggedIn){
+				this.$modal.show('login');
+			}else{
 			this.$modal.show('viewer');
+			}
+		},
+		addComment(){
+			var app = this;
+			
+				axios
+                    .post("/api/v1/comments", {
+                        user_id: app.user.user_id,
+						book_id: app.book.book_id,
+						overview : app.comment.overview,
+						content : app.comment.content
+                    })
+                    .then(function(res) {
+						// console.log(res.data);
+						var newComment = res.data;
+						newComment['user'] = {
+							'user_name' : app.user.user_name
+						};
+						app.book.comments.push(newComment)
+						scrollTo(0,900);
+						app.comment.overview = "";
+						app.comment.content = "";
+                    })
+                    .catch(function(e) {
+                        throw e;
+                    });
 		}
     }
 };

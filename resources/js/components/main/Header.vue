@@ -33,10 +33,10 @@
                     <nav class="mainmenu__nav">
                         <ul class="meninmenu d-flex justify-content-start">
                             <li class="drop with--one--item">
-                               <router-link :to="{path : '\/'}">Home</router-link>
+                               <router-link :to="{path : '\/'}">Trang chủ</router-link>
                             </li>
-                            <li class="drop">
-                                <a href="#">Shop</a>
+                            <!-- <li class="drop">
+                                <a href="#">Giới thiệu</a>
                                 <div class="megamenu mega03">
                                     <ul class="item item03">
                                         <li class="title">Shop Layout</li>
@@ -105,61 +105,40 @@
                                         </li>
                                     </ul>
                                 </div>
-                            </li>
+                            </li> -->
                             <li class="drop">
-                                <a href="shop-grid.html">Books</a>
+                                <a href="javascript:void(0)">Sách</a>
                                 <div class="megamenu mega03">
                                     <ul class="item item03">
-                                        <li class="title">Categories</li>
-                                        <li>
-                                            <a href="shop-grid.html"
-                                                >Biography
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="shop-grid.html"
-                                                >Business
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="shop-grid.html"
-                                                >Cookbooks
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="shop-grid.html"
-                                                >Health & Fitness
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="shop-grid.html"
-                                                >History
-                                            </a>
+                                        <li class="title">Thể loại</li>
+                                        <li v-for="category in categories" :key="category.category_id">
+                                            <router-link :to="{ name : 'grid', params : {categoryId: category.category_id}}">{{category.category_name}}
+                                                </router-link>
                                         </li>
                                     </ul>
                                     <ul class="item item03">
                                         <li class="title">
-                                            Customer Favourite
+                                            Được yêu thích
                                         </li>
                                         <li>
-                                            <a href="shop-grid.html">Mystery</a>
+                                            <a href="shop-grid.html">Thần bí</a>
                                         </li>
                                         <li>
                                             <a href="shop-grid.html"
-                                                >Religion & Inspiration</a
+                                                >Self-help & Cảm hứng</a
                                             >
                                         </li>
                                         <li>
-                                            <a href="shop-grid.html">Romance</a>
+                                            <a href="shop-grid.html">Tình cảm</a>
                                         </li>
                                         <li>
                                             <a href="shop-grid.html"
-                                                >Fiction/Fantasy</a
+                                                >Tiểu thuyết / Fantasy</a
                                             >
                                         </li>
                                         <li>
                                             <a href="shop-grid.html"
-                                                >Sleeveless</a
+                                                >Giáo dục</a
                                             >
                                         </li>
                                     </ul>
@@ -167,33 +146,23 @@
                                         <li class="title">Collections</li>
                                         <li>
                                             <a href="shop-grid.html"
-                                                >Science
+                                                >Top 10 Sách hay được mượn
                                             </a>
                                         </li>
                                         <li>
                                             <a href="shop-grid.html"
-                                                >Fiction/Fantasy</a
+                                                >Top 10 Sách được yêu thích</a
                                             >
                                         </li>
                                         <li>
                                             <a href="shop-grid.html"
-                                                >Self-Improvemen</a
-                                            >
-                                        </li>
-                                        <li>
-                                            <a href="shop-grid.html"
-                                                >Home & Garden</a
-                                            >
-                                        </li>
-                                        <li>
-                                            <a href="shop-grid.html"
-                                                >Humor Books</a
+                                                >Xu hướng</a
                                             >
                                         </li>
                                     </ul>
                                 </div>
                             </li>
-                            <li class="drop">
+                            <!-- <li class="drop">
                                 <a href="shop-grid.html">Kids</a>
                                 <div class="megamenu mega02">
                                     <ul class="item item02">
@@ -251,9 +220,9 @@
                                         </li>
                                     </ul>
                                 </div>
-                            </li>
+                            </li> -->
                             <li class="drop">
-                                <a href="#">Pages</a>
+                                <router-link :to="{name : 'about'}">Giới thiệu</router-link>
                                 <div class="megamenu dropdown">
                                     <ul class="item item01">
                                         <li>
@@ -306,7 +275,7 @@
                                 </div>
                             </li>
                             <li class="drop">
-                                <a href="blog.html">Blog</a>
+                                <router-link :to="{name : 'blog'}">Blog</router-link>
                                 <div class="megamenu dropdown">
                                     <ul class="item item01">
                                         <li>
@@ -320,7 +289,7 @@
                                     </ul>
                                 </div>
                             </li>
-                            <li><a href="contact.html">Contact</a></li>
+                            <li><router-link :to="{name : 'contact'}">Liên hệ</router-link></li>
                         </ul>
                     </nav>
                 </div>
@@ -346,22 +315,22 @@
                             <div class="block-minicart minicart__active">
                                 <div class="minicart-content-wrapper">
                                     <div class="micart__close">
-                                        <span>close</span>
+                                        <span>đóng</span>
                                     </div>
                                     <div
                                         class="items-total d-flex justify-content-between"
                                     >
-                                        <span>3 items</span>
-                                        <span>Cart Subtotal</span>
+                                        <span>{{items.length}} sản phẩm</span>
+                                        <!-- <span>Cart Subtotal</span> -->
                                     </div>
-                                    <div class="total_amount text-right">
+                                    <!-- <div class="total_amount text-right">
                                         <span>$66.00</span>
-                                    </div>
+                                    </div> -->
                                     <div class="mini_action checkout">
                                         <router-link
                                             class="checkout__btn"
                                             :to="{ name : 'cart'}"
-                                            >Go to Checkout</router-link
+                                            >Đi đến checkout</router-link
                                         >
                                     </div>
                                     <div class="single__items">
@@ -408,7 +377,7 @@
                                     </div>
                                     <div class="mini_action cart">
                                         <a class="cart__btn" href="cart.html"
-                                            >View and edit cart</a
+                                            >Thay đổi </a
                                         >
                                     </div>
                                 </div>
@@ -435,20 +404,20 @@
 										</div> -->
                                     <div class="switcher-currency">
                                         <strong class="label switcher-label">
-                                            <span>Language</span>
+                                            <span>Ngôn ngữ</span>
                                         </strong>
                                         <div class="switcher-options">
                                             <div
                                                 class="switcher-currency-trigger"
                                             >
                                                 <span class="currency-trigger"
-                                                    >English01</span
+                                                    >Tiếng Việt</span
                                                 >
                                                 <ul class="switcher-dropdown">
-                                                    <li>English02</li>
-                                                    <li>English03</li>
-                                                    <li>English04</li>
-                                                    <li>English05</li>
+                                                    <li>English</li>
+                                                    <li>日本語</li>
+                                                    <li>한국어</li>
+                                                    <li>เกาหลี</li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -472,7 +441,7 @@
                                     <div class="switcher-currency">
                                         <strong class="label switcher-label">
                                             <span v-if="!status.loggedIn"
-                                                >My Account</span
+                                                >Tài khoản</span
                                             >
                                             <span v-if="status.loggedIn">{{
                                                 user.name
@@ -489,13 +458,12 @@
                                                                 name:
                                                                     'changeInformation'
                                                             }"
-                                                            >My
-                                                            Account</router-link
+                                                            >Tài khoản của tôi</router-link
                                                         ></span
                                                     >
                                                     <span
                                                         ><a href="#"
-                                                            >My Wishlist</a
+                                                            >Yêu thích</a
                                                         ></span
                                                     >
                                                     <span
@@ -505,7 +473,7 @@
                                                                 !status.loggedIn
                                                             "
                                                             v-on:click="show()"
-                                                            >Sign In</a
+                                                            >Đăng nhập</a
                                                         ></span
                                                     >
                                                     <span
@@ -517,7 +485,7 @@
                                                             v-on:click="
                                                                 logout()
                                                             "
-                                                            >Sign Out</a
+                                                            >Đăng xuất</a
                                                         ></span
                                                     >
                                                     <span
@@ -529,8 +497,7 @@
                                                             v-on:click="
                                                                 showRegister()
                                                             "
-                                                            >Create An
-                                                            Account</a
+                                                            >Chưa có tài khoản ?</a
                                                         ></span
                                                     >
                                                 </div>
@@ -632,6 +599,22 @@
 <script>
 import { mapState, mapActions } from "vuex";
 export default {
+    data: function(){
+        return {
+            categories:[],
+            };
+    },
+    mounted() {
+        var app = this;
+        axios
+            .get("/api/v1/categories")
+            .then(function(res) {
+                app.categories = res.data;
+            })
+            .catch(function(e) {
+                throw e;
+            });
+    },
     computed: {
         ...mapState("account", ["status", "user"]),
         ...mapState("cart", ["items"])

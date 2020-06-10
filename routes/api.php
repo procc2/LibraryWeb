@@ -49,6 +49,7 @@ Route::group(['prefix' => '/v1', 'namespace' => 'Api\V1', 'as' => 'api.'], funct
     Route::resource('carts', 'CartsController', ['except' => ['create', 'edit']]);
     Route::resource('loanDetails', 'LoanDetailsController', ['except' => ['create', 'edit']]);
     Route::resource('users', 'UserController', ['except' => ['create', 'edit']]);
+    Route::resource('comments', 'CommentsController', ['except' => ['create', 'edit']]);
 });
 
 Route::post('/files', 'FileController@store');

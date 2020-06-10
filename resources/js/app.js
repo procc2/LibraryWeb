@@ -42,13 +42,13 @@ Vue.component("v-select",vSelect);
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
-
-import * as VeeValidate from 'vee-validate';
+import 'vuejs-dialog/dist/vuejs-dialog.min.css';
 import { store } from './components/main/store';
 import { router} from './router'
 import VModal from 'vue-js-modal'
-Vue.use(VeeValidate);
+import VuejsDialog from 'vuejs-dialog';
 Vue.use(VModal);
+Vue.use(VuejsDialog);
 
 const app = new Vue({
     router,

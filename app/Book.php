@@ -44,5 +44,8 @@ class Book extends Model
     public function cart(){
         return $this->belongsTo(Cart::class,'book_id','book_id');
     }
-    
+    public function comments()
+    {
+        return $this->hasMany(Comment::class,'book_id','book_id');
+    }
 }
