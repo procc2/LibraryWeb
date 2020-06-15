@@ -51,6 +51,15 @@ const actions = {
                     dispatch('alert/error', error, { root: true });
                 }
             );
+    },
+    async update({},user){
+        return await userService.update(user)
+        .then(
+            user => user.data
+        );
+    },
+    async resetPasswordRequest({},email){
+        return await userService.resetRequest(email);        
     }
 };
 

@@ -54,7 +54,7 @@
             </div>
         </div> -->
     <modal name="login" width="800" height="400">
-        <div class="my__account__wrapper">
+        <div class="my__account__wrapper" v-if="!forgotPass">
             <h3 class="account__title">Login</h3>
             <form v-on:submit.prevent="handleSubmit()">
                 <div class="account__form">
@@ -63,12 +63,9 @@
                         <input
                             type="text"
                             v-model="user.email"
-                            :class="{ 'is-invalid': submitted && !user.email }"
+                            :class="{ 'is-invalid': !user.email }"
                         />
-                        <div
-                            v-show="submitted && !user.email"
-                            class="invalid-feedback"
-                        >
+                        <div v-show="!user.email" class="invalid-feedback">
                             Username is required
                         </div>
                     </div>
@@ -78,13 +75,10 @@
                             type="password"
                             v-model="user.password"
                             :class="{
-                                'is-invalid': submitted && !user.password
+                                'is-invalid': !user.password
                             }"
                         />
-                        <div
-                            v-show="submitted && !user.password"
-                            class="invalid-feedback"
-                        >
+                        <div v-show="!user.password" class="invalid-feedback">
                             Password is required
                         </div>
                     </div>
@@ -107,15 +101,55 @@
                             <span>Remember me</span>
                         </label>
                     </div>
-                    <a class="forget_pass" href="#">Lost your password?</a>
+                    <a
+                        class="forget_pass"
+                        href="javascript:void(0)"
+                        v-on:click="forgotPass = !forgotPass"
+                        >Lost your password?</a
+                    >
                 </div>
             </form>
             <div v-if="alert.message" :class="`alert ${alert.type}`">
-            {{ alert.message }}
-        </div>
+                {{ alert.message }}
+            </div>
         </div>
 
-        
+        <div class="my__account__wrapper" v-if="forgotPass">
+            <h3 class="account__title">Reset Password</h3>
+            <form v-on:submit.prevent="resetRequest()">
+                <div class="account__form">
+                    <div class="input__box">
+                        <label>Username or email address <span>*</span></label>
+                        <input
+                            type="text"
+                            v-model="resetEmail"
+                            :class="{ 'is-invalid': !user.email }"
+                        />
+                        <div v-show="!user.email" class="invalid-feedback">
+                            Username is required
+                        </div>
+                    </div>
+                    <div class="form__btn">
+                        <button
+                            type="submit"
+                            class="btn btn-primary"
+                            name="submit"
+                            style="color:grey"
+                            v-on:click="forgotPass = !forgotPass"
+                        >
+                            Cancel
+                        </button>
+                        <button
+                            type="submit"
+                            class="btn btn-primary"
+                            name="submit"
+                        >
+                            Reset Password
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
 
         <!-- /.col-->
     </modal>
@@ -133,7 +167,8 @@ export default {
                 password: "",
                 remember_me: false
             },
-            submitted: false
+            resetEmail: "",
+            forgotPass: false
         };
     },
     computed: {
@@ -146,16 +181,32 @@ export default {
         // this.logout();
     },
     methods: {
-        ...mapActions("account", ["login", "logout"]),
+        ...mapActions("account", ["login", "logout", "resetPasswordRequest"]),
         ...mapActions("cart", ["getUserCart"]),
         handleSubmit(e) {
-            this.submitted = true;
             const { email, password } = this.user;
             if (email && password) {
-                this.login({ email, password }).then((res)=>{
-                    if(this.status.loggedIn){
-                    this.$modal.hide('login');
-                    this.getUserCart();
+                this.login({ email, password }).then(res => {
+                    if (this.status.loggedIn) {
+                        this.$modal.hide("login");
+                        this.getUserCart();
+                    }
+                });
+            }
+        },
+        resetRequest() {
+            if (this.resetEmail) {
+                this.resetPasswordRequest({
+                    email: this.resetEmail
+                }).then(res => {
+                    let options = {
+                            okText: "Đóng",
+                            animation: "zoom"
+                        };
+                    if (res.status == "200") {
+                        this.$dialog.alert("Gửi reset email thành công ! Bạn có thể kiểm tra email để hoàn thành việc reset mật khẩu ", options);
+                    }else{
+                        this.$dialog.alert("Yêu cầu thất bại! Email không tồn tại trong hệ thống", options);
                     }
                 });
             }

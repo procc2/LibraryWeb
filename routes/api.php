@@ -17,9 +17,6 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::group(['prefix' => '/v1', 'namespace' => 'Api\V1', 'as' => 'api.'], function () {
-    Route::resource('companies', 'CompaniesController', ['except' => ['create', 'edit']]);
-});
 
 Route::group([
     'prefix' => 'auth'
@@ -49,9 +46,13 @@ Route::group(['prefix' => '/v1', 'namespace' => 'Api\V1', 'as' => 'api.'], funct
     Route::resource('carts', 'CartsController', ['except' => ['create', 'edit']]);
     Route::resource('loanDetails', 'LoanDetailsController', ['except' => ['create', 'edit']]);
     Route::resource('users', 'UserController', ['except' => ['create', 'edit']]);
+    Route::put("users","UserController@updatePassword");
     Route::resource('comments', 'CommentsController', ['except' => ['create', 'edit']]);
 });
 
 Route::post('/files', 'FileController@store');
 Route::put('/files/{id}', 'FileController@edit');
 Route::delete('/files/{id}', 'FileController@destroy');
+Route::group(['namespace' => 'Auth'], function () {
+    Route::post('reset-password', 'ResetPasswordController@sendMail');
+});

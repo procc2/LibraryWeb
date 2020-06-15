@@ -260,7 +260,7 @@
 												</div>
 											</div>
 										</div>
-										<div class="review_form_field">
+										<div class="review_form_field" v-if="user">
 											<div class="input__box">
 												<span>Tên</span>
 												<input id="nickname_field" v-model="user.name" type="text" name="nickname" disabled>

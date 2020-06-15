@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -70,7 +71,29 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $user = User::findOrFail($id);
+        $user->update($request->all());
+        return $user;
+    }
+
+    public function updatePassword(Request $request)
+    {
+        $user = User::findOrFail($request->input('id'));
+        $currentPassword = $request->input("currentPassword");
+
+        if (Hash::check($currentPassword, $user->password)){
+            $request->validate([
+                'newPassword' => 'required|string|confirmed'
+            ]);
+            $newPassword = $request ->input("newPassword");
+            return $user->fill([
+                'password' => Hash::make($newPassword)
+            ])->save();
+        }else {
+            return response()->json([
+                'message' => 'Wrong credential!!'
+            ], 403);
+        }
     }
 
     /**
