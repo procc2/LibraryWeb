@@ -58,6 +58,12 @@ const actions = {
             user => user.data
         );
     },
+    async updatePassword({},data){
+        return await userService.updatePassword(data)
+        .then(
+            res => res
+        );
+    },
     async resetPasswordRequest({},email){
         return await userService.resetRequest(email);        
     }

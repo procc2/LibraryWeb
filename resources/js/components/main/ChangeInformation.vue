@@ -7,15 +7,15 @@
                         <h3 class="wedget__title">Tài khoản</h3>
                         <ul>
                             <li>
-                                <a href="#">Thay đổi thông tin người đọc </a>
+                                <a href="javascript:void(0)" v-on:click="screen = 0">Thay đổi thông tin người đọc </a>
                             </li>
-                            <li><a href="#">Đổi password </a></li>
-                            <li><a href="#">... </a></li>
+                            <li><a href="javascript:void(0)" v-on:click="screen = 1" >Đổi password </a></li>
+                            <li><a href="javascript:void(0)">... </a></li>
                         </ul>
                     </aside>
                 </div>
             </div>
-            <div class="col-lg-9 col-12 order-1 order-lg-2" v-if="false">
+            <div class="col-lg-9 col-12 order-1 order-lg-2" v-if="screen == 0">
                 <div class="contact-form-wrap">
                     <h2 class="contact__title">Get in touch</h2>
                     <p>
@@ -51,7 +51,7 @@
                     <p class="form-messege" />
                 </div>
             </div>
-            <div class="col-lg-9 col-12 order-1 order-lg-2">
+            <div class="col-lg-9 col-12 order-1 order-lg-2" v-if="screen == 1">
                 <div class="contact-form-wrap">
                     <h2 class="contact__title">Get in touch</h2>
                     <p>
@@ -105,7 +105,8 @@ export default {
         return {
             oldPassword: "",
             newPassword: "",
-            passwordConfirm: ""
+            passwordConfirm: "",
+            screen: 0,
         };
     },
     computed: {
@@ -129,12 +130,16 @@ export default {
                 newPassword: this.newPassword,
                 newPassword_confirmation: this.passwordConfirm
             }).then(res => {
-                console.log(res);
+                console.log(res.status);
                 let options = {
                     okText: "Đóng",
                     animation: "zoom"
                 };
-                this.$dialog.alert("Bạn đã sửa thành công ", options);
+                if (res.status == "200") {
+                    this.$dialog.alert("Bạn đã sửa thành công ", options);
+                } else {
+                    this.$dialog.alert("Sửa thất bại !! Sai thông tin cần thay đổi", options);
+                }
             });
         }
     }

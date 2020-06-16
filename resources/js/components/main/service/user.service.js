@@ -7,7 +7,8 @@ export const userService = {
     getUserByToken,
     register,
     update,
-    resetRequest
+    updatePassword,
+    resetRequest,
 };
 
 async function login(email, password) {
@@ -70,4 +71,8 @@ async function update(user) {
 
 async function resetRequest(email) {
     return await axios.post("api/reset-password", email).then(res => res).catch(e => e);
+}
+
+async function updatePassword(data) {
+    return await axios.put("api/v1/users", data).then(res => res).catch(e => e.response);
 }
