@@ -18,16 +18,18 @@ async function login(email, password) {
     };
     return await axios
         .post("api/auth/login", user, {
-            headers: {
-                Accept: "application/json"
-            }
+            withCredentials: true,
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        },
         })
         .then(async function(res) {
             if (res.status == 200) {
-                const token = res.data.access_token;
-                var res = await getUserByToken(token).then(user => {
-                    localStorage.setItem("token", token);
-                    console.log(user);
+                console.log(res);
+                var res = await getUserByToken().then(user => {
+                    // localStorage.setItem("token", token);
+                    // console.log(user);
                     return user;
                 });
                 return res;
@@ -38,12 +40,13 @@ async function login(email, password) {
         });
 }
 
-function getUserByToken(token) {
+function getUserByToken() {
     const config = {
-        headers: {
-            Authorization: `Bearer ${token}`,
-            Accept: "application/json"
-        }
+        withCredentials: true,
+        // headers: {
+        //     Authorization: `Bearer ${token}`,
+        //     Accept: "application/json"
+        // }
     };
     var user = axios
         .get("api/auth/user", config)
@@ -57,6 +60,14 @@ function getUserByToken(token) {
 function logout() {
     // xoá user từ local storage để log out
     localStorage.removeItem("token");
+    axios
+        .get("api/auth/logout", {
+            withCredentials: true,
+        })
+        .then(res => res.data)
+        .catch(function(e) {
+            return Promise.reject(e);
+        });
 }
 
 async function register(user) {

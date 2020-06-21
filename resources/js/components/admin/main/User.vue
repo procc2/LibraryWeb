@@ -55,7 +55,9 @@ for ($i=1;$i<=$totalPages;$i++) {
                   <th data-sortable="true">#</th>
                   <th data-sortable="true">Email</th>
                   <th data-sortable="true">Tên người dùng</th>
+                  <th data-sortable="true">Vị trí</th>
                   <th data-sortable="true">Quyền truy nhập</th>
+                  <th data-sortable="true">Sửa thông tin</th>
                   <th data-sortable="true">Xóa</th>
                 </tr>
               </thead>
@@ -64,7 +66,21 @@ for ($i=1;$i<=$totalPages;$i++) {
                   <th scope="row">{{index + 1}}</th>
                   <td>{{user.email}}</td>
                   <td>{{user.name}}</td>
-                  <td>{{user.role}}</td>
+                  <td>{{user.roles.length ? user.roles[0].name : null}}</td>
+                  <td><router-link :to="{ name: 'updatePermisson', params: {user}}">
+                        <span>
+                          <svg class="glyph stroked key" style="width: 20px;height: 20px;">
+                            <use xlink:href="#stroked-key" />
+                          </svg>
+                        </span>
+                    </router-link></td>
+                  <td><router-link :to="{ name: 'updateUser', params: {id : user.user_id}}">
+                        <span>
+                          <svg class="glyph stroked brush" style="width: 20px;height: 20px;">
+                            <use xlink:href="#stroked-brush" />
+                          </svg>
+                        </span>
+                    </router-link></td>
                   <td>
                     <a href="#/user" v-on:click="deleteEntry(user.user_id, index)">
                       <span>

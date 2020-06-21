@@ -130,21 +130,14 @@
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
 
                                 <label>Quyền quản trị</label>
+                                @foreach ($roles as $role)
                                 <div class="radio">
                                     <label>
-                                        <input type="radio" name="role" id="optionsRadios1" value=0 checked>0: Quyền người dùng
+                                        <input type="radio" name="role" id="optionsRadios1" value="{{ $role->id }}" {{ $role->slug == "staff" ? 'checked' : ''}} >{{$role->name}}
                                     </label>
                                 </div>
-                                <div class="radio">
-                                    <label>
-                                        <input type="radio" name="role" id="optionsRadios2" value=1>1: Quyền admin giao diện
-                                    </label>
-                                </div>
-                                <div class="radio">
-                                    <label>
-                                        <input type="radio" name="role" id="optionsRadios3" value=2>2: Quyền admin hệ thống
-                                    </label>
-                                </div>
+                                @endforeach
+                                
 
                             </div>
                             <button type="submit" class="btn btn-primary">Cập nhật | Thêm Mới</button>

@@ -16,7 +16,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        return User::all();
+        return User::with('roles', 'permissions')->get();
     }
 
     /**
@@ -48,7 +48,8 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        if (Auth::user()->can('view-user'))
+            return User::with('roles')->findOrFail($id);
     }
 
     /**
@@ -71,9 +72,13 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user = User::findOrFail($id);
-        $user->update($request->all());
-        return $user;
+        if (Auth::user()->can('update-user')) {
+            $user = User::findOrFail($id);
+            $roles = $request->input('roles');
+            $user->update($request->all());
+            $user->roles()->sync($roles);
+            return $user;
+        }
     }
 
     public function updatePassword(Request $request)
@@ -81,15 +86,15 @@ class UserController extends Controller
         $user = User::findOrFail($request->input('id'));
         $currentPassword = $request->input("currentPassword");
 
-        if (Hash::check($currentPassword, $user->password)){
+        if (Hash::check($currentPassword, $user->password)) {
             $request->validate([
                 'newPassword' => 'required|string|confirmed'
             ]);
-            $newPassword = $request ->input("newPassword");
+            $newPassword = $request->input("newPassword");
             return $user->fill([
                 'password' => Hash::make($newPassword)
             ])->save();
-        }else {
+        } else {
             return response()->json([
                 'message' => 'Wrong credential!!'
             ], 403);
@@ -104,8 +109,10 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $user = User::findOrFail($id);
-       $user->delete();
-       return '';
+        if (Auth::user()->can('delete-user')) {
+            $user = User::findOrFail($id);
+            $user->delete();
+            return '';
+        }
     }
 }

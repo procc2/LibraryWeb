@@ -14,7 +14,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/backend', function () {
-    return view('admin.index');
+    $roles = request()->user()->roles;
+    return view('admin.index',['roles' => $roles]);
 })->middleware('auth');
 
 Route::get('/', function () {

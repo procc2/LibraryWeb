@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Loan;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LoanController extends Controller
 {
@@ -16,6 +17,7 @@ class LoanController extends Controller
      */
     public function index()
     {
+        if(Auth::user()->can('view-loan'))
         return Loan::with('user:name,user_id','details','details.book')->get();
     }
 

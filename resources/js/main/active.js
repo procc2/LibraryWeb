@@ -142,92 +142,92 @@
 
 
 /*=============  Brand Activation  ==============*/
-    $('.brand__activation').owlCarousel({
-        loop:true,
-        margin:0,
-        nav:true,
-        autoplay: false,
-        autoplayTimeout: 10000,
-        items:6,
-        navText: ['<i class="zmdi zmdi-chevron-left"></i>', '<i class="zmdi zmdi-chevron-right"></i>' ],
-        dots: false,
-        lazyLoad: true,
-        responsive:{
-            0:{
-              items:2
-            },
-            1920:{
-              items:6
-            },
-            768:{
-              items:4
-            },
-            576:{
-              items:3
-            },
-            420:{
-              items:3
-            }
-        }
-    });
+    // $('.brand__activation').owlCarousel({
+    //     loop:true,
+    //     margin:0,
+    //     nav:true,
+    //     autoplay: false,
+    //     autoplayTimeout: 10000,
+    //     items:6,
+    //     navText: ['<i class="zmdi zmdi-chevron-left"></i>', '<i class="zmdi zmdi-chevron-right"></i>' ],
+    //     dots: false,
+    //     lazyLoad: true,
+    //     responsive:{
+    //         0:{
+    //           items:2
+    //         },
+    //         1920:{
+    //           items:6
+    //         },
+    //         768:{
+    //           items:4
+    //         },
+    //         576:{
+    //           items:3
+    //         },
+    //         420:{
+    //           items:3
+    //         }
+    //     }
+    // });
 
 /*=============  Produst Activation  ==========*/
-    $('.productcategory__slide').owlCarousel({
-        loop:true,
-        margin:0,
-        nav:true,
-        autoplay: false,
-        autoplayTimeout: 10000,
-        items:4,
-        navText: ['<i class="zmdi zmdi-chevron-left"></i>', '<i class="zmdi zmdi-chevron-right"></i>' ],
-        dots: false,
-        lazyLoad: true,
-        responsive:{
-            0:{
-                items:1
-            },
-            992:{
-                items:4
-            },
-            768:{
-                items:3
-            },
-            576:{
-                items:2
-            },
-            1920:{
-                items:4
-            }
-        }
-    });
+    // $('.productcategory__slide').owlCarousel({
+    //     loop:true,
+    //     margin:0,
+    //     nav:true,
+    //     autoplay: false,
+    //     autoplayTimeout: 10000,
+    //     items:4,
+    //     navText: ['<i class="zmdi zmdi-chevron-left"></i>', '<i class="zmdi zmdi-chevron-right"></i>' ],
+    //     dots: false,
+    //     lazyLoad: true,
+    //     responsive:{
+    //         0:{
+    //             items:1
+    //         },
+    //         992:{
+    //             items:4
+    //         },
+    //         768:{
+    //             items:3
+    //         },
+    //         576:{
+    //             items:2
+    //         },
+    //         1920:{
+    //             items:4
+    //         }
+    //     }
+    // });
 
 
 /*=============  Produst Activation  ==========*/
-    $('.productcategory__slide--2').owlCarousel({
-        loop:true,
-        margin:0,
-        nav:true,
-        autoplay: false,
-        autoplayTimeout: 10000,
-        items:3,
-        navText: ['<i class="zmdi zmdi-chevron-left"></i>', '<i class="zmdi zmdi-chevron-right"></i>' ],
-        dots: false,
-        lazyLoad: true,
-        responsive:{
-            0:{
-              items:1
-            },
-            576:{
-              items:2
-            },
-            768:{
-              items:3
-            },
-            1920:{
-              items:3
-            }
-        }
-    });
+    // $('.productcategory__slide--2').owlCarousel({
+    //     loop:true,
+    //     margin:0,
+    //     nav:true,
+    //     autoplay: false,
+    //     autoplayTimeout: 10000,
+    //     items:3,
+    //     navText: ['<i class="zmdi zmdi-chevron-left"></i>', '<i class="zmdi zmdi-chevron-right"></i>' ],
+    //     dots: false,
+    //     lazyLoad: true,
+    //     responsive:{
+    //         0:{
+    //           items:1
+    //         },
+    //         576:{
+    //           items:2
+    //         },
+    //         768:{
+    //           items:3
+    //         },
+    //         1920:{
+    //           items:3
+    //         }
+    //     }
+    // });
 
 
 /*=============  Product Activation ============*/
@@ -359,25 +359,25 @@
 
 
 /*=============  Slider Activation  ==============*/
-    $('.slide__activation').owlCarousel({
-        loop:true,
-        margin: 0,
-        nav:true,
-        autoplay: false,
-        autoplayTimeout: 10000,
-        items:1,
-        navText: ['<i class="zmdi zmdi-chevron-left"></i>', '<i class="zmdi zmdi-chevron-right"></i>' ],
-        dots: false,
-        lazyLoad: true,
-        responsive:{
-        0:{
-          items:1
-        },
-        1920:{
-          items:1
-        }
-        }
-    });
+    // $('.slide__activation').owlCarousel({
+    //     loop:true,
+    //     margin: 0,
+    //     nav:true,
+    //     autoplay: false,
+    //     autoplayTimeout: 10000,
+    //     items:1,
+    //     navText: ['<i class="zmdi zmdi-chevron-left"></i>', '<i class="zmdi zmdi-chevron-right"></i>' ],
+    //     dots: false,
+    //     lazyLoad: true,
+    //     responsive:{
+    //     0:{
+    //       items:1
+    //     },
+    //     1920:{
+    //       items:1
+    //     }
+    //     }
+    // });
 
 
 /*============= Setting Option ==============*/

@@ -12,6 +12,11 @@
 
     <!-- Scripts -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    @if(isset($roles))
+    <script>
+        window.__roles__ = @json($roles)
+    </script>
+    @endif
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="{{ asset('admin/lte/js/library.min.js') }}"></script>
 
@@ -86,6 +91,25 @@
                                 </svg>
                             </span> Quản lý thành viên
                         </a>
+                    </router-link>
+                    <ul class="children collapse" id="sub-item-1">
+                        <li>
+                            <a href="register">
+                                <svg class="glyph stroked plus sign">
+                                    <use xlink:href="#stroked-plus-sign" />
+                                </svg>
+                                Thêm mới
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="parent">
+                    <router-link to="/role">
+                        <span data-toggle="collapse" href="#sub-item-1">
+                            <svg class="glyph stroked key">
+                                <use xlink:href="#stroked-key" />
+                            </svg>
+                        </span> Quản lý quyền
                     </router-link>
                     <ul class="children collapse" id="sub-item-1">
                         <li>

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Providers\RouteServiceProvider;
 use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Auth\Events\Registered;
@@ -43,6 +42,11 @@ class RegisterController extends Controller
         // $this->middleware('guest');
     }
 
+    public function showRegistrationForm()
+    {
+        $roles =  \App::call('App\Http\Controllers\Api\V1\RolesController@index');
+        return view('auth.register',['roles' => $roles]);
+    }
     /**
      * Get a validator for an incoming registration request.
      *
@@ -70,7 +74,6 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'role' => $data['role']
         ]);
     }
 
@@ -87,5 +90,18 @@ class RegisterController extends Controller
         return $request->wantsJson()
                     ? new Response('', 201)
                     : redirect($this->redirectPath());
+    }
+
+    /**
+     * The user has been registered.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  mixed  $user
+     * @return mixed
+     */
+    protected function registered(Request $request, $user)
+    {
+        $roles =array($request->role);
+        $user->roles()->sync($roles);
     }
 }

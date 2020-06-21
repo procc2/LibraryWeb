@@ -6,6 +6,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use Symfony\Component\HttpFoundation\Cookie;
 
 class AuthController extends Controller
 {
@@ -20,7 +21,6 @@ class AuthController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
-            'role' => 0
         ]);
         $user->save();
         return response()->json([
@@ -46,13 +46,26 @@ class AuthController extends Controller
         if ($request->remember_me)
             $token->expires_at = Carbon::now()->addWeeks(1);
         $token->save();
+        // return response()->json([
+        //     'access_token' => $tokenResult->accessToken,
+        //     'token_type' => 'Bearer',
+        //     'expires_at' => Carbon::parse(
+        //         $tokenResult->token->expires_at
+        //     )->toDateTimeString()
+        // ]);
+        $cookie = $this->getCookie($tokenResult->accessToken);
+
         return response()->json([
             'access_token' => $tokenResult->accessToken,
             'token_type' => 'Bearer',
             'expires_at' => Carbon::parse(
                 $tokenResult->token->expires_at
             )->toDateTimeString()
-        ]);
+        ])->withCookie($cookie);
+        // return response()->json([
+        //     'token' => $token,
+        //     'user' => auth()->user(),
+        // ])->withCookie($cookie);
     }
 
     /**
@@ -79,5 +92,20 @@ class AuthController extends Controller
         return response()->json($request->user());
 
         return null;
+    }
+
+    private function getCookie($token)
+    {
+        return new Cookie(
+            "auth",
+            $token,
+            time() + 60 * 60 * 24 * 365,
+            null,
+            null,
+            env('APP_DEBUG') ? false : true,
+            true,
+            false,
+            'Strict'
+        );
     }
 }

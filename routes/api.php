@@ -32,11 +32,10 @@ Route::group([
     });
 });
 
-Route::group(['prefix' => '/v1', 'namespace' => 'Api\V1', 'as' => 'api.'], function () {
+Route::group(['prefix' => '/v1', 'namespace' => 'Api\V1', 'as' => 'api.','middleware' => ['throttle:60,1','auth:api']], function () {
     Route::resource('books', 'BookController', ['except' => ['create', 'edit']]);
     Route::get("/filterBooks",'BookController@getWithFilter');
     Route::resource('categories', 'CategoryController', ['except' => ['create', 'edit']]);
-    // Route::get('categories/{bookId}/book', 'CategoryController@getCategoriesByBook');
     Route::get('/favorites', 'BookController@getLike');
     Route::post('/favorites', 'BookController@like');
     Route::delete('/favorites', 'BookController@dislike');
@@ -47,6 +46,9 @@ Route::group(['prefix' => '/v1', 'namespace' => 'Api\V1', 'as' => 'api.'], funct
     Route::resource('loanDetails', 'LoanDetailsController', ['except' => ['create', 'edit']]);
     Route::resource('users', 'UserController', ['except' => ['create', 'edit']]);
     Route::put("users","UserController@updatePassword");
+    Route::get('permissions', 'PermissionsController@index');
+    Route::post('permissions', 'PermissionsController@store');
+    Route::resource('roles', 'RolesController', ['except' => ['create', 'edit']]);
     Route::resource('comments', 'CommentsController', ['except' => ['create', 'edit']]);
 });
 

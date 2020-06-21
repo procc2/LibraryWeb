@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Publisher;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PublisherController extends Controller
 {
@@ -36,8 +37,10 @@ class PublisherController extends Controller
      */
     public function store(Request $request)
     {
-        $publisher = Publisher::create($request->all());
-        return $publisher;
+        if (Auth::user()->can('update-publisher')) {
+            $publisher = Publisher::create($request->all());
+            return $publisher;
+        }
     }
 
     /**
@@ -48,7 +51,8 @@ class PublisherController extends Controller
      */
     public function show($id)
     {
-        return Publisher::findOrFail($id);
+        if (Auth::user()->can('view-publisher'))
+            return Publisher::findOrFail($id);
     }
 
     /**
@@ -71,10 +75,12 @@ class PublisherController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $publisher = Publisher::findOrFail($id);
-        $publisher->update($request->all());
+        if (Auth::user()->can('update-publisher')) {
+            $publisher = Publisher::findOrFail($id);
+            $publisher->update($request->all());
 
-        return $publisher;
+            return $publisher;
+        }
     }
 
     /**
@@ -85,8 +91,10 @@ class PublisherController extends Controller
      */
     public function destroy($id)
     {
-       $publisher = Publisher::findOrFail($id);
-       $publisher->delete();
-       return '';
+        if (Auth::user()->can('delete-publisher')) {
+            $publisher = Publisher::findOrFail($id);
+            $publisher->delete();
+            return '';
+        }
     }
 }

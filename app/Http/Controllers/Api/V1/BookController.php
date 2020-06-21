@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Publisher;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class BookController extends Controller
 {
@@ -38,12 +39,14 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        $book = Book::create($request->all());
-        $categoryIds = $request->input('categoryIds');
-        foreach ($categoryIds as $categoryId) {
-            $book->categories()->attach($categoryId);
+        if (Auth::user()->can('update-book')) {
+            $book = Book::create($request->all());
+            $categoryIds = $request->input('categoryIds');
+            foreach ($categoryIds as $categoryId) {
+                $book->categories()->attach($categoryId);
+            }
+            return $book;
         }
-        return $book;
     }
 
     /**
@@ -54,10 +57,12 @@ class BookController extends Controller
      */
     public function show($id)
     {
-        $book = Book::with('author:author_id,author_name', 'publisher:publisher_id,publisher_name', 'images','ebooks', 'categories:category_name','comments','comments.user:name,user_id')->findOrFail($id);
-        $book->setAttribute("categoryIds", $book->categories()->get());
+        if (Auth::user()->can('view-book')) {
+            $book = Book::with('author:author_id,author_name', 'publisher:publisher_id,publisher_name', 'images', 'ebooks', 'categories:category_name', 'comments', 'comments.user:name,user_id')->findOrFail($id);
+            $book->setAttribute("categoryIds", $book->categories()->get());
 
-        return $book;
+            return $book;
+        }
     }
 
     /**
@@ -80,12 +85,14 @@ class BookController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $book = Book::findOrFail($id);
-        $book->update($request->all());
-        $categoryIds = $request->input('categoryIds');
-        if (!is_array($categoryIds[0]) && (!$categoryIds[0] instanceof Traversable))
-            $book->categories()->sync($categoryIds);
-        return $book;
+        if (Auth::user()->can('update-book')) {
+            $book = Book::findOrFail($id);
+            $book->update($request->all());
+            $categoryIds = $request->input('categoryIds');
+            if (!is_array($categoryIds[0]) && (!$categoryIds[0] instanceof Traversable))
+                $book->categories()->sync($categoryIds);
+            return $book;
+        }
     }
 
     /**
@@ -96,9 +103,11 @@ class BookController extends Controller
      */
     public function destroy($id)
     {
-        $book = Book::findOrFail($id);
-        $book->delete();
-        return '';
+        if (Auth::user()->can('delete-book')) {
+            $book = Book::findOrFail($id);
+            $book->delete();
+            return '';
+        }
     }
 
     public function getWithFilter(Request $request)
@@ -174,14 +183,13 @@ class BookController extends Controller
         $isFavorite = false;
         if ($bookId && $userId) {
             $book = Book::findOrFail($bookId);
-            $isFavorite = $book->favorites()->where('favorites.user_id',$userId)->exists();
+            $isFavorite = $book->favorites()->where('favorites.user_id', $userId)->exists();
             return response()->json([
                 'isFavorite' => $isFavorite
             ], 201);
-        }else if ($userId && !$bookId){
+        } else if ($userId && !$bookId) {
             $user = User::findOrFail($userId);
-            return $user->favorites()->with('author:author_id,author_name', 'publisher:publisher_id,publisher_name', 'images:book_id,name', 'categories:category_name')->where('favorites.user_id',$userId)->get();
+            return $user->favorites()->with('author:author_id,author_name', 'publisher:publisher_id,publisher_name', 'images:book_id,name', 'categories:category_name')->where('favorites.user_id', $userId)->get();
         }
-        
     }
 }

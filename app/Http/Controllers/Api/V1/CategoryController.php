@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1;
 use App\Category;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends Controller
 {
@@ -36,8 +37,10 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+        if(Auth::user()->can('update-category')){
         $category = Category::create($request->all());
         return $category;
+        }
     }
 
     /**
@@ -48,6 +51,7 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
+        if(Auth::user()->can('view-category'))
         return Category::findOrFail($id);
     }
 
@@ -71,10 +75,12 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
+        if(Auth::user()->can('update-category')){
         $category = Category::findOrFail($id);
         $category->update($request->all());
 
         return $category;
+        }
     }
 
     /**
@@ -85,9 +91,11 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
+       if(Auth::user()->can('delete-category')){
        $category = Category::findOrFail($id);
        $category->delete();
        return '';
+       }
     }
 
     // public function getCategoriesByBook($bookId)

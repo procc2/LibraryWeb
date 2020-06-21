@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1;
 use App\Author;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AuthorController extends Controller
 {
@@ -36,8 +37,10 @@ class AuthorController extends Controller
      */
     public function store(Request $request)
     {
-        $author = Author::create($request->all());
-        return $author;
+        if (Auth::user()->can('update-author')) {
+            $author = Author::create($request->all());
+            return $author;
+        }
     }
 
     /**
@@ -48,7 +51,8 @@ class AuthorController extends Controller
      */
     public function show($id)
     {
-        return Author::findOrFail($id);
+        if (Auth::user()->can('view-author'))
+            return Author::findOrFail($id);
     }
 
     /**
@@ -71,10 +75,12 @@ class AuthorController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $author = Author::findOrFail($id);
-        $author->update($request->all());
+        if (Auth::user()->can('update-author')) {
+            $author = Author::findOrFail($id);
+            $author->update($request->all());
 
-        return $author;
+            return $author;
+        }
     }
 
     /**
@@ -85,8 +91,10 @@ class AuthorController extends Controller
      */
     public function destroy($id)
     {
-       $author = Author::findOrFail($id);
-       $author->delete();
-       return '';
+        if (Auth::user()->can('delete-author')) {
+            $author = Author::findOrFail($id);
+            $author->delete();
+            return '';
+        }
     }
 }
