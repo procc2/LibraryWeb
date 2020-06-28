@@ -37,9 +37,7 @@
                                 Sách <span class="color--theme">Mới</span>
                             </h2>
                             <p>
-                                There are many variations of passages of Lorem
-                                Ipsum available, but the majority have suffered
-                                lebmid alteration in some ledmid form
+                                Tất cả các đầu sách mới nhất
                             </p>
                         </div>
                     </div>
@@ -81,14 +79,7 @@
                     >
                         <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                             <div class="product__thumb">
-                                <router-link :to="{ name : 'detailProduct', params : {bookId: book.book_id}}" class="first__img"  v-if="book.images[0]"><img :src="'/dist/book/image/'  + book.images[0].name" alt="product image"></router-link>
-                                <a
-                                    class="second__img animation1"
-                                    href="single-product.html"
-                                    ><img
-                                        src="images/books/2.jpg"
-                                        alt="product image"
-                                /></a>
+                                <router-link :to="{ name : 'detailProduct', params : {bookId: book.book_id}}" class="first__img"  v-if="book.images[0]"><img :src="'/dist/book/image/'  + book.images[0].name" width="270" height="340" alt="product image"></router-link>
                                 <div class="hot__box">
                                     <span class="hot-label">BEST SALLER</span>
                                 </div>
@@ -166,21 +157,22 @@
                 <div class="row">
                     <div class="col-lg-7 offset-lg-5 col-md-12 col-12 ptb--150">
                         <div class="section__title text-center">
-                            <h2>Stay With Us</h2>
+                            <h2>Kết nối với chúng tôi</h2>
                         </div>
                         <div class="newsletter__block text-center">
                             <p>
-                                Subscribe to our newsletters now and stay
-                                up-to-date with new collections, the latest
-                                lookbooks and exclusive offers.
+                                Luôn cập nhật thông tin nóng hổi, đầu sách mới 
+                                nhất bằng cách nhận thông báo của chúng tôi qua 
+                                mail
+                                
                             </p>
                             <form action="#">
                                 <div class="newsletter__box">
                                     <input
                                         type="email"
-                                        placeholder="Enter your e-mail"
+                                        placeholder="Nhập email của bạn"
                                     />
-                                    <button>Subscribe</button>
+                                    <button>Theo dõi</button>
                                 </div>
                             </form>
                         </div>
@@ -199,9 +191,7 @@
                                 Toàn bộ <span class="color--theme">sách</span>
                             </h2>
                             <p>
-                                There are many variations of passages of Lorem
-                                Ipsum available, but the majority have suffered
-                                lebmid alteration in some ledmid form
+                                Toàn bộ sách tiêu biểu theo chủ đề 
                             </p>
                         </div>
                     </div>
@@ -295,7 +285,7 @@
                                     <div class="product product__style--3">
                                         <div class="product__thumb">
                                             
-                                            <router-link :to="{ name : 'detailProduct', params : {bookId: products[2*index].book_id}}" class="first__img"  v-if="products[2*index].images[0]"><img :src="'/dist/book/image/'  + products[2*index].images[0].name" alt="product image"></router-link>
+                                            <router-link :to="{ name : 'detailProduct', params : {bookId: products[2*index].book_id}}" class="first__img"  v-if="products[2*index].images[0]"><img :src="'/dist/book/image/'  + products[2*index].images[0].name" width="270" height="340" alt="product image"></router-link>
                                             <router-link
                                                 class="second__img animation1"
                                                 :to="{ name : 'detailProduct', params : {bookId: products[2*index].book_id}}"
@@ -4380,12 +4370,10 @@
                     <div class="col-lg-12">
                         <div class="section__title text-center">
                             <h2 class="title__be--2">
-                                Our <span class="color--theme">Blog</span>
+                                Thuê <span class="color--theme">Sách</span>
                             </h2>
                             <p>
-                                There are many variations of passages of Lorem
-                                Ipsum available, but the majority have suffered
-                                lebmid alteration in some ledmid form
+                                Có 3 bước để thuê sách 
                             </p>
                         </div>
                     </div>
@@ -4395,38 +4383,15 @@
                         <div class="post__itam">
                             <div class="content">
                                 <h3>
-                                    <a href="blog-details.html"
-                                        >International activities of the
-                                        Frankfurt Book
+                                    <a href="javascript:void(0)"
+                                        >Tạo tài khoản 
                                     </a>
                                 </h3>
                                 <p>
-                                    We are proud to announce the very first the
-                                    edition of the frankfurt news.We are proud
-                                    to announce the very first of edition of the
-                                    fault frankfurt news for us.
+                                    Sử dụng chức năng đăng ký của hệ thống
+                                    để tạo mới tài khoản (Nếu là sinh viên bỏ qua bước này)
                                 </p>
-                                <div class="post__time">
-                                    <span class="day">Dec 06, 18</span>
-                                    <div class="post-meta">
-                                        <ul>
-                                            <li>
-                                                <a href="#"
-                                                    ><i class="bi bi-love"></i
-                                                    >72</a
-                                                >
-                                            </li>
-                                            <li>
-                                                <a href="#"
-                                                    ><i
-                                                        class="bi bi-chat-bubble"
-                                                    ></i
-                                                    >27</a
-                                                >
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
+                                
                             </div>
                         </div>
                     </div>
@@ -4434,38 +4399,14 @@
                         <div class="post__itam">
                             <div class="content">
                                 <h3>
-                                    <a href="blog-details.html"
-                                        >Reading has a signficant info number of
-                                        benefits</a
-                                    >
+                                    <a href="javascript:void(0)"
+                                        > Thuê sách online 
+                                    </a>
                                 </h3>
                                 <p>
-                                    Find all the information you need to ensure
-                                    your experience.Find all the information you
-                                    need to ensure your experience . Find all
-                                    the information you of.
+                                    Thêm sách vào giỏ hàng và 
+                                    thực hiện thuê sách online 
                                 </p>
-                                <div class="post__time">
-                                    <span class="day">Mar 08, 18</span>
-                                    <div class="post-meta">
-                                        <ul>
-                                            <li>
-                                                <a href="#"
-                                                    ><i class="bi bi-love"></i
-                                                    >72</a
-                                                >
-                                            </li>
-                                            <li>
-                                                <a href="#"
-                                                    ><i
-                                                        class="bi bi-chat-bubble"
-                                                    ></i
-                                                    >27</a
-                                                >
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -4473,38 +4414,15 @@
                         <div class="post__itam">
                             <div class="content">
                                 <h3>
-                                    <a href="blog-details.html"
-                                        >The London Book Fair is to be packed
-                                        with exciting
+                                    <a href="javascript:void(0)"
+                                        >Đến thư viện lấy sách
                                     </a>
                                 </h3>
                                 <p>
-                                    The London Book Fair is the global area inon
-                                    marketplace for rights negotiation.The year
-                                    London Book Fair is the global area inon
-                                    forg marketplace for rights.
+                                    Sau khi đặt mượn online, bạn có thể 
+                                    đến trung tâm thư viện để lấy sách mượn
                                 </p>
-                                <div class="post__time">
-                                    <span class="day">Nov 11, 18</span>
-                                    <div class="post-meta">
-                                        <ul>
-                                            <li>
-                                                <a href="#"
-                                                    ><i class="bi bi-love"></i
-                                                    >72</a
-                                                >
-                                            </li>
-                                            <li>
-                                                <a href="#"
-                                                    ><i
-                                                        class="bi bi-chat-bubble"
-                                                    ></i
-                                                    >27</a
-                                                >
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
+                                
                             </div>
                         </div>
                     </div>
@@ -4522,9 +4440,7 @@
                                 Đặc <span class="color--theme">Biệt </span>
                             </h2>
                             <p>
-                                There are many variations of passages of Lorem
-                                Ipsum available, but the majority have suffered
-                                lebmid alteration in some ledmid form
+                                Các sách đặc biệt hot trong tháng
                             </p>
                         </div>
                     </div>

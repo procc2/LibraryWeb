@@ -16,17 +16,17 @@
                                             <th class="product-thumbnail"></th>
                                             <th class="product-name">
                                                 <span class="nobr"
-                                                    >Product Name</span
+                                                    >Tên sách</span
                                                 >
                                             </th>
                                             <th class="product-price">
                                                 <span class="nobr">
-                                                    Unit Price
+                                                    Thể loại
                                                 </span>
                                             </th>
                                             <th class="product-stock-stauts">
                                                 <span class="nobr">
-                                                    Stock Status
+                                                    Tình trạng
                                                 </span>
                                             </th>
                                             <th
@@ -48,16 +48,16 @@
                                             </td>
                                             <td class="product-price">
                                                 <span class="amount"
-                                                    >$165.00</span
+                                                    v-for="category in book.categories" :key="category" >{{category.category_name}},</span
                                                 >
                                             </td>
                                             <td class="product-stock-status">
                                                 <span class="wishlist-in-stock"
-                                                    >In Stock</span
+                                                    >Có hàng</span
                                                 >
                                             </td>
                                             <td class="product-add-to-cart">
-                                                <a href="#"> Add to Cart</a>
+                                                <a href="#"> Thêm vào giỏ</a>
                                             </td>
                                         </tr>
                                     </tbody>

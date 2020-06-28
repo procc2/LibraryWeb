@@ -888,7 +888,7 @@ export default {
         axios
             .get("/api/v1/books/" + app.$route.params.bookId)
             .then(function(res) {
-                console.log(app.isFavorite);
+                console.log(res);
                 app.book = res.data;
                 if (app.user)
                     axios

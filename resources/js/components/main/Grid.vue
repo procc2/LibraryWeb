@@ -8,7 +8,7 @@
                 >
                     <div class="shop__sidebar">
                         <aside class="wedget__categories poroduct--cat">
-                            <h3 class="wedget__title">Product Categories</h3>
+                            <h3 class="wedget__title">Các thể loại sách</h3>
                             <ul>
                                 <li
                                     v-for="category in categories"
@@ -112,9 +112,9 @@
                                         ><i class="fa fa-list"></i
                                     ></a>
                                 </div>
-                                <p>Showing 1–12 of 40 results</p>
+                                <p>Hiển thị 1–12 trong 40 kết quả</p>
                                 <div class="orderby__wrapper">
-                                    <span>Sort By</span>
+                                    <span>Sắp xếp </span>
                                     <select class="shot__byselect">
                                         <option>Default sorting</option>
                                         <option>Sorting1</option>
@@ -184,10 +184,7 @@
                                                 }}</router-link
                                             >
                                         </h4>
-                                        <ul class="prize d-flex">
-                                            <li>$35.00</li>
-                                            <li class="old_prize">$35.00</li>
-                                        </ul>
+                                        
                                         <div class="action">
                                             <div class="actions_inner">
                                                 <ul class="add_to_links">
@@ -317,25 +314,14 @@
                                                 <i class="fa fa-star-o"></i>
                                             </li>
                                         </ul>
-                                        <ul class="prize__box">
-                                            <li>$111.00</li>
-                                            <li class="old__prize">$220.00</li>
-                                        </ul>
+                                        
                                         <p>
-                                            Lorem ipsum dolor sit amet,
-                                            consectetur adipiscing elit. Nam
-                                            fringilla augue nec est tristique
-                                            auctor. Donec non est at libero
-                                            vulputate rutrum. Morbi ornare
-                                            lectus quis justo gravida semper.
-                                            Nulla tellus mi, vulputate
-                                            adipiscing cursus eu, suscipit id
-                                            nulla.
+                                            {{products[0].book_description}}.
                                         </p>
                                         <ul class="cart__action d-flex">
                                             <li class="cart">
                                                 <a href="cart.html"
-                                                    >Add to cart</a
+                                                    >Thêm vào giỏ</a
                                                 >
                                             </li>
                                             <li class="wishlist">
@@ -384,25 +370,14 @@
                                                 <i class="fa fa-star-o"></i>
                                             </li>
                                         </ul>
-                                        <ul class="prize__box">
-                                            <li>$111.00</li>
-                                            <li class="old__prize">$220.00</li>
-                                        </ul>
+                                        
                                         <p>
-                                            Lorem ipsum dolor sit amet,
-                                            consectetur adipiscing elit. Nam
-                                            fringilla augue nec est tristique
-                                            auctor. Donec non est at libero
-                                            vulputate rutrum. Morbi ornare
-                                            lectus quis justo gravida semper.
-                                            Nulla tellus mi, vulputate
-                                            adipiscing cursus eu, suscipit id
-                                            nulla.
+                                            {{products[0].book_description}}
                                         </p>
                                         <ul class="cart__action d-flex">
                                             <li class="cart">
                                                 <a href="cart.html"
-                                                    >Add to cart</a
+                                                    >Thêm vào giỏ</a
                                                 >
                                             </li>
                                             <li class="wishlist">

@@ -27,10 +27,10 @@
                     <div class="col-lg-12">
                         <div class="slider__content">
                             <div class="contentbox">
-                                <h2>Buy <span>your </span></h2>
-                                <h2>favourite <span>Book </span></h2>
-                                <h2>from <span>Here </span></h2>
-                                <a class="shopbtn" href="#">shop now</a>
+                                <h2>Thư <span>viện </span></h2>
+                                <h2>sách <span>của </span></h2>
+                                <h2>bạn <span>tại đây </span></h2>
+                                <a class="shopbtn" href="#">vào ngay</a>
                             </div>
                         </div>
                     </div>
@@ -47,10 +47,10 @@
                     <div class="col-lg-12">
                         <div class="slider__content">
                             <div class="contentbox">
-                                <h2>Buy <span>your </span></h2>
-                                <h2>favourite <span>Book </span></h2>
-                                <h2>from <span>Here </span></h2>
-                                <a class="shopbtn" href="#">shop now</a>
+                                <h2>Thư <span>viện </span></h2>
+                                <h2>sách <span>của </span></h2>
+                                <h2>bạn <span>tại đây </span></h2>
+                                <a class="shopbtn" href="#">vào ngay</a>
                             </div>
                         </div>
                     </div>

@@ -9,13 +9,12 @@
                             <table>
                                 <thead>
                                     <tr class="title-top">
-                                        <th class="product-thumbnail">Image</th>
-                                        <th class="product-name">Product</th>
-                                        <th class="product-price">Price</th>
+                                        <th class="product-thumbnail">Hình ảnh</th>
+                                        <th class="product-name">Sách</th>
+                                        <th class="product-price">Đặc biệt</th>
                                         <th class="product-quantity">
-                                            Quantity
+                                            Số lượng
                                         </th>
-                                        <th class="product-subtotal">Total</th>
                                         <th class="product-remove">Remove</th>
                                     </tr>
                                 </thead>
@@ -52,13 +51,12 @@
                                             >
                                         </td>
                                         <td class="product-price">
-                                            <span class="amount">$165.00</span>
+                                            <span class="amount">
+                                            {{item.is_special ? "Đúng" : "Không"}}
+                                            </span>
                                         </td>
                                         <td class="product-quantity">
-                                            <input type="number" value="1" />
-                                        </td>
-                                        <td class="product-subtotal">
-                                            $165.00
+                                            <input type="number" value="1" disabled/>
                                         </td>
                                         <td class="product-remove">
                                             <a
@@ -97,17 +95,17 @@
                             class="cartbox-total d-flex justify-content-between"
                         >
                             <ul class="cart__total__list">
-                                <li>Cart total</li>
-                                <li>Sub Total</li>
+                                <li>Tổng số sách</li>
+                                <li>Thời gian mượn</li>
                             </ul>
                             <ul class="cart__total__tk">
-                                <li>$70</li>
-                                <li>$70</li>
+                                <li>{{items.length}}</li>
+                                <li>60 ngày</li>
                             </ul>
                         </div>
                         <div class="cart__total__amount">
-                            <span>Grand Total</span>
-                            <span>$140</span>
+                            <span>Hạn đến lấy </span>
+                            <span>{{deadLine}}</span>
                         </div>
                     </div>
                 </div>
@@ -124,6 +122,15 @@ export default {
         ...mapState("cart", ["items"]),
         ...mapState("account", ["user"])
     },
+    data: function() {
+         return{
+             deadLine : ""
+         }
+     },
+    created(){
+        this.getNow()
+    }
+     ,
     methods: {
         ...mapActions("cart", ["removeProduct"]),
         addBorrowRequest() {
@@ -182,7 +189,12 @@ export default {
                         // app.$modal.show("error");
                     }
                 });
-        }
+        },
+        getNow: function() {
+                    const today = new Date();
+                    const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+ (today.getDate()+3);
+                    this.deadLine = date;
+                }
     }
 };
 </script>
