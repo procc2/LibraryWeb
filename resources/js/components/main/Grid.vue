@@ -430,8 +430,8 @@ export default {
             .get("/api/v1/books")
             .then(function(res) {
                 app.products = res.data;
-                if(app.$route.params.keyWord != null){
-                    app.filterBy(app.$route.params.keyWord);
+                if(app.$route.query.keyWord != null){
+                    app.filterBy(app.$route.query.keyWord);
                 }
                 if(app.$route.params.categoryId != null){
                     app.filter(app.$route.params.categoryId);

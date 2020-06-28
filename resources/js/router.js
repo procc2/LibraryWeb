@@ -19,6 +19,7 @@ import UpdatePermisson from "./components/admin/main/user/permisson.vue";
 import Role from "./components/admin/main/Role.vue";
 import UpdateRole from "./components/admin/main/role/update.vue";
 import Introduction from "./components/admin/main/Introduction.vue";
+import UserRequest from "./components/admin/main/UserRequest.vue";
 
 let routes = [];
 const backendRoutes = [
@@ -150,6 +151,14 @@ const backendRoutes = [
             requiredRoles: ["admin", "developer", "staff"]
         }
     },
+    {
+        path: "/userRequest",
+        component: UserRequest,
+        name: "userRequest",
+        meta: {
+            requiredRoles: ["admin", "developer", "staff"]
+        }
+    },
 ];
 
 import Home from "./components/main/Home.vue";
@@ -163,6 +172,7 @@ import Cart from "./components/main/Cart.vue";
 import About from "./components/main/About.vue";
 import Blog from "./components/main/Blog.vue";
 import Contact from "./components/main/Contact.vue";
+import LoanHistory from "./components/main/LoanHistory.vue";
 
 const mainRoutes = [
     {
@@ -191,6 +201,7 @@ const mainRoutes = [
     { path: "/blog", component: Blog, name: "blog" },
     { path: "/about", component: About, name: "about" },
     { path: "/contact", component: Contact, name: "contact" },
+    { path: "/loanHistory/:loanId", component: LoanHistory, name: "loanHistory" },
     { path: "*", redirect: "/" }
 ];
 

@@ -30,21 +30,21 @@
               class="btn btn-primary"
               style="margin: 10px 0 20px 0"
             >Thêm quyền mới</router-link>
-            <table class="table table-bordered table-hover">
-              <thead>
-                <tr>
-                  <th data-sortable="true">#</th>
-                  <th data-sortable="true">Tên quyền</th>
-                  <th data-sortable="true">Sửa</th>
-                  <th data-sortable="true">Xóa</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="(role, index) in roles" :key="index">
-                  <th scope="row">{{index+1}}</th>
-                  <td>{{role.name}}</td>
-                  <td>
-                    <router-link :to="{ name: 'updateRole', params: {id : role.id}}">
+            <b-table
+                            :items="roles"
+                            :fields="fields"
+                            ref="table"
+                            striped
+                            responsive="sm"
+                        >
+                            <template v-slot:cell(index)="row">
+                                {{ row.index + 1 }}
+                            </template>
+                            <template v-slot:cell(name)="row">
+                                {{ row.item.name }}
+                            </template>
+                            <template v-slot:cell(edit)="row">
+                                <router-link :to="{ name: 'updateRole', params: {id : row.item.id}}">
                       <a>
                         <span>
                           <svg class="glyph stroked brush" style="width: 20px;height: 20px;">
@@ -53,20 +53,17 @@
                         </span>
                       </a>
                     </router-link>
-                  </td>
-
-                  <td>
-                    <a href="javascript:void(0)" v-on:click="deleteEntry(role.id, index)">
+                            </template>
+                            <template v-slot:cell(delete)="row">
+                                <a href="javascript:void(0)" v-on:click="deleteEntry(row.item.id, index)">
                       <span>
                         <svg class="glyph stroked cancel" style="width: 20px;height: 20px;">
                           <use xlink:href="#stroked-cancel" />
                         </svg>
                       </span>
                     </a>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+                            </template>
+                        </b-table>
             <ul class="pagination" style="float: right;">
               <!-- <?php 
                     echo $listPage;
@@ -81,9 +78,23 @@
 </template>
 
 <script>
+import { BTable, BCard, BRow, BButton, BCol } from "bootstrap-vue";
 export default {
+    components: {
+        BTable,
+        BCard,
+        BRow,
+        BButton,
+        BCol
+    },
   data: function() {
     return {
+      fields: [
+                { key: "index", label: "#" },
+                { key: "name", label: "Tên Quyền" },
+                { key: "edit", label: "Sửa" },
+                { key: "delete", label: "Xóa" }
+            ],
       roles: []
     };
   },

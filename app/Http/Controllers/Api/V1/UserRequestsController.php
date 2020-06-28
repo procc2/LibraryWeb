@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Book;
 use App\Http\Controllers\Controller;
-use App\LoanDetail;
+use App\UserRequest;
 use Illuminate\Http\Request;
 
-class LoanDetailsController extends Controller
+class UserRequestsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +15,7 @@ class LoanDetailsController extends Controller
      */
     public function index()
     {
-        //
+        return UserRequest::with('user:user_id,name')->get();
     }
 
     /**
@@ -37,15 +36,8 @@ class LoanDetailsController extends Controller
      */
     public function store(Request $request)
     {
-        foreach ($request->bookIds as $id) {
-            $book = Book::findOrFail($id);
-            $book->remaining_stock = $book->remaining_stock - 1;
-            $book->save();
-            LoanDetail::create(array('book_id'=>$id,'loan_id'=>$request->loan_id));
-        }
-        return response()->json([
-            'message' => 'Successful Created'
-        ], 200);
+        $userRequest = UserRequest::create($request->all());
+        return $userRequest;
     }
 
     /**
@@ -56,7 +48,7 @@ class LoanDetailsController extends Controller
      */
     public function show($id)
     {
-        return LoanDetail::with('book','book.images')->where('loan_id',$id)->get();
+        return UserRequest::where('user_id',$id)->first();
     }
 
     /**
@@ -79,7 +71,10 @@ class LoanDetailsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $userReq = UserRequest::findOrFail($id);
+        $userReq->update($request->all());
+
+        return $userReq;
     }
 
     /**

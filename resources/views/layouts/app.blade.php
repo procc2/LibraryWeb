@@ -68,9 +68,6 @@
         <!-- SideBar -->
         <div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
             <form role="search">
-                <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Tìm kiếm" />
-                </div>
             </form>
             <ul class="nav menu">
                 <li class="active">
@@ -211,6 +208,17 @@
                                     <use xlink:href="#stroked-app-window-with-content" />
                                 </svg>
                             </span> Quản lý ấn phẩm thuê
+                        </a>
+                    </router-link>
+                </li>
+                <li class="parent">
+                    <router-link to="/userRequest">
+                        <a>
+                            <span data-toggle="collapse" href="#sub-item-6">
+                                <svg class="glyph stroked wireless router">
+                                    <use xlink:href="#stroked-wireless-router" />
+                                </svg>
+                            </span> Quản lý yêu cầu người dùng
                         </a>
                     </router-link>
                 </li>

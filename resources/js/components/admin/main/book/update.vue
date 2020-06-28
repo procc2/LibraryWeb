@@ -65,11 +65,11 @@
                                     />
                                 </div>
                                 <div class="form-group">
-                                    <label>Tình trạng</label>
+                                    <label>Số lượng</label>
                                     <input
-                                        type="text"
+                                        type="number"
                                         class="form-control"
-                                        v-model="book.is_on_loan"
+                                        v-model="book.remaining_stock"
                                         required
                                     />
                                 </div>
@@ -210,7 +210,7 @@ export default {
                 book_image: "",
                 author_id: "",
                 publisher_id: "",
-                is_on_loan: 1,
+                remaining_stock: 1,
                 is_special: 0,
                 categoryIds: [],
                 book_description: "",
@@ -261,6 +261,7 @@ export default {
                 await axios
                     .post("/api/v1/books", book)
                     .then(async function(resp) {
+                        console.log(resp);
                         if (book.images) {
                             await app.$refs.imageUpload.uploadImage(
                                 resp.data.book_id

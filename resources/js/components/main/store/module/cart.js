@@ -41,7 +41,8 @@ const actions = {
         cartService.removeItem(item.cart.id);
         commit('removeItemFromCart',item);
     },
-    removeAllProduct({commit}){
+    removeAllProduct({commit,rootState}){
+      cartService.removeAllItem(rootState.account.user.user_id)
       commit('setCartItems',[])
     }
     ,

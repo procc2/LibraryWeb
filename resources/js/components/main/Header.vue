@@ -24,7 +24,7 @@
             <div class="row">
                 <div class="col-md-6 col-sm-6 col-6 col-lg-2">
                     <div class="logo">
-                        <router-link :to="{path : '\/'}">
+                        <router-link :to="{ path: '\/' }">
                             <img src="images/logo/logo.png" alt="logo images" />
                         </router-link>
                     </div>
@@ -33,7 +33,9 @@
                     <nav class="mainmenu__nav">
                         <ul class="meninmenu d-flex justify-content-start">
                             <li class="drop with--one--item">
-                               <router-link :to="{path : '\/'}">Trang chủ</router-link>
+                                <router-link :to="{ path: '\/' }"
+                                    >Trang chủ</router-link
+                                >
                             </li>
                             <!-- <li class="drop">
                                 <a href="#">Giới thiệu</a>
@@ -111,9 +113,20 @@
                                 <div class="megamenu mega03">
                                     <ul class="item item03">
                                         <li class="title">Thể loại</li>
-                                        <li v-for="category in categories" :key="category.category_id">
-                                            <router-link :to="{ name : 'grid', params : {categoryId: category.category_id}}">{{category.category_name}}
-                                                </router-link>
+                                        <li
+                                            v-for="category in categories"
+                                            :key="category.category_id"
+                                        >
+                                            <router-link
+                                                :to="{
+                                                    name: 'grid',
+                                                    params: {
+                                                        categoryId:
+                                                            category.category_id
+                                                    }
+                                                }"
+                                                >{{ category.category_name }}
+                                            </router-link>
                                         </li>
                                     </ul>
                                     <ul class="item item03">
@@ -129,7 +142,9 @@
                                             >
                                         </li>
                                         <li>
-                                            <a href="shop-grid.html">Tình cảm</a>
+                                            <a href="shop-grid.html"
+                                                >Tình cảm</a
+                                            >
                                         </li>
                                         <li>
                                             <a href="shop-grid.html"
@@ -222,7 +237,9 @@
                                 </div>
                             </li> -->
                             <li class="drop">
-                                <router-link :to="{name : 'about'}">Giới thiệu</router-link>
+                                <router-link :to="{ name: 'about' }"
+                                    >Giới thiệu</router-link
+                                >
                                 <div class="megamenu dropdown">
                                     <ul class="item item01">
                                         <li>
@@ -275,7 +292,9 @@
                                 </div>
                             </li>
                             <li class="drop">
-                                <router-link :to="{name : 'blog'}">Blog</router-link>
+                                <router-link :to="{ name: 'blog' }"
+                                    >Blog</router-link
+                                >
                                 <div class="megamenu dropdown">
                                     <ul class="item item01">
                                         <li>
@@ -289,7 +308,11 @@
                                     </ul>
                                 </div>
                             </li>
-                            <li><router-link :to="{name : 'contact'}">Liên hệ</router-link></li>
+                            <li>
+                                <router-link :to="{ name: 'contact' }"
+                                    >Liên hệ</router-link
+                                >
+                            </li>
                         </ul>
                     </nav>
                 </div>
@@ -307,9 +330,94 @@
                                 }"
                             ></router-link>
                         </li>
+                        <li class="shop_list">
+                            <a
+                                class="listbox_active"
+                                href="javascript:void(0)"
+                                v-on:click="getLoanList()"
+                            ></a>
+                            <!-- Start List -->
+                            <div class="block-minicart minilist__active">
+                                <div class="minicart-content-wrapper">
+                                    <div class="micart__close">
+                                        <span>đóng</span>
+                                    </div>
+                                    <div
+                                        class="items-total d-flex justify-content-between"
+                                    >
+                                        <span>{{ items.length }} đơn</span>
+                                        <span>Đơn đặt</span>
+                                    </div>
+                                    <!-- <div class="total_amount text-right">
+                                        <span>$66.00</span>
+                                    </div> -->
+                                    <div class="single__items">
+                                        <div
+                                            class="miniproduct"
+                                            v-if="loanList.length"
+                                        >
+                                            <div
+                                                class="item01 d-flex"
+                                                v-for="item in loanList"
+                                                :key="item.id"
+                                            >
+                                                
+                                                <div class="content">
+                                                    <h6>
+                                                        <router-link
+                                                            :to="{
+                                                                name:
+                                                                    'loanHistory',
+                                                                params: {
+                                                                    loanId : item.id
+                                                                }
+                                                            }"
+                                                            >Mã đơn : {{
+                                                                item.id
+                                                            }}</router-link
+                                                        >
+                                                    </h6>
+                                                    <span class="prize"
+                                                        >{{status[item.loan_is_active]}}</span
+                                                    >
+                                                    <div
+                                                        class="product_prize d-flex justify-content-between"
+                                                    >
+                                                        <span class="qun"
+                                                            >Số sách:
+                                                            {{item.details.length}}</span
+                                                        >
+                                                        <ul
+                                                            class="d-flex justify-content-end"
+                                                        >
+                                                            <li>
+                                                                <a href="#"
+                                                                    ><i
+                                                                        class="zmdi zmdi-eye"
+                                                                    ></i
+                                                                ></a>
+                                                            </li>
+                                                            
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mini_action cart">
+                                        <a class="cart__btn" href="cart.html"
+                                            >Thay đổi
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Shopping Cart -->
+                        </li>
                         <li class="shopcart">
                             <a class="cartbox_active" href="#"
-                                ><span class="product_qun">{{items.length}}</span></a
+                                ><span class="product_qun">{{
+                                    items.length
+                                }}</span></a
                             >
                             <!-- Start Shopping Cart -->
                             <div class="block-minicart minicart__active">
@@ -320,7 +428,7 @@
                                     <div
                                         class="items-total d-flex justify-content-between"
                                     >
-                                        <span>{{items.length}} sản phẩm</span>
+                                        <span>{{ items.length }} sản phẩm</span>
                                         <!-- <span>Cart Subtotal</span> -->
                                     </div>
                                     <!-- <div class="total_amount text-right">
@@ -329,19 +437,53 @@
                                     <div class="mini_action checkout">
                                         <router-link
                                             class="checkout__btn"
-                                            :to="{ name : 'cart'}"
+                                            :to="{ name: 'cart' }"
                                             >Đi đến checkout</router-link
                                         >
                                     </div>
                                     <div class="single__items">
                                         <div class="miniproduct">
-                                            <div class="item01 d-flex" v-for="item in items" :key="item.id">
+                                            <div
+                                                class="item01 d-flex"
+                                                v-for="item in items"
+                                                :key="item.id"
+                                            >
                                                 <div class="thumb">
-                                                    <router-link :to="{ name : 'detailProduct', params : {bookId: item.book_id}}" v-if="item.images[0]"><img :src="'/dist/book/image/'  + item.images[0].name" alt="product image"></router-link>
+                                                    <router-link
+                                                        :to="{
+                                                            name:
+                                                                'detailProduct',
+                                                            params: {
+                                                                bookId:
+                                                                    item.book_id
+                                                            }
+                                                        }"
+                                                        v-if="item.images[0]"
+                                                        ><img
+                                                            :src="
+                                                                '/dist/book/image/' +
+                                                                    item
+                                                                        .images[0]
+                                                                        .name
+                                                            "
+                                                            alt="product image"
+                                                    /></router-link>
                                                 </div>
                                                 <div class="content">
                                                     <h6>
-                                                        <router-link :to="{ name : 'detailProduct', params : {bookId: item.book_id}}">{{item.book_name}}</router-link>
+                                                        <router-link
+                                                            :to="{
+                                                                name:
+                                                                    'detailProduct',
+                                                                params: {
+                                                                    bookId:
+                                                                        item.book_id
+                                                                }
+                                                            }"
+                                                            >{{
+                                                                item.book_name
+                                                            }}</router-link
+                                                        >
                                                     </h6>
                                                     <span class="prize"
                                                         >$30.00</span
@@ -363,7 +505,13 @@
                                                                 ></a>
                                                             </li>
                                                             <li>
-                                                                <a href="javascript:void(0)" v-on:click="removeProduct(item)"
+                                                                <a
+                                                                    href="javascript:void(0)"
+                                                                    v-on:click="
+                                                                        removeProduct(
+                                                                            item
+                                                                        )
+                                                                    "
                                                                     ><i
                                                                         class="zmdi zmdi-delete"
                                                                     ></i
@@ -377,8 +525,8 @@
                                     </div>
                                     <div class="mini_action cart">
                                         <a class="cart__btn" href="cart.html"
-                                            >Thay đổi </a
-                                        >
+                                            >Thay đổi
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -458,7 +606,8 @@
                                                                 name:
                                                                     'changeInformation'
                                                             }"
-                                                            >Tài khoản của tôi</router-link
+                                                            >Tài khoản của
+                                                            tôi</router-link
                                                         ></span
                                                     >
                                                     <span
@@ -497,7 +646,8 @@
                                                             v-on:click="
                                                                 showRegister()
                                                             "
-                                                            >Chưa có tài khoản ?</a
+                                                            >Chưa có tài khoản
+                                                            ?</a
                                                         ></span
                                                     >
                                                 </div>
@@ -599,10 +749,16 @@
 <script>
 import { mapState, mapActions } from "vuex";
 export default {
-    data: function(){
+    data: function() {
         return {
-            categories:[],
-            };
+            categories: [],
+            loanList: [],
+            status: {
+                0: "Chưa mượn",
+                1: "Đang tiến hành mượn",
+                2: "Đã trả"
+            }
+        };
     },
     mounted() {
         var app = this;
@@ -628,6 +784,18 @@ export default {
         showRegister() {
             console.log(this.$modal);
             this.$modal.show("register");
+        },
+        getLoanList() {
+            var app = this;
+            axios
+                .get("/api/v1/loans/" + app.user.user_id)
+                .then(function(res) {
+                    console.log(res);
+                    app.loanList = res.data;
+                })
+                .catch(function(e) {
+                    throw e;
+                });
         }
     }
 };

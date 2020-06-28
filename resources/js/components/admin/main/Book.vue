@@ -1,185 +1,238 @@
 <template>
-  <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
-    <!-- <script>
-    function xoaanPham(){
-        var conf=confirm("Bạn có chắc chắn muốn xóa ấn phẩm này hay không?");
-        return conf;
-    }
-    </script>-->
-    <!-- <?php 
-if(isset($_GET['page'])){
-    $page=$_GET['page'];
-}
-else{
-    $page=1;
-}
-
-$rowsPerPage=5;
-$perRow=$page*$rowsPerPage-$rowsPerPage;
-
-$sql="SELECT * FROM anpham INNER JOIN dmanpham ON anpham.id_dm=dmanpham.id_dm ORDER BY id_ap DESC LIMIT $perRow,$rowsPerPage";
-$query= mysqli_query($conn, $sql);
-
-$totalRows= mysqli_num_rows(mysqli_query($conn, "SELECT * FROM anpham"));
-$totalPages= ceil($totalRows/$rowsPerPage);
-
-$listPage="";
-for($i=1;$i<=$totalPages;$i++){
-    if($page==$i){
-        $listPage.='<li class="active"><a href="quantri.php?page_layout=danhsachap&page='.$i.'">'.$i.'</a></li>';
-    }
-    else{
-        $listPage.='<li><a href="quantri.php?page_layout=danhsachap&page='.$i.'">'.$i.'</a></li>';
-    }
-}
-    ?>-->
-    <div class="row">
-      <ol class="breadcrumb">
-        <li>
-          <a href="#">
-            <svg class="glyph stroked home">
-              <use xlink:href="#stroked-home" />
-            </svg>
-          </a>
-        </li>
-        <li class="active"></li>
-      </ol>
-    </div>
-    <!--/.row-->
-
-    <div class="row">
-      <div class="col-lg-12">
-        <h1 class="page-header">Quản lý ấn phẩm</h1>
-      </div>
-    </div>
-    <!--/.row-->
-
-    <div class="row">
-      <div class="col-lg-12">
-        <div class="panel panel-default">
-          <div class="panel-body" style="position: relative;">
-            <router-link
-              :to="{ name: 'insertBook'}"
-              class="btn btn-primary"
-              style="margin: 10px 0 20px 0"
-            >Thêm ấn phẩm mới</router-link>
-            <table class="table table-bordered table-hover">
-              <thead>
-                <tr>
-                  <th data-sortable="true">#</th>
-                  <th data-sortable="true">Tên ấn phẩm</th>
-                  <th data-sortable="true">Tác giả</th>
-                  <th data-sortable="true">Nhà xuất bản</th>
-                  <th data-sortable="true">Ảnh mô tả</th>
-                  <th data-sortable="true">Sửa</th>
-                  <th data-sortable="true">Xóa</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="(book, index) in books" :key="index">
-                  <th scope="row">{{index+1}}</th>
-                  <td>{{book.book_name}}</td>
-                  <td>{{book.author.author_name}}</td>
-                  <td>{{book.publisher.publisher_name}}</td>
-                  <td>
-                    <span class="thumb" v-if="book.images[0]"><img width="80px" height="150px" :src="'/dist/book/image/'  + book.images[0].name" /></span>
-                  </td>
-                  <td>
-                    <router-link :to="{ name: 'updateBook', params: {bookId : book.book_id}}">
-                      <a>
-                        <span>
-                          <svg class="glyph stroked brush" style="width: 20px;height: 20px;">
-                            <use xlink:href="#stroked-brush" />
-                          </svg>
-                        </span>
-                      </a>
-                    </router-link>
-                  </td>
-
-                  <td>
-                    <a href="#" v-on:click="deleteEntry(book.book_id, index)">
-                      <span>
-                        <svg class="glyph stroked cancel" style="width: 20px;height: 20px;">
-                          <use xlink:href="#stroked-cancel" />
+    <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+        <div class="row">
+            <ol class="breadcrumb">
+                <li>
+                    <a href="#">
+                        <svg class="glyph stroked home">
+                            <use xlink:href="#stroked-home" />
                         </svg>
-                      </span>
                     </a>
-                  </td>
-                </tr>
-                <!-- <?php
-                        while($row= mysqli_fetch_array($query)){
-                        ?>
-                        <tr style="height: 300px;">
-                            <td data-checkbox="true"><?php echo $row['id_ap']; ?></td>
-                            <td data-checkbox="true"><a href="quantri.php?page_layout=suaap&id_ap=<?php echo $row['id_ap']; ?>"><?php echo $row['ten_ap']; ?></a></td>
-                            <td data-checkbox="true"><?php echo $row['gia_ap']; ?></td>
-                            <td data-sortable="true"><?php echo $row['ten_dm']; ?></td>
-                            <td data-sortable="true">
-                                <span class="thumb"><img width="80px" height="150px" src="anh/<?php echo $row['anh_ap']; ?>" /></span>
-
-                            </td>						        
-                            <td>
-                                <a href="quantri.php?page_layout=suaap&id_ap=<?php echo $row['id_ap']; ?>"><span><svg class="glyph stroked brush" style="width: 20px;height: 20px;"><use xlink:href="#stroked-brush"/></svg></span></a>
-                            </td>
-
-                            <td>
-                                <a onclick="return xoaanPham();" href="xoaap.php?id_ap=<?php echo $row['id_ap']; ?>"><span><svg class="glyph stroked cancel" style="width: 20px;height: 20px;"><use xlink:href="#stroked-cancel"/></svg></span></a>
-                            </td>
-                        </tr>
-                        <?php
-                        }
-                ?>-->
-              </tbody>
-            </table>
-            <ul class="pagination" style="float: right;">
-              <!-- <?php 
-                    echo $listPage;
-              ?>-->
-            </ul>
-          </div>
+                </li>
+                <li class="active"></li>
+            </ol>
         </div>
-      </div>
+        <!--/.row-->
+
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Quản lý ấn phẩm</h1>
+            </div>
+        </div>
+        <!--/.row-->
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-body" style="position: relative;">
+                        <b-col>
+                            <router-link
+                                :to="{ name: 'insertBook' }"
+                                class="btn btn-primary"
+                                style="margin: 10px 0 20px 0"
+                                >Thêm ấn phẩm mới</router-link
+                            >
+                        </b-col>
+                        <b-col lg="6" class="my-1">
+                            <b-form-group
+                                label="Filter"
+                                label-cols-md="3"
+                                label-align-md="right"
+                                label-size="md"
+                                label-for="filterInput"
+                                class="mb-0"
+                            >
+                                <b-input-group size="md">
+                                    <b-form-input
+                                        v-model="filter"
+                                        type="search"
+                                        id="filterInput"
+                                        placeholder="Type to Search"
+                                    ></b-form-input>
+                                    <b-input-group-append>
+                                        <b-button
+                                            :disabled="!filter"
+                                            @click="filter = ''"
+                                            >Clear</b-button
+                                        >
+                                    </b-input-group-append>
+                                </b-input-group>
+                            </b-form-group>
+                        </b-col>
+                        <b-table
+                            :items="books"
+                            :fields="fields"
+                            :sort-by.sync="sortBy"
+                            :sort-desc.sync="sortDesc"
+                            :current-page="currentPage"
+                            :per-page="perPage"
+                            sort-icon-left
+                            striped
+                            responsive="sm"
+                            :filter="filter"
+                        >
+                            <template v-slot:cell(index)="row">
+                                {{ row.index + 1 }}
+                            </template>
+                            <template v-slot:cell(image)="row">
+                                <span class="thumb" v-if="row.item.images[0]"
+                                    ><img
+                                        width="80px"
+                                        height="150px"
+                                        :src="
+                                            '/dist/book/image/' +
+                                                row.item.images[0].name
+                                        "
+                                /></span>
+                            </template>
+                            <template v-slot:cell(has_ebook)="row">
+                                {{ row.item.ebooks.length ? "Có" : "Không" }}
+                            </template>
+                            <template v-slot:cell(edit)="row">
+                                <router-link
+                                    :to="{
+                                        name: 'updateBook',
+                                        params: { bookId: row.item.book_id }
+                                    }"
+                                >
+                                    <a>
+                                        <span>
+                                            <svg
+                                                class="glyph stroked brush"
+                                                style="width: 20px;height: 20px;"
+                                            >
+                                                <use
+                                                    xlink:href="#stroked-brush"
+                                                />
+                                            </svg>
+                                        </span>
+                                    </a>
+                                </router-link>
+                            </template>
+                            <template v-slot:cell(delete)="row">
+                                <a
+                                    href="javascript:void(0)"
+                                    v-on:click="
+                                        deleteEntry(row.item.book_id, index)
+                                    "
+                                >
+                                    <span>
+                                        <svg
+                                            class="glyph stroked cancel"
+                                            style="width: 20px;height: 20px;"
+                                        >
+                                            <use xlink:href="#stroked-cancel" />
+                                        </svg>
+                                    </span>
+                                </a>
+                            </template>
+                        </b-table>
+                        <b-col sm="7" md="6" class="my-1">
+                            <b-pagination
+                                v-model="currentPage"
+                                :total-rows="totalRows"
+                                :per-page="perPage"
+                                size="md"
+                                class="my-0"
+                            ></b-pagination>
+                        </b-col>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--/.row-->
     </div>
-    <!--/.row-->
-  </div>
 </template>
 
 <script>
+import {
+    BTable,
+    BCard,
+    BRow,
+    BButton,
+    BCol,
+    BFormGroup,
+    BInputGroup,
+    BFormInput,
+    BInputGroupAppend,
+    BPagination
+} from "bootstrap-vue";
 export default {
-  data: function() {
-    return {
-      books: []
-    };
-  },
-  mounted() {
-    var app = this;
-    axios
-      .get("/api/v1/books")
-      .then(function(res) {
-        app.books = res.data;
-        console.log(app.books);
-      })
-      .catch(function(e) {
-        throw e;
-      });
-  },
-  methods: {
-    deleteEntry(id, index) {
-      if (confirm("Do you really want to delete it?")) {
+    components: {
+        BTable,
+        BCard,
+        BRow,
+        BButton,
+        BCol,
+        BFormGroup,
+        BInputGroup,
+        BFormInput,
+        BInputGroupAppend,
+        BPagination
+    },
+    data: function() {
+        return {
+            totalRows: 1,
+            currentPage: 1,
+            perPage: 5,
+            sortBy: "loan_date",
+            sortDesc: true,
+            filter: null,
+            filterOn: [],
+            fields: [
+                { key: "index", label: "#" },
+                { key: "image", label: "Ảnh mô tả" },
+                { key: "book_name", label: "Tên sách", sortable: true },
+                {
+                    key: "author.author_name",
+                    label: "Tên tác giả",
+                    sortable: true
+                },
+                {
+                    key: "publisher.publisher_name",
+                    label: "Tên nhà xuất bản",
+                    sortable: true
+                },
+                {
+                    key: "has_ebook",
+                    label: "Ebook",
+                    sortable: true
+                },
+                { key: "edit", label: "Sửa" },
+                { key: "delete", label: "Xóa" }
+            ],
+            books: []
+        };
+    },
+    mounted() {
         var app = this;
         axios
-          .delete("/api/v1/books/" + id)
-          .then(function(resp) {
-            app.books.splice(index, 1);
-          })
-          .catch(function(resp) {
-            alert("Could not delete book");
-          });
-      }
+            .get("/api/v1/books")
+            .then(function(res) {
+                app.books = res.data;
+                app.totalRows = app.books.length
+                console.log(app.books);
+            })
+            .catch(function(e) {
+                throw e;
+            });
+    },
+    methods: {
+        deleteEntry(id, index) {
+            if (confirm("Do you really want to delete it?")) {
+                var app = this;
+                axios
+                    .delete("/api/v1/books/" + id)
+                    .then(function(resp) {
+                        app.books.splice(index, 1);
+                    })
+                    .catch(function(resp) {
+                        alert("Could not delete book");
+                    });
+            }
+        }
     }
-  }
 };
 </script>
 
-<style>
-</style>
+<style></style>

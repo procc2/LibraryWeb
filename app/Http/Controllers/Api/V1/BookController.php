@@ -20,7 +20,7 @@ class BookController extends Controller
      */
     public function index()
     {
-        return Book::with('author:author_id,author_name', 'publisher:publisher_id,publisher_name', 'images:book_id,name', 'categories:category_name')->get();
+        return Book::with('author:author_id,author_name', 'publisher:publisher_id,publisher_name', 'images:book_id,name', 'ebooks', 'categories:category_name')->get();
     }
 
     /**
@@ -40,6 +40,7 @@ class BookController extends Controller
     public function store(Request $request)
     {
         if (Auth::user()->can('update-book')) {
+            return "abcd";
             $book = Book::create($request->all());
             $categoryIds = $request->input('categoryIds');
             foreach ($categoryIds as $categoryId) {
@@ -57,11 +58,15 @@ class BookController extends Controller
      */
     public function show($id)
     {
-        if (Auth::user()->can('view-book')) {
+        if (Auth::check()) {
             $book = Book::with('author:author_id,author_name', 'publisher:publisher_id,publisher_name', 'images', 'ebooks', 'categories:category_name', 'comments', 'comments.user:name,user_id')->findOrFail($id);
             $book->setAttribute("categoryIds", $book->categories()->get());
 
             return $book;
+        }else{
+            return response()->json([
+                'message' => 'Unauthorized.'
+            ], 401);
         }
     }
 

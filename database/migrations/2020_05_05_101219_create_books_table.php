@@ -19,8 +19,8 @@ class CreateBooksTable extends Migration
             $table->string('book_description')->nullable();
             $table->integer('author_id')->unsigned()->index();
             $table->integer('publisher_id')->unsigned()->index();
-            $table->boolean('is_on_load');
             $table->boolean('is_special')->default(false);
+            $table->integer('remaining_stock')->default(1);
             $table->timestamps();
 
             $table->foreign('publisher_id')->references('publisher_id')->on('publishers');

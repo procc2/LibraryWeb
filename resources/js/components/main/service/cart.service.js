@@ -3,7 +3,8 @@ import axios from 'axios';
 export const cartService = {
     addItem,
     removeItem,
-    getItemByUser
+    getItemByUser,
+    removeAllItem,
     
 };
 
@@ -21,18 +22,6 @@ function addItem(item) {
     });
     
 
-    // fetch(`${config.apiUrl}/users/authenticate`, requestOptions)
-    //     .then(handleResponse)
-    //     .then(user => {
-    //         // addItem thành công nếu có một token jwt trong response
-    //         if (user.token) {
-    //             // lưu dữ liệu user và token jwt vào local storage để giữ user được log in trong page
-    //             localStorage.setItem('user', JSON.stringify(user));
-    //         }
-
-    //         return user;
-    //     });
-
 }
 
 function getItemByUser(userId) {
@@ -43,9 +32,23 @@ function getItemByUser(userId) {
         }
 
 function removeItem(id) {
-    // xoá user từ local storage để log out
     return axios
     .delete("/api/v1/carts/" + id)
+    .then(function(resp) {
+        console.log(resp);
+    })
+    .catch(function(e) {
+        console.log(e.response);
+    });
+}
+
+function removeAllItem(userId) {
+    return axios
+    .delete("/api/v1/userCarts", {
+        data:{
+            userId
+        }
+    })
     .then(function(resp) {
         console.log(resp);
     })

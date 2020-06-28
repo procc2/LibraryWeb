@@ -9,7 +9,9 @@
                             <table>
                                 <thead>
                                     <tr class="title-top">
-                                        <th class="product-thumbnail">Hình ảnh</th>
+                                        <th class="product-thumbnail">
+                                            Hình ảnh
+                                        </th>
                                         <th class="product-name">Sách</th>
                                         <th class="product-price">Đặc biệt</th>
                                         <th class="product-quantity">
@@ -52,11 +54,19 @@
                                         </td>
                                         <td class="product-price">
                                             <span class="amount">
-                                            {{item.is_special ? "Đúng" : "Không"}}
+                                                {{
+                                                    item.is_special
+                                                        ? "Đúng"
+                                                        : "Không"
+                                                }}
                                             </span>
                                         </td>
                                         <td class="product-quantity">
-                                            <input type="number" value="1" disabled/>
+                                            <input
+                                                type="number"
+                                                value="1"
+                                                disabled
+                                            />
                                         </td>
                                         <td class="product-remove">
                                             <a
@@ -99,13 +109,13 @@
                                 <li>Thời gian mượn</li>
                             </ul>
                             <ul class="cart__total__tk">
-                                <li>{{items.length}}</li>
+                                <li>{{ items.length }}</li>
                                 <li>60 ngày</li>
                             </ul>
                         </div>
                         <div class="cart__total__amount">
                             <span>Hạn đến lấy </span>
-                            <span>{{deadLine}}</span>
+                            <span>{{ deadLine }}</span>
                         </div>
                     </div>
                 </div>
@@ -123,35 +133,34 @@ export default {
         ...mapState("account", ["user"])
     },
     data: function() {
-         return{
-             deadLine : ""
-         }
-     },
-    created(){
-        this.getNow()
-    }
-     ,
+        return {
+            deadLine: ""
+        };
+    },
+    created() {
+        this.getNow();
+    },
     methods: {
-        ...mapActions("cart", ["removeProduct"]),
+        ...mapActions("cart", ["removeProduct", "removeAllProduct"]),
         addBorrowRequest() {
             var app = this;
             let options = {
-                okText: 'Xác nhận',
-                cancelText: 'Hủy',
-                animation: 'zoom', // Available: "zoom", "bounce", "fade"
+                okText: "Xác nhận",
+                cancelText: "Hủy",
+                animation: "zoom" // Available: "zoom", "bounce", "fade"
             };
             this.$dialog
-                .confirm('Bạn chắc chắn muốn mượn ?',options)
+                .confirm("Bạn chắc chắn muốn mượn ?", options)
                 .then(function(dialog) {
-                    console.log('Clicked on proceed');
+                    console.log("Clicked on proceed");
                     app.requestLoan();
                 })
                 .catch(function(e) {
                     console.log(e);
-                    console.log('Clicked on cancel');
+                    console.log("Clicked on cancel");
                 });
         },
-        requestLoan(){
+        requestLoan() {
             var app = this;
             var loan = {
                 loan_is_active: "0",
@@ -160,6 +169,7 @@ export default {
             var bookIds = app.items.map(function(item) {
                 return item.book_id;
             });
+            app.removeAllProduct();
 
             axios
                 .post("/api/v1/loans", loan)
@@ -191,10 +201,15 @@ export default {
                 });
         },
         getNow: function() {
-                    const today = new Date();
-                    const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+ (today.getDate()+3);
-                    this.deadLine = date;
-                }
+            const today = new Date();
+            const date =
+                today.getFullYear() +
+                "-" +
+                (today.getMonth() + 1) +
+                "-" +
+                (today.getDate() + 3);
+            this.deadLine = date;
+        }
     }
 };
 </script>

@@ -342,6 +342,26 @@
     }
     cartToggler();
 
+/*============= List Toggler ==============*/
+function listToggler() {
+  var trigger = $('.listbox_active'),
+    container = $('.minilist__active');
+  trigger.on('click', function (e) {
+    e.preventDefault();
+    container.toggleClass('is-visible');
+
+  });
+  trigger.on('click', function (e) {
+    e.preventDefault();
+    container.toggleClass('');
+
+  });
+  $('.micart__close').on('click', function () {
+    container.removeClass('is-visible');
+  });
+}
+listToggler();
+
 /*============= Setting Toggler ==============*/
     function settingToggler() {
         var settingTrigger = $('.setting__active'),

@@ -37,17 +37,23 @@ class CartsController extends Controller
      */
     public function store(Request $request)
     {
-        $exist = Cart::where( [
-            'book_id'       => $request->book_id,
-            'user_id'       => $request->user_id,
-        ])->first();
-        if($exist){
-            return response()->json([
-                'message' => 'Duplicated'
-            ], 409);
+        $book = Book::findOrFail($request->book_id);
+        if ($book->remaining_stock > 0) {
+            $exist = Cart::where([
+                'book_id'       => $request->book_id,
+                'user_id'       => $request->user_id,
+            ])->first();
+            if ($exist) {
+                return response()->json([
+                    'message' => 'Duplicated'
+                ], 409);
+            }
+            $cart = Cart::create($request->all());
+            return $cart;
         }
-        $cart = Cart::create($request->all());
-        return $cart;
+        return response()->json([
+            'message' => 'Out of stock'
+        ], 200);
     }
 
     /**
@@ -58,7 +64,7 @@ class CartsController extends Controller
      */
     public function show($id)
     {
-        $carts = Book::with('cart','images:name,book_id')->whereHas('cart', function ($query) use ($id) {
+        $carts = Book::with('cart', 'images:name,book_id')->whereHas('cart', function ($query) use ($id) {
             $query->where('user_id', '=', $id);
         })->get();
         return $carts;
@@ -96,8 +102,13 @@ class CartsController extends Controller
     public function destroy($id)
     {
         $cart = Cart::findOrFail($id);
-       $cart->delete();
-       return '';
+        $cart->delete();
+        return '';
     }
 
+    public function destroyAll(Request $request)
+    {
+        Cart::where('user_id',$request->userId)->delete();
+        return '';
+    }
 }

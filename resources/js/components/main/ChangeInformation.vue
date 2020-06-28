@@ -7,9 +7,26 @@
                         <h3 class="wedget__title">Tài khoản</h3>
                         <ul>
                             <li>
-                                <a href="javascript:void(0)" v-on:click="screen = 0">Thay đổi thông tin người đọc </a>
+                                <a
+                                    href="javascript:void(0)"
+                                    v-on:click="screen = 0"
+                                    >Thay đổi thông tin người đọc
+                                </a>
                             </li>
-                            <li><a href="javascript:void(0)" v-on:click="screen = 1" >Đổi password </a></li>
+                            <li>
+                                <a
+                                    href="javascript:void(0)"
+                                    v-on:click="screen = 1"
+                                    >Đổi password
+                                </a>
+                            </li>
+                            <li>
+                                <a
+                                    href="javascript:void(0)"
+                                    v-on:click="initCardView()"
+                                    >Thẻ
+                                </a>
+                            </li>
                             <li><a href="javascript:void(0)">... </a></li>
                         </ul>
                     </aside>
@@ -94,6 +111,66 @@
                     <p class="form-messege" />
                 </div>
             </div>
+            <div class="col-lg-9 col-12 order-1 order-lg-2" v-if="screen == 2">
+                <div class="contact-form-wrap">
+                    <h2 class="contact__title">Thẻ của bạn</h2>
+                    <div v-if="!card && typeof createStatus === 'undefined' ">
+                    <p >
+                        Bạn chưa có thẻ để mượn sách thư viện. Bạn có muốn tạo
+                        mới thẻ không ?
+                    </p>
+                    <div class="contact-btn" >
+                        <button v-on:click="createCard()">Tạo thẻ</button>
+                    </div>
+                    </div>
+                    <div class="checkout_info" v-if="!card && createStatus !== undefined && createStatus != 1">
+                        <span>{{createStatus == 0 ? "Đang tiến trình tạo thẻ" : "Không tạo được thẻ"}} </span>
+                        <a class="showcoupon" href="#"
+                            >{{createStatus == 0 ? "Vui lòng chờ thư viện tạo thẻ cho bạn" : "Có vấn đề khi tạo thẻ cho bạn hoặc bạn không được cho phép tạo thẻ !!!"}}</a
+                        >
+                    </div>
+                    <div class="col-lg-4 col-12 md-mt-40 sm-mt-40" v-if="card">
+                        <div class="wn__address">
+                            <div class="wn__addres__wreapper">
+                                <div class="single__address">
+                                    <i class="icon-credit-card icons"></i>
+                                    <div class="content">
+                                        <span>Số thẻ:</span>
+                                        <p>{{ card.id }}</p>
+                                    </div>
+                                </div>
+
+                                <div class="single__address">
+                                    <i class="icon-user icons"></i>
+                                    <div class="content">
+                                        <span>Tên:</span>
+                                        <p>{{ user.name }}</p>
+                                    </div>
+                                </div>
+
+                                <div class="single__address">
+                                    <i class="icon-envelope icons"></i>
+                                    <div class="content">
+                                        <span>Địa chỉ Email:</span>
+                                        <p>{{ user.email }}</p>
+                                    </div>
+                                </div>
+
+                                <div class="single__address">
+                                    <i class="icon-globe icons"></i>
+                                    <div class="content">
+                                        <span>Loại thẻ:</span>
+                                        <p>Thẻ mượn sách</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-output">
+                    <p class="form-messege" />
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -107,6 +184,8 @@ export default {
             newPassword: "",
             passwordConfirm: "",
             screen: 0,
+            card: "",
+            createStatus: ""
         };
     },
     computed: {
@@ -138,9 +217,48 @@ export default {
                 if (res.status == "200") {
                     this.$dialog.alert("Bạn đã sửa thành công ", options);
                 } else {
-                    this.$dialog.alert("Sửa thất bại !! Sai thông tin cần thay đổi", options);
+                    this.$dialog.alert(
+                        "Sửa thất bại !! Sai thông tin cần thay đổi",
+                        options
+                    );
                 }
             });
+        },
+        initCardView() {
+            var app = this;
+            axios.get("api/v1/userRequests/" + this.user.user_id).then(res => {
+                console.log(res);
+                app.createStatus = res.data.status;
+                app.screen = 2;
+            })
+
+            axios.get("api/v1/cards/" + this.user.user_id).then(res => {
+                app.card = res.data;
+            });
+        },
+        createCard() {
+            var app = this;
+            let options = {
+                okText: "Xác nhận",
+                cancelText: "Hủy",
+                animation: "fade" // Available: "zoom", "bounce", "fade"
+            };
+            app.$dialog
+                .confirm("Bạn xác nhận muốn tạo thẻ ?", options)
+                .then(function(dialog) {
+                    var userReq = {
+                        user_id: app.user.user_id,
+                        request_type: "create-card",
+                        status : 0
+                    };
+                    axios.post("api/v1/userRequests", userReq).then(res => {
+                        app.initCardView();
+                    });
+                })
+                .catch(function(e) {
+                    console.log(e);
+                    console.log("Clicked on cancel");
+                });
         }
     }
 };

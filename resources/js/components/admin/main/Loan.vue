@@ -24,109 +24,43 @@
             <div class="col-lg-12">
                 <div class="panel panel-default">
                     <div class="panel-body" style="position: relative;">
-                        <!-- <table class="table table-bordered table-hover">
-                            <thead>
-                                <tr>
-                                    <th data-sortable="true">#</th>
-                                    <th data-sortable="true">Sách</th>
-                                    <th data-sortable="true">Người mượn</th>
-                                    <th data-sortable="true">Ngày mượn</th>
-                                    <th data-sortable="true">Tình trạng</th>
-                                    <th data-sortable="true">Phê duyệt</th>
-                                    <th data-sortable="true">Trả sách</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr
-                                v-for="(loan, index) in loans" :key="index"
-                                class="clickable" data-toggle="collapse" data-target="#group-of-rows-1" aria-expanded="false" aria-controls="group-of-rows-1"
-                                >
-                                    <th scope="row">{{ index + 1 }}</th>
-                                    <td><i class="fa fa-plus" aria-hidden="true"></i></td>
-                                    <td>{{ loan.user.name }}</td>
-                                    <td>{{ loan.loan_date }}</td>
-                                    <td>{{ status[loan.loan_is_active] }}</td>
-                                    <td>
-                                        <a
-                                            href="javascript:void(0)"
-                                            v-on:click="
-                                                approve(
-                                                    loan.id,
-                                                    loan.loan_is_active,
-                                                    1
-                                                )
-                                            "
+                        <b-col lg="6" class="my-1">
+                            <b-form-group
+                                label="Filter"
+                                label-cols-md="3"
+                                label-align-md="right"
+                                label-size="md"
+                                label-for="filterInput"
+                                class="mb-0"
+                            >
+                                <b-input-group size="md">
+                                    <b-form-input
+                                        v-model="filter"
+                                        type="search"
+                                        id="filterInput"
+                                        placeholder="Type to Search"
+                                    ></b-form-input>
+                                    <b-input-group-append>
+                                        <b-button
+                                            :disabled="!filter"
+                                            @click="filter = ''"
+                                            >Clear</b-button
                                         >
-                                            <span>
-                                                <svg
-                                                    class="glyph stroked checkmark"
-                                                    style="width: 20px;height: 20px;"
-                                                >
-                                                    <use
-                                                        xlink:href="#stroked-checkmark"
-                                                    />
-                                                </svg>
-                                            </span>
-                                        </a>
-                                        <a href="javascript:void(0)">
-                                            <span>
-                                                <svg
-                                                    class="glyph stroked cancel"
-                                                    style="width: 20px;height: 20px;"
-                                                >
-                                                    <use
-                                                        xlink:href="#stroked-cancel"
-                                                    />
-                                                </svg>
-                                            </span>
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a
-                                            href="javascript:void(0)"
-                                            v-on:click="
-                                                approve(
-                                                    loan.id,
-                                                    loan.loan_is_active,
-                                                    2
-                                                )
-                                            "
-                                        >
-                                            <span>
-                                                <svg
-                                                    class="glyphicon glyphicon-download"
-                                                    style="width: 20px;height: 20px;"
-                                                >
-                                                    <use
-                                                        xlink:href="#stroked-download"
-                                                    />
-                                                </svg>
-                                            </span>
-                                        </a>
-                                    </td>
-                                </tr>
-                            </tbody>
-                            <b-table></b-table>
-                            <tbody id="group-of-rows-1" class="collapse">
-                                <tr>
-                                    <td>- child row</td>
-                                    <td>data 1</td>
-                                    <td>data 1</td>
-                                    <td>data 1</td>
-                                </tr>
-                                <tr>
-                                    <td>- child row</td>
-                                    <td>data 1</td>
-                                    <td>data 1</td>
-                                    <td>data 1</td>
-                                </tr>
-                            </tbody>
-                        </table> -->
+                                    </b-input-group-append>
+                                </b-input-group>
+                            </b-form-group>
+                        </b-col>
                         <b-table
                             :items="loans"
                             :fields="fields"
+                            :sort-by.sync="sortBy"
+                            :sort-desc.sync="sortDesc"
+                            :current-page="currentPage"
+                            :per-page="perPage"
+                            sort-icon-left
                             striped
                             responsive="sm"
+                            :filter="filter"
                         >
                             <template v-slot:cell(index)="row">
                                 {{ row.index + 1 }}
@@ -143,97 +77,107 @@
                                     {{ row.detailsShowing ? "Hide" : "Show" }}
                                     Details
                                 </b-button>
-
                             </template>
 
                             <template v-slot:cell(approve)="row">
                                 <a
-                                            href="javascript:void(0)"
-                                            v-on:click="
-                                                approve(
-                                                    row.item.id,
-                                                    row.item.loan_is_active,
-                                                    1
-                                                )
-                                            "
+                                    href="javascript:void(0)"
+                                    v-on:click="
+                                        approve(
+                                            row.item.id,
+                                            row.item.loan_is_active,
+                                            1
+                                        )
+                                    "
+                                >
+                                    <span>
+                                        <svg
+                                            class="glyph stroked checkmark"
+                                            style="width: 20px;height: 20px;"
                                         >
-                                            <span>
-                                                <svg
-                                                    class="glyph stroked checkmark"
-                                                    style="width: 20px;height: 20px;"
-                                                >
-                                                    <use
-                                                        xlink:href="#stroked-checkmark"
-                                                    />
-                                                </svg>
-                                            </span>
-                                        </a>
-                                        <a href="javascript:void(0)">
-                                            <span>
-                                                <svg
-                                                    class="glyph stroked cancel"
-                                                    style="width: 20px;height: 20px;"
-                                                >
-                                                    <use
-                                                        xlink:href="#stroked-cancel"
-                                                    />
-                                                </svg>
-                                            </span>
-                                        </a>
+                                            <use
+                                                xlink:href="#stroked-checkmark"
+                                            />
+                                        </svg>
+                                    </span>
+                                </a>
+                                <a href="javascript:void(0)">
+                                    <span>
+                                        <svg
+                                            class="glyph stroked cancel"
+                                            style="width: 20px;height: 20px;"
+                                        >
+                                            <use xlink:href="#stroked-cancel" />
+                                        </svg>
+                                    </span>
+                                </a>
                             </template>
                             <template v-slot:cell(return_book)="row">
                                 <a
-                                            href="javascript:void(0)"
-                                            v-on:click="
-                                                approve(
-                                                    row.item.id,
-                                                    row.item.loan_is_active,
-                                                    2
-                                                )
-                                            "
+                                    href="javascript:void(0)"
+                                    v-on:click="
+                                        approve(
+                                            row.item.id,
+                                            row.item.loan_is_active,
+                                            2
+                                        )
+                                    "
+                                >
+                                    <span>
+                                        <svg
+                                            class="glyphicon glyphicon-download"
+                                            style="width: 20px;height: 20px;"
                                         >
-                                            <span>
-                                                <svg
-                                                    class="glyphicon glyphicon-download"
-                                                    style="width: 20px;height: 20px;"
-                                                >
-                                                    <use
-                                                        xlink:href="#stroked-download"
-                                                    />
-                                                </svg>
-                                            </span>
-                                        </a>
+                                            <use
+                                                xlink:href="#stroked-download"
+                                            />
+                                        </svg>
+                                    </span>
+                                </a>
                             </template>
 
                             <template v-slot:row-details="row">
-                                <b-card v-for="(detail,index) in row.item.details" :key="index">
+                                <b-card
+                                    v-for="(detail, index) in row.item.details"
+                                    :key="index"
+                                >
                                     <b-row class="mb-2">
                                         <b-col sm="3" class="text-sm-right"
                                             ><b>Sách:</b></b-col
                                         >
-                                        <b-col class="text-sm-left">{{ detail.book.book_name }}</b-col>
+                                        <b-col class="text-sm-left">{{
+                                            detail.book.book_name
+                                        }}</b-col>
                                     </b-row>
 
-                                    <b-row class="mb-2"  v-if="detail.book.is_special">
+                                    <b-row
+                                        class="mb-2"
+                                        v-if="detail.book.is_special"
+                                    >
                                         <b-col sm="3" class="text-sm-right"
                                             ><b>Sản phẩm đặc biệt</b></b-col
                                         >
                                     </b-row>
-
-                                    
                                 </b-card>
-                                <b-button
-                                        size="sm"
-                                        @click="row.toggleDetails"
-                                        >Hide Details</b-button
-                                    >
+                                <b-button size="sm" @click="row.toggleDetails"
+                                    >Hide Details</b-button
+                                >
                             </template>
                         </b-table>
-                        <ul class="pagination" style="float: right;">
-                            <!-- <?php
-                    echo $listPage;
-              ?>-->
-                        </ul>
+                        <div>
+                            Sorting By: <b>{{ sortBy }}</b
+                            >, Sort Direction:
+                            <b>{{ sortDesc ? "Descending" : "Ascending" }}</b>
+                        </div>
+                        <b-col sm="7" md="6" class="my-1">
+                            <b-pagination
+                                v-model="currentPage"
+                                :total-rows="totalRows"
+                                :per-page="perPage"
+                                size="md"
+                                class="my-0"
+                            ></b-pagination>
+                        </b-col>
                     </div>
                 </div>
             </div>
@@ -243,21 +187,48 @@
 </template>
 
 <script>
-import { BTable,BCard,BRow,BButton,BCol } from "bootstrap-vue";
+import {
+    BTable,
+    BCard,
+    BRow,
+    BButton,
+    BCol,
+    BFormGroup,
+    BInputGroup,
+    BFormInput,
+    BInputGroupAppend,
+    BPagination
+} from "bootstrap-vue";
 export default {
     components: {
-        BTable,BCard,BRow,BButton,BCol
+        BTable,
+        BCard,
+        BRow,
+        BButton,
+        BCol,
+        BFormGroup,
+        BInputGroup,
+        BFormInput,
+        BInputGroupAppend,
+        BPagination
     },
     data: function() {
         return {
+            totalRows: 1,
+            currentPage: 1,
+            perPage: 10,
+            sortBy: "loan_date",
+            sortDesc: true,
+            filter: null,
+            filterOn: [],
             fields: [
-                {key: "index",label: "#"},
-                {key:"user.name", label: "Tên người mượn"},
-                {key:"loan_date", label: "Ngày mượn"},
-                {key:"loan_is_active", label: "Trạng thái"},
-                {key:"approve", label: "Phê duyệt"},
-                {key:"return_book", label: "Trả sách"},
-                {key:"show_details", label: "Xem thông tin đơn mượn"}
+                { key: "index", label: "#" },
+                { key: "user.name", label: "Tên người mượn", sortable: true },
+                { key: "loan_date", label: "Ngày mượn", sortable: true },
+                { key: "loan_is_active", label: "Trạng thái", sortable: true },
+                { key: "approve", label: "Phê duyệt" },
+                { key: "return_book", label: "Trả sách" },
+                { key: "show_details", label: "Xem thông tin đơn mượn" }
             ],
             loans: [],
             status: {
@@ -277,6 +248,7 @@ export default {
                 .get("/api/v1/loans")
                 .then(function(res) {
                     app.loans = res.data;
+                    app.totalRows = app.loans.length
                 })
                 .catch(function(e) {
                     throw e;

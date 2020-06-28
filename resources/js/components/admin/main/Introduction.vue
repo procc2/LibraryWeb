@@ -28,9 +28,9 @@
                             <p>Hệ thống quản trị này có các chức năng quản lý sau: <br/>
                                 - Quản lý Thành viên
                                 <br/>
-                                - Quản lý Danh mục ấn phẩm
+                                - Quản lý Danh mục thể loại
                                 <br/>
-                                -Quản lý ấn phẩm
+                                - Quản lý ấn phẩm
                                 <br/>
                                 ...</p>
 

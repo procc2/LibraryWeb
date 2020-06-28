@@ -3,8 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\FileUpload;
+use Aws\Credentials\Credentials;
+use Aws\S3\S3Client;
 use Illuminate\Http\Request;
 use File;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class FileController extends Controller
@@ -93,18 +97,23 @@ class FileController extends Controller
             if($validator){
             $imageUpload = $request->get('image');
             $name = time() . '.' . explode('/', explode(':', substr($imageUpload, 0, strpos($imageUpload, ';')))[1])[1];
-            $ext = explode('/', mime_content_type($imageUpload))[1];
-            $type = $this->getType($ext);
-            $file = FileUpload::where([
-                ['book_id', $id],
-                ['type','=',$type]
-            ])->first();
-            $old_filename = config('const.book_asset_dir') . $file->type . '/' . $file->name;
-            $new_filename = config('const.book_asset_dir') . $type . '/' . $name;
-            File::delete($old_filename);
-            \Image::make($request->get('image'))->save(config('const.book_asset_dir') . $type . '/' . $name);
-            $file->name = $name;
-            return response()->json($file->save());
+            $data = substr($imageUpload, strpos($imageUpload, ',') + 1);
+            $path = Storage::disk('s3')->put('images/book/'.$name, base64_decode($data), 'public');
+            return $path;
+            // $ext = explode('/', mime_content_type($imageUpload))[1];
+            // $type = $this->getType($ext);
+            // $file = FileUpload::where([
+            //     ['book_id', $id],
+            //     ['type','=',$type]
+            // ])->first();
+            // $old_filename = config('const.book_asset_dir') . $file->type . '/' . $file->name;
+            // $new_filename = config('const.book_asset_dir') . $type . '/' . $name;
+            // File::delete($old_filename);
+            // \Image::make($request->get('image'))->save(config('const.book_asset_dir') . $type . '/' . $name);
+            // $file->name = $name;
+            // return response()->json($file->save());
+
+
             // if (Storage::disk('local')->exists($old_filename)) {
             //     if (Storage::disk('local')->move($old_filename, $new_filename)) {
             //         $file->name = $name;

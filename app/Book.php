@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Book extends Model
 {
     protected $primaryKey = 'book_id';
-    protected $fillable = ['book_name', 'book_description', 'author_id','publisher_id','is_on_loan','is_special'];
+    protected $fillable = ['book_name', 'book_description', 'author_id','publisher_id','remaining_stock','is_special'];
 
     public function categories()
     {

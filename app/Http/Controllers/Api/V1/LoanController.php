@@ -59,7 +59,8 @@ class LoanController extends Controller
      */
     public function show($id)
     {
-        //
+        return Loan::with('user:name,user_id','details')->where('user_id',$id)->get();
+
     }
 
     /**

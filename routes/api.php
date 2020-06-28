@@ -48,6 +48,7 @@ Route::group(['prefix' => '/v1', 'namespace' => 'Api\V1', 'as' => 'api.','middle
     Route::put("users","UserController@updatePassword");
     Route::get('permissions', 'PermissionsController@index');
     Route::post('permissions', 'PermissionsController@store');
+    Route::delete('userCarts', 'CartsController@destroyAll');
     Route::resource('roles', 'RolesController', ['except' => ['create', 'edit']]);
     Route::resource('comments', 'CommentsController', ['except' => ['create', 'edit']]);
     });
@@ -55,6 +56,8 @@ Route::group(['prefix' => '/v1', 'namespace' => 'Api\V1', 'as' => 'api.','middle
     Route::resource('books', 'BookController', ['except' => ['create', 'edit']]);
     Route::resource('categories', 'CategoryController', ['except' => ['create', 'edit']]);
 
+    Route::resource('userRequests', 'UserRequestsController', ['except' => ['create', 'edit']]);
+    Route::resource('cards', 'CardsController', ['except' => ['create', 'edit']]);
 });
 
 Route::post('/files', 'FileController@store');

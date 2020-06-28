@@ -1,74 +1,4 @@
 <template>
-    <!-- <div>
-        <div id="product">
-            Yêu thích
-
-            <span
-                class="glyphicon glyphicon-heart"
-                aria-hidden="true"
-                style="font-size: 36px;color: indianred;"
-                v-if="isFavorite"
-                v-on:click="toggleLike()"
-            ></span>
-            <span
-                class="glyphicon glyphicon-heart-empty"
-                aria-hidden="true"
-                style="font-size: 36px;color: indianred;"
-                v-if="!isFavorite"
-                v-on:click="toggleLike()"
-            ></span>
-
-            <div
-                id="prd-thumb"
-                class="col-md-6 col-sm-12 col-xs-12 text-center"
-                v-if="book.images"
-            >
-                <img
-                    width="160px"
-                    :src="'/dist/book/image/' + book.images[0].name"
-                />
-            </div>
-            <div id="prd-intro" class="col-md-6 col-sm-12 col-xs-12">
-                <h3></h3>
-                <p>
-                    <span class="sl">Tác giả:</span>
-                    {{ book.author.author_name }}
-                </p>
-                <p>
-                    <span class="sl">Thông tin phụ:</span>
-                    {{ book.book_description }}
-                </p>
-                <p><span class="sl">Tình trạng:</span> {{ book.is_on_loan }}</p>
-
-                <router-link to="/orderBook"
-                    ><button type="button" class="btn btn-danger">
-                        Đặt mượn
-                    </button></router-link
-                >
-            </div>
-            <div
-                id="prd-details"
-                class="col-md-12 col-sm-12 col-xs-12 text-justify"
-            >
-                <p></p>
-            </div>
-        </div>
-
-        <div id="comments" class="col-md-12 col-sm-12 col-xs-12">
-            <ul>
-                <li class="comm-name"></li>
-                <li class="comm-time"></li>
-                <li class="comm-details">
-                    <p></p>
-                </li>
-            </ul>
-        </div>
-        <div id="pagination" class="col-md-12 col-sm-12 col-xs-12">
-            <nav aria-label="Page navigation">
-                <ul class="pagination"></ul>
-            </nav>
-        </div>
-    </div> -->
     <!-- Start main Content -->
     <div class="maincontent bg--white pt--80 pb--55">
         <div class="container">
@@ -171,7 +101,7 @@
                                         <!-- <span>Qty</span>
         									<input id="qty" class="input-text qty" name="qty" min="1" value="1" title="Qty" type="number"> -->
                                         <div
-                                            v-if="book.ebooks.length"
+                                            v-if="book.ebooks"
                                             class="addtocart__actions"
                                         >
                                             <button
@@ -596,125 +526,143 @@
                         <div class="section__title text-center">
                             <h2 class="title__be--2">Related Products</h2>
                         </div>
-                            <carousel
-                                :loop="true"
-                                :navText="navText"
-                                :margin="0"
-                                :nav="true"
-                                :autoplay="false"
-                                :autoplayTimeout="10000"
-                                :items="3"
-                                :dots="false"
-								:lazyLoad="true"
-                                :responsive="{
-                                    0: {
-                                        items: 1
-                                    },
-                                    576: {
-                                        items: 2
-                                    },
-                                    768: {
-                                        items: 3
-                                    },
-                                    1920: {
-                                        items: 3
-                                    }
-                                }"
-                                :key="refreshKey"
-                                class="productcategory__slide--2 arrows_style row mt--60"
+                        <carousel
+                            :loop="true"
+                            :navText="navText"
+                            :margin="0"
+                            :nav="true"
+                            :autoplay="false"
+                            :autoplayTimeout="10000"
+                            :items="3"
+                            :dots="false"
+                            :lazyLoad="true"
+                            :responsive="{
+                                0: {
+                                    items: 1
+                                },
+                                576: {
+                                    items: 2
+                                },
+                                768: {
+                                    items: 3
+                                },
+                                1920: {
+                                    items: 3
+                                }
+                            }"
+                            :key="refreshKey"
+                            class="productcategory__slide--2 arrows_style row mt--60"
+                        >
+                            <!-- Start Single Product -->
+                            <div
+                                class="product product__style--3 col-lg-4 col-md-4 col-sm-6 col-12"
+                                v-for="(book, index) in relatedBooks"
+                                :key="index"
                             >
-                                <!-- Start Single Product -->
-                                <div
-                                    class="product product__style--3 col-lg-4 col-md-4 col-sm-6 col-12" v-for="(book,index) in relatedBooks" :key="index"
-                                >
-                                    <div class="product__thumb">
-                                       <router-link :to="{ name : 'detailProduct', params : {bookId: book.book_id}}" class="first__img"  v-if="book.images[0]"><img :src="'/dist/book/image/'  + book.images[0].name" alt="product image"></router-link>
-                                        <a
-                                            class="second__img animation1"
-                                            href="single-product.html"
-                                            ><img
-                                                src="images/books/2.jpg"
-                                                alt="product image"
-                                        /></a>
-                                        <div class="hot__box">
-                                            <span class="hot-label"
-                                                >BEST SALLER</span
-                                            >
-                                        </div>
+                                <div class="product__thumb">
+                                    <router-link
+                                        :to="{
+                                            name: 'detailProduct',
+                                            params: { bookId: book.book_id }
+                                        }"
+                                        class="first__img"
+                                        v-if="book.images[0]"
+                                        ><img
+                                            :src="
+                                                '/dist/book/image/' +
+                                                    book.images[0].name
+                                            "
+                                            alt="product image"
+                                    /></router-link>
+                                    <a
+                                        class="second__img animation1"
+                                        href="single-product.html"
+                                        ><img
+                                            src="images/books/2.jpg"
+                                            alt="product image"
+                                    /></a>
+                                    <div class="hot__box">
+                                        <span class="hot-label"
+                                            >BEST SALLER</span
+                                        >
                                     </div>
-                                    <div
-                                        class="product__content content--center"
-                                    >
-                                        <h4><router-link :to="{ name : 'detailProduct', params : {bookId: book.book_id}}">{{book.book_name}}</router-link></h4>
-                                        
-                                        <div class="action">
-                                            <div class="actions_inner">
-                                                <ul class="add_to_links">
-                                                    <li>
-                                                        <a
-                                                            class="cart"
-                                                            href="cart.html"
-                                                            ><i
-                                                                class="bi bi-shopping-bag4"
-                                                            ></i
-                                                        ></a>
-                                                    </li>
-                                                    <li>
-                                                        <a
-                                                            class="wishlist"
-                                                            href="wishlist.html"
-                                                            ><i
-                                                                class="bi bi-shopping-cart-full"
-                                                            ></i
-                                                        ></a>
-                                                    </li>
-                                                    <li>
-                                                        <a
-                                                            class="compare"
-                                                            href="#"
-                                                            ><i
-                                                                class="bi bi-heart-beat"
-                                                            ></i
-                                                        ></a>
-                                                    </li>
-                                                    <li>
-                                                        <a
-                                                            data-toggle="modal"
-                                                            title="Quick View"
-                                                            class="quickview modal-view detail-link"
-                                                            href="#productmodal"
-                                                            ><i
-                                                                class="bi bi-search"
-                                                            ></i
-                                                        ></a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="product__hover--content">
-                                            <ul class="rating d-flex">
-                                                <li class="on">
-                                                    <i class="fa fa-star-o"></i>
-                                                </li>
-                                                <li class="on">
-                                                    <i class="fa fa-star-o"></i>
-                                                </li>
-                                                <li class="on">
-                                                    <i class="fa fa-star-o"></i>
+                                </div>
+                                <div class="product__content content--center">
+                                    <h4>
+                                        <router-link
+                                            :to="{
+                                                name: 'detailProduct',
+                                                params: { bookId: book.book_id }
+                                            }"
+                                            >{{ book.book_name }}</router-link
+                                        >
+                                    </h4>
+
+                                    <div class="action">
+                                        <div class="actions_inner">
+                                            <ul class="add_to_links">
+                                                <li>
+                                                    <a
+                                                        class="cart"
+                                                        href="cart.html"
+                                                        ><i
+                                                            class="bi bi-shopping-bag4"
+                                                        ></i
+                                                    ></a>
                                                 </li>
                                                 <li>
-                                                    <i class="fa fa-star-o"></i>
+                                                    <a
+                                                        class="wishlist"
+                                                        href="wishlist.html"
+                                                        ><i
+                                                            class="bi bi-shopping-cart-full"
+                                                        ></i
+                                                    ></a>
                                                 </li>
                                                 <li>
-                                                    <i class="fa fa-star-o"></i>
+                                                    <a class="compare" href="#"
+                                                        ><i
+                                                            class="bi bi-heart-beat"
+                                                        ></i
+                                                    ></a>
+                                                </li>
+                                                <li>
+                                                    <a
+                                                        data-toggle="modal"
+                                                        title="Quick View"
+                                                        class="quickview modal-view detail-link"
+                                                        href="#productmodal"
+                                                        ><i
+                                                            class="bi bi-search"
+                                                        ></i
+                                                    ></a>
                                                 </li>
                                             </ul>
                                         </div>
                                     </div>
+                                    <div class="product__hover--content">
+                                        <ul class="rating d-flex">
+                                            <li class="on">
+                                                <i class="fa fa-star-o"></i>
+                                            </li>
+                                            <li class="on">
+                                                <i class="fa fa-star-o"></i>
+                                            </li>
+                                            <li class="on">
+                                                <i class="fa fa-star-o"></i>
+                                            </li>
+                                            <li>
+                                                <i class="fa fa-star-o"></i>
+                                            </li>
+                                            <li>
+                                                <i class="fa fa-star-o"></i>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
-                                <!-- Start Single Product -->
-                                
-                            </carousel>
+                            </div>
+                            <!-- Start Single Product -->
+                        </carousel>
                     </div>
                 </div>
                 <div class="col-lg-3 col-12 md-mt-40 sm-mt-40">
@@ -741,21 +689,6 @@
                                         ></router-link
                                     >
                                 </li>
-                                <!-- <li><a href="#">Business <span>(4)</span></a></li>
-        							<li><a href="#">Cookbooks <span>(6)</span></a></li>
-        							<li><a href="#">Health & Fitness <span>(7)</span></a></li>
-        							<li><a href="#">History <span>(8)</span></a></li>
-        							<li><a href="#">Mystery <span>(9)</span></a></li>
-        							<li><a href="#">Inspiration <span>(13)</span></a></li>
-        							<li><a href="#">Romance <span>(20)</span></a></li>
-        							<li><a href="#">Fiction/Fantasy <span>(22)</span></a></li>
-        							<li><a href="#">Self-Improvement <span>(13)</span></a></li>
-        							<li><a href="#">Humor Books <span>(17)</span></a></li>
-        							<li><a href="#">Harry Potter <span>(20)</span></a></li>
-        							<li><a href="#">Land of Stories <span>(34)</span></a></li>
-        							<li><a href="#">Kids' Music <span>(60)</span></a></li>
-        							<li><a href="#">Toys & Games <span>(3)</span></a></li>
-        							<li><a href="#">hoodies <span>(3)</span></a></li> -->
                             </ul>
                         </aside>
                         <aside class="wedget__categories pro--range">
@@ -836,7 +769,7 @@
             </div>
         </div>
         <BookViewer
-            v-if="book.ebooks.length"
+            v-if="book.ebooks"
             v-bind:ebook="book.ebooks"
             :key="book.book_id"
         />
@@ -850,12 +783,16 @@ import { mapState, mapActions } from "vuex";
 import BookViewer from "./BookViewer";
 export default {
     components: {
-        BookViewer,carousel
+        BookViewer,
+        carousel
     },
     data: function() {
         return {
-			refreshKey: 0,
-			navText: ['<i class="zmdi zmdi-chevron-left"></i>', '<i class="zmdi zmdi-chevron-right"></i>' ],
+            refreshKey: 0,
+            navText: [
+                '<i class="zmdi zmdi-chevron-left"></i>',
+                '<i class="zmdi zmdi-chevron-right"></i>'
+            ],
             book: {
                 book_name: "",
                 book_image: "",
@@ -911,8 +848,8 @@ export default {
                     .then(function(res) {
                         app.relatedBooks = res.data.filter(
                             x => x.book_id != app.book.book_id
-						);
-						app.refreshKey ++;
+                        );
+                        app.refreshKey++;
                     })
                     .catch(function(e) {
                         throw e;
@@ -938,23 +875,30 @@ export default {
                 app.$modal.show("login");
                 return null;
             } else {
-                var cartDetail = {
-                    user_id: app.user.user_id,
-                    book_id: app.book.book_id
+                let options = {
+                    okText: "Đóng",
+                    animation: "zoom"
                 };
-                var book = app.book;
-                app.addProductToCart({ cartDetail, book }).then(res => {
-                    let options = {
-                        okText: "Đóng",
-                        animation: "zoom"
+                if (app.book.remaining_stock > 0) {
+                    var cartDetail = {
+                        user_id: app.user.user_id,
+                        book_id: app.book.book_id
                     };
+                    var book = app.book;
+                    app.addProductToCart({ cartDetail, book }).then(res => {
+                        this.$dialog.alert(
+                            res
+                                ? "Bạn đã thêm vào giỏ hàng thành công !"
+                                : "Thêm vào giỏ hàng thất bại ! Bạn đã có sản phẩm này trong giỏ hàng",
+                            options
+                        );
+                    });
+                } else {
                     this.$dialog.alert(
-                        res
-                            ? "Bạn đã thêm vào giỏ hàng thành công !"
-                            : "Thêm vào giỏ hàng thất bại ! Bạn đã có sản phẩm này trong giỏ hàng",
-                        options
-                    );
-                });
+                                 "Thêm vào giỏ hàng thất bại ! Hiện tại sách này cho mượn không khả dụng, Bạn hãy thử lại vào 1 khoảng thời gian khác",
+                            options
+                        );
+                }
             }
         },
         toggleLike() {
