@@ -48,7 +48,13 @@ class CardsController extends Controller
      */
     public function show($id)
     {
-        return Card::where('user_id',$id)->first();
+        $card = Card::where('user_id',$id)->first();
+        if ($card === null){
+            return response()->json([
+                'message' => 'Not Found'
+            ], 404);
+        }
+        return $card;
     }
 
     /**

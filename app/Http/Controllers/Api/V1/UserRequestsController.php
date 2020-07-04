@@ -48,7 +48,13 @@ class UserRequestsController extends Controller
      */
     public function show($id)
     {
-        return UserRequest::where('user_id',$id)->first();
+        $userReq = UserRequest::where('user_id',$id)->first();
+        if ($userReq === null){
+            return response()->json([
+                'message' => 'Not Found'
+            ], 404);
+        }
+        return $userReq;
     }
 
     /**

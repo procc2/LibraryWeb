@@ -226,7 +226,13 @@ export default {
                 console.log(res);
                 app.createStatus = res.data.status;
                 app.screen = 2;
-            })
+            }).catch(function(e) {
+                if(e.response.status == 404){
+                    app.screen = 2;
+                    app.createStatus = undefined;
+                }
+                throw e;
+            });
 
             axios.get("api/v1/cards/" + this.user.user_id).then(res => {
                 app.card = res.data;
