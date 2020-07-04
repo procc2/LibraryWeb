@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="container" style="padding-top:5%;">
         <div class="row">
             <div class="col-lg-3 col-12 order-2 order-lg-1 md-mt-40 sm-mt-40">
                 <div class="shop__sidebar">
@@ -34,11 +34,9 @@
             </div>
             <div class="col-lg-9 col-12 order-1 order-lg-2" v-if="screen == 0">
                 <div class="contact-form-wrap">
-                    <h2 class="contact__title">Get in touch</h2>
+                    <h2 class="contact__title">Chỉnh sửa tên</h2>
                     <p>
-                        Nam liber tempor cum soluta nobis eleifend option congue
-                        nihil imperdiet doming id quod mazim placerat facer
-                        possim assum.
+                        Bạn có thể thay đổi tên của mình bao nhiêu lần tùy ý. Tuy nhiên, bạn không được đổi tên quá 3 lần trong một phút.
                     </p>
                     <form v-on:submit.prevent="updateUser()">
                         <!-- <div class="single-contact-form space-between">
@@ -70,11 +68,9 @@
             </div>
             <div class="col-lg-9 col-12 order-1 order-lg-2" v-if="screen == 1">
                 <div class="contact-form-wrap">
-                    <h2 class="contact__title">Get in touch</h2>
+                    <h2 class="contact__title">Thay đổi mật khẩu</h2>
                     <p>
-                        Nam liber tempor cum soluta nobis eleifend option congue
-                        nihil imperdiet doming id quod mazim placerat facer
-                        possim assum.
+                        Bạn có thể thay đổi mật khẩu của bạn vì lý do bảo mật của chính bạn.
                     </p>
                     <form v-on:submit.prevent="updatePass()">
                         <div class="single-contact-form space-between">

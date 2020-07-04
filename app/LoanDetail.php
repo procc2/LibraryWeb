@@ -12,4 +12,7 @@ class LoanDetail extends Model
     {
         return $this->hasOne(Book::class,'book_id','book_id');
     }
+    public function loan(){
+        return $this->belongsTo(Loan::class,'loan_id');
+    }
 }

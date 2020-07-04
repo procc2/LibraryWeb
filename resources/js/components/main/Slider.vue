@@ -3,7 +3,7 @@
     <carousel
         :loop="true"
         :navText="navText"
-        :autoplay="false"
+        :autoplay="true"
         :margin="0"
         :autoplayTimeout="10000"
         :dots="false"

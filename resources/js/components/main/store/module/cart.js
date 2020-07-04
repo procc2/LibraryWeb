@@ -24,8 +24,11 @@ const actions = {
         if (book.inventory || 1) {
           const cartItem = state.items.find(item => item.book_id === book.book_id)
           if (!cartItem) {
-            commit('pushProductToCart',{item : book});
+            
             return cartService.addItem(cartDetail).then((res)=>{
+              book.cart = [];
+              book.cart.id = res.id;
+              commit('pushProductToCart',{item : book});
               return res;
             })
             

@@ -53,11 +53,11 @@
                                             </td>
                                             <td class="product-stock-status">
                                                 <span class="wishlist-in-stock"
-                                                    >Có hàng</span
+                                                    >{{book.remaining_stock > 0 ? "Có hàng" : "Hết hàng"}}</span
                                                 >
                                             </td>
                                             <td class="product-add-to-cart">
-                                                <a href="#"> Thêm vào giỏ</a>
+                                                <a href="javascript:void(0)" v-on:click="addItemToCart(book)"> Thêm vào giỏ</a>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -102,7 +102,40 @@ export default {
                 });
     },
     methods: {
-        ...mapActions("account", ["getLoginState"])
+        ...mapActions("account", ["getLoginState"]),
+        ...mapActions("cart", ["addProductToCart"]),
+        addItemToCart(item) {
+            var app = this;
+            if (!app.status.loggedIn) {
+                app.$modal.show("login");
+                return null;
+            } else {
+                let options = {
+                    okText: "Đóng",
+                    animation: "zoom"
+                };
+                if (item.remaining_stock > 0) {
+                    var cartDetail = {
+                        user_id: app.user.user_id,
+                        book_id: item.book_id
+                    };
+                    var book = item;
+                    app.addProductToCart({ cartDetail, book }).then(res => {
+                        this.$dialog.alert(
+                            res
+                                ? "Bạn đã thêm vào giỏ hàng thành công !"
+                                : "Thêm vào giỏ hàng thất bại ! Bạn đã có sản phẩm này trong giỏ hàng",
+                            options
+                        );
+                    });
+                } else {
+                    this.$dialog.alert(
+                                 "Thêm vào giỏ hàng thất bại ! Hiện tại sách này cho mượn không khả dụng, Bạn hãy thử lại vào 1 khoảng thời gian khác",
+                            options
+                        );
+                }
+            }
+        },
     }
 };
 </script>

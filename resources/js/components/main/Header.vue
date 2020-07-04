@@ -120,7 +120,7 @@
                                             <router-link
                                                 :to="{
                                                     name: 'grid',
-                                                    params: {
+                                                    query: {
                                                         categoryId:
                                                             category.category_id
                                                     }
@@ -240,7 +240,7 @@
                                 <router-link :to="{ name: 'about' }"
                                     >Giới thiệu</router-link
                                 >
-                                <div class="megamenu dropdown">
+                                <!-- <div class="megamenu dropdown">
                                     <ul class="item item01">
                                         <li>
                                             <a href="about.html">About Page</a>
@@ -289,13 +289,13 @@
                                             <a href="team.html">Team Page</a>
                                         </li>
                                     </ul>
-                                </div>
+                                </div> -->
                             </li>
                             <li class="drop">
                                 <router-link :to="{ name: 'blog' }"
                                     >Blog</router-link
                                 >
-                                <div class="megamenu dropdown">
+                                <!-- <div class="megamenu dropdown">
                                     <ul class="item item01">
                                         <li>
                                             <a href="blog.html">Blog Page</a>
@@ -306,7 +306,7 @@
                                             >
                                         </li>
                                     </ul>
-                                </div>
+                                </div> -->
                             </li>
                             <li>
                                 <router-link :to="{ name: 'contact' }"
@@ -345,7 +345,7 @@
                                     <div
                                         class="items-total d-flex justify-content-between"
                                     >
-                                        <span>{{ items.length }} đơn</span>
+                                        <span>{{ loanList.length }} đơn</span>
                                         <span>Đơn đặt</span>
                                     </div>
                                     <!-- <div class="total_amount text-right">
@@ -361,7 +361,6 @@
                                                 v-for="item in loanList"
                                                 :key="item.id"
                                             >
-                                                
                                                 <div class="content">
                                                     <h6>
                                                         <router-link
@@ -369,23 +368,30 @@
                                                                 name:
                                                                     'loanHistory',
                                                                 params: {
-                                                                    loanId : item.id
+                                                                    loanId:
+                                                                        item.id
                                                                 }
                                                             }"
-                                                            >Mã đơn : {{
+                                                            >Mã đơn :
+                                                            {{
                                                                 item.id
                                                             }}</router-link
                                                         >
                                                     </h6>
-                                                    <span class="prize"
-                                                        >{{status[item.loan_is_active]}}</span
-                                                    >
+                                                    <span class="prize">{{
+                                                        loanStatus[
+                                                            item.loan_is_active
+                                                        ]
+                                                    }}</span>
                                                     <div
                                                         class="product_prize d-flex justify-content-between"
                                                     >
                                                         <span class="qun"
                                                             >Số sách:
-                                                            {{item.details.length}}</span
+                                                            {{
+                                                                item.details
+                                                                    .length
+                                                            }}</span
                                                         >
                                                         <ul
                                                             class="d-flex justify-content-end"
@@ -397,7 +403,6 @@
                                                                     ></i
                                                                 ></a>
                                                             </li>
-                                                            
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -610,9 +615,13 @@
                                                             tôi</router-link
                                                         ></span
                                                     >
-                                                    <span
-                                                        ><a href="#"
-                                                            >Yêu thích</a
+                                                    <span>
+                                                        <router-link
+                                                            :to="{
+                                                                name: 'wishList'
+                                                            }"
+                                                            >Yêu
+                                                            thích</router-link
                                                         ></span
                                                     >
                                                     <span
@@ -753,7 +762,7 @@ export default {
         return {
             categories: [],
             loanList: [],
-            status: {
+            loanStatus: {
                 0: "Chưa mượn",
                 1: "Đang tiến hành mượn",
                 2: "Đã trả"

@@ -28,9 +28,7 @@
                                                     Trạng thái mượn
                                                 </span>
                                             </th>
-                                            <th
-                                                class="product-add-to-cart"
-                                            ></th>
+                                            
                                         </tr>
                                     </thead>
                                     <tbody v-if="loanDetails">
@@ -87,12 +85,10 @@
                                             </td>
                                             <td class="product-stock-status">
                                                 <span class="wishlist-in-stock"
-                                                    >In Stock</span
+                                                >{{loanStatus[detail.loan.loan_is_active]}}</span
                                                 >
                                             </td>
-                                            <td class="product-add-to-cart">
-                                                <a href="#"> Add to Cart</a>
-                                            </td>
+                                            
                                         </tr>
                                     </tbody>
                                 </table>
@@ -109,7 +105,12 @@
 export default {
     data : function () {
         return {
-            loanDetails:[]
+            loanDetails:[],
+            loanStatus: {
+                0: "Chưa mượn",
+                1: "Đang tiến hành mượn",
+                2: "Đã trả"
+            }
         };
     },
     mounted() {

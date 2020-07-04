@@ -56,7 +56,7 @@ class LoanDetailsController extends Controller
      */
     public function show($id)
     {
-        return LoanDetail::with('book','book.images')->where('loan_id',$id)->get();
+        return LoanDetail::with('book','book.images','loan:id,loan_is_active')->where('loan_id',$id)->get();
     }
 
     /**

@@ -5833,6 +5833,9 @@ a.checkout__title {
       .wedget__categories.poroduct--tag ul li a:hover {
         background: #464646 none repeat scroll 0 0;
         color: #fff; }
+      .wedget__categories.poroduct--tag ul li a.active {
+        background: #464646 none repeat scroll 0 0;
+        color: #fff; }
 .wedget__categories.sidebar--banner {
   display: inline-block;
   position: relative; }

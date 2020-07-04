@@ -29,47 +29,26 @@
                                 </li>
                             </ul>
                         </aside>
-                        <aside class="wedget__categories pro--range">
-                            <h3 class="wedget__title">Filter by price</h3>
-                            <div class="content-shopby">
-                                <div class="price_filter s-filter clear">
-                                    <form action="#" method="GET">
-                                        <div id="slider-range"></div>
-                                        <div class="slider__range--output">
-                                            <div class="price__output--wrap">
-                                                <div class="price--output">
-                                                    <span>Price :</span
-                                                    ><input
-                                                        type="text"
-                                                        id="amount"
-                                                        readonly=""
-                                                    />
-                                                </div>
-                                                <div class="price--filter">
-                                                    <a href="#">Filter</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </aside>
                         <aside class="wedget__categories poroduct--tag">
-                            <h3 class="wedget__title">Product Tags</h3>
+                            <h3 class="wedget__title">Filter sách</h3>
                             <ul>
-                                <li><a href="#">Biography</a></li>
-                                <li><a href="#">Business</a></li>
-                                <li><a href="#">Cookbooks</a></li>
-                                <li><a href="#">Health & Fitness</a></li>
-                                <li><a href="#">History</a></li>
-                                <li><a href="#">Mystery</a></li>
-                                <li><a href="#">Inspiration</a></li>
-                                <li><a href="#">Religion</a></li>
-                                <li><a href="#">Fiction</a></li>
-                                <li><a href="#">Fantasy</a></li>
-                                <li><a href="#">Music</a></li>
-                                <li><a href="#">Toys</a></li>
-                                <li><a href="#">Hoodies</a></li>
+                                <li
+                                    v-for="category in categories"
+                                    :key="category.category_id"
+                                >
+                                    <a
+                                        href="javascript:void(0)"
+                                        v-bind:class="{
+                                            active: categoryFilterIds.includes(
+                                                category.category_id
+                                            )
+                                        }"
+                                        v-on:click="
+                                            toggleFilter(category.category_id)
+                                        "
+                                        >{{ category.category_name }}</a
+                                    >
+                                </li>
                             </ul>
                         </aside>
                         <aside class="wedget__categories sidebar--banner">
@@ -78,7 +57,7 @@
                                 alt="banner images"
                             />
                             <div class="text">
-                                <h2>new products</h2>
+                                <h2>Quảng cáo</h2>
                                 <h6>
                                     save up to <br />
                                     <strong>40%</strong>off
@@ -184,7 +163,7 @@
                                                 }}</router-link
                                             >
                                         </h4>
-                                        
+
                                         <div class="action">
                                             <div class="actions_inner">
                                                 <ul class="add_to_links">
@@ -277,9 +256,32 @@
                         >
                             <div class="list__view__wrapper">
                                 <!-- Start Single Product -->
-                                <div class="list__view" v-if="paginationProducts != null">
+                                <div
+                                    class="list__view"
+                                    v-if="paginationProducts != null"
+                                >
                                     <div class="thumb">
-                                        <router-link :to="{ name : 'detailProduct', params : {bookId: paginationProducts[0].book_id}}" class="first__img"  v-if="paginationProducts[0].images[0]"><img :src="'/dist/book/image/'  + paginationProducts[0].images[0].name" alt="product image"></router-link>
+                                        <router-link
+                                            :to="{
+                                                name: 'detailProduct',
+                                                params: {
+                                                    bookId:
+                                                        paginationProducts[0]
+                                                            .book_id
+                                                }
+                                            }"
+                                            class="first__img"
+                                            v-if="
+                                                paginationProducts[0].images[0]
+                                            "
+                                            ><img
+                                                :src="
+                                                    '/dist/book/image/' +
+                                                        paginationProducts[0]
+                                                            .images[0].name
+                                                "
+                                                alt="product image"
+                                        /></router-link>
                                         <!-- <a
                                             class="second__img animation1"
                                             href="single-product.html"
@@ -290,9 +292,18 @@
                                     </div>
                                     <div class="content">
                                         <h2>
-                                            <router-link :to="{ name : 'detailProduct', params : {bookId: products[0].book_id}}"
-                                                    >{{products[0].book_name}}</router-link
-                                                >
+                                            <router-link
+                                                :to="{
+                                                    name: 'detailProduct',
+                                                    params: {
+                                                        bookId:
+                                                            products[0].book_id
+                                                    }
+                                                }"
+                                                >{{
+                                                    products[0].book_name
+                                                }}</router-link
+                                            >
                                         </h2>
                                         <ul class="rating d-flex">
                                             <li class="on">
@@ -314,9 +325,9 @@
                                                 <i class="fa fa-star-o"></i>
                                             </li>
                                         </ul>
-                                        
+
                                         <p>
-                                            {{products[0].book_description}}.
+                                            {{ products[0].book_description }}.
                                         </p>
                                         <ul class="cart__action d-flex">
                                             <li class="cart">
@@ -335,9 +346,27 @@
                                 </div>
                                 <!-- End Single Product -->
                                 <!-- Start Single Product -->
-                                <div class="list__view mt--40" v-for="(book,index) in paginationProducts.slice(1)" :key="index">
+                                <div
+                                    class="list__view mt--40"
+                                    v-for="(book,
+                                    index) in paginationProducts.slice(1)"
+                                    :key="index"
+                                >
                                     <div class="thumb">
-                                        <router-link :to="{ name : 'detailProduct', params : {bookId: book.book_id}}" class="first__img"  v-if="book.images[0]"><img :src="'/dist/book/image/'  + book.images[0].name" alt="product image"></router-link>
+                                        <router-link
+                                            :to="{
+                                                name: 'detailProduct',
+                                                params: { bookId: book.book_id }
+                                            }"
+                                            class="first__img"
+                                            v-if="book.images[0]"
+                                            ><img
+                                                :src="
+                                                    '/dist/book/image/' +
+                                                        book.images[0].name
+                                                "
+                                                alt="product image"
+                                        /></router-link>
                                         <!-- <a
                                             class="second__img animation1"
                                             href="single-product.html"
@@ -348,7 +377,17 @@
                                     </div>
                                     <div class="content">
                                         <h2>
-                                            <router-link :to="{ name : 'detailProduct', params : {bookId: book.book_id}}">{{book.book_name}}</router-link>
+                                            <router-link
+                                                :to="{
+                                                    name: 'detailProduct',
+                                                    params: {
+                                                        bookId: book.book_id
+                                                    }
+                                                }"
+                                                >{{
+                                                    book.book_name
+                                                }}</router-link
+                                            >
                                         </h2>
                                         <ul class="rating d-flex">
                                             <li class="on">
@@ -370,9 +409,9 @@
                                                 <i class="fa fa-star-o"></i>
                                             </li>
                                         </ul>
-                                        
+
                                         <p>
-                                            {{products[0].book_description}}
+                                            {{ book.book_description }}
                                         </p>
                                         <ul class="cart__action d-flex">
                                             <li class="cart">
@@ -390,7 +429,6 @@
                                     </div>
                                 </div>
                                 <!-- End Single Product -->
-                                
                             </div>
                         </div>
                     </div>
@@ -413,7 +451,9 @@ export default {
             products: [],
             paginationProducts: [],
             currentPage: 1,
-            totalPages: 10
+            totalPages: 10,
+            categoryFilterIds: [],
+            allProducts: []
         };
     },
     mounted() {
@@ -429,16 +469,16 @@ export default {
         axios
             .get("/api/v1/books")
             .then(function(res) {
-                app.products = res.data;
-                if(app.$route.query.keyWord != null){
+                app.products = app.allProducts = res.data;                 
+                if (app.$route.query.keyWord != null) {
                     app.filterBy(app.$route.query.keyWord);
                 }
-                if(app.$route.params.categoryId != null){
-                    app.filter(app.$route.params.categoryId);
+                if (app.$route.query.categoryId != null) {
+                    app.filter(app.$route.query.categoryId);
                     // return;
-                }else {
-                app.totalPages = Math.ceil(app.products.length / 12);
-                app.pageChangeHandler(app.currentPage);
+                } else {
+                    app.totalPages = Math.ceil(app.products.length / 12);
+                    app.pageChangeHandler(app.currentPage);
                 }
             })
             .catch(function(e) {
@@ -467,12 +507,43 @@ export default {
                     throw e;
                 });
         },
-        filterBy(keyWord){
+        filterBy(keyWord) {
             var app = this;
-            app.products = app.products.filter(book=>{
-                return book.book_name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").indexOf(keyWord.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")) != -1;
+            app.products = app.products.filter(book => {
+                return (
+                    book.book_name
+                        .toLowerCase()
+                        .normalize("NFD")
+                        .replace(/[\u0300-\u036f]/g, "")
+                        .indexOf(
+                            keyWord
+                                .toLowerCase()
+                                .normalize("NFD")
+                                .replace(/[\u0300-\u036f]/g, "")
+                        ) != -1
+                );
             });
-
+        },
+        toggleFilter(id) {
+            var app = this;
+            if (!app.categoryFilterIds.includes(id)) {
+                app.categoryFilterIds.push(id);
+            } else {
+                app.categoryFilterIds.splice(
+                    app.categoryFilterIds.indexOf(id),
+                    1
+                );
+            }
+            app.products = app.allProducts.filter(book =>
+                book.categories.some(category =>
+                    app.categoryFilterIds.includes(category.pivot.category_id)
+                )
+            );
+            if (app.$route.query.keyWord != null) {
+                app.filterBy(app.$route.query.keyWord);
+            }
+            app.totalPages = Math.ceil(app.products.length / 12);
+            app.pageChangeHandler(app.currentPage);
         }
     }
 };

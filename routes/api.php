@@ -51,9 +51,13 @@ Route::group(['prefix' => '/v1', 'namespace' => 'Api\V1', 'as' => 'api.','middle
     Route::delete('userCarts', 'CartsController@destroyAll');
     Route::resource('roles', 'RolesController', ['except' => ['create', 'edit']]);
     Route::resource('comments', 'CommentsController', ['except' => ['create', 'edit']]);
+    Route::resource('books', 'BookController', ['except' => ['create', 'edit','show']]);
+
     });
     Route::get("/filterBooks",'BookController@getWithFilter');
-    Route::resource('books', 'BookController', ['except' => ['create', 'edit']]);
+    Route::resource('books', 'BookController')->only([
+        'index', 'show'
+    ]);
     Route::resource('categories', 'CategoryController', ['except' => ['create', 'edit']]);
 
     Route::resource('userRequests', 'UserRequestsController', ['except' => ['create', 'edit']]);

@@ -101,7 +101,7 @@
                                         <!-- <span>Qty</span>
         									<input id="qty" class="input-text qty" name="qty" min="1" value="1" title="Qty" type="number"> -->
                                         <div
-                                            v-if="book.ebooks"
+                                            v-if="book.ebooks.length"
                                             class="addtocart__actions"
                                         >
                                             <button
@@ -691,73 +691,13 @@
                                 </li>
                             </ul>
                         </aside>
-                        <aside class="wedget__categories pro--range">
-                            <h3 class="wedget__title">Filter by price</h3>
-                            <div class="content-shopby">
-                                <div class="price_filter s-filter clear">
-                                    <form action="#" method="GET">
-                                        <div id="slider-range"></div>
-                                        <div class="slider__range--output">
-                                            <div class="price__output--wrap">
-                                                <div class="price--output">
-                                                    <span>Price :</span
-                                                    ><input
-                                                        type="text"
-                                                        id="amount"
-                                                        readonly=""
-                                                    />
-                                                </div>
-                                                <div class="price--filter">
-                                                    <a href="#">Filter</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </aside>
-                        <aside class="wedget__categories poroduct--compare">
-                            <h3 class="wedget__title">Compare</h3>
-                            <ul>
-                                <li>
-                                    <a href="#">x</a
-                                    ><a href="#">Condimentum posuere</a>
-                                </li>
-                                <li>
-                                    <a href="#">x</a
-                                    ><a href="#">Condimentum posuere</a>
-                                </li>
-                                <li>
-                                    <a href="#">x</a
-                                    ><a href="#">Dignissim venenatis</a>
-                                </li>
-                            </ul>
-                        </aside>
-                        <aside class="wedget__categories poroduct--tag">
-                            <h3 class="wedget__title">Product Tags</h3>
-                            <ul>
-                                <li><a href="#">Biography</a></li>
-                                <li><a href="#">Business</a></li>
-                                <li><a href="#">Cookbooks</a></li>
-                                <li><a href="#">Health & Fitness</a></li>
-                                <li><a href="#">History</a></li>
-                                <li><a href="#">Mystery</a></li>
-                                <li><a href="#">Inspiration</a></li>
-                                <li><a href="#">Religion</a></li>
-                                <li><a href="#">Fiction</a></li>
-                                <li><a href="#">Fantasy</a></li>
-                                <li><a href="#">Music</a></li>
-                                <li><a href="#">Toys</a></li>
-                                <li><a href="#">Hoodies</a></li>
-                            </ul>
-                        </aside>
                         <aside class="wedget__categories sidebar--banner">
                             <img
                                 src="images/others/banner_left.jpg"
                                 alt="banner images"
                             />
                             <div class="text">
-                                <h2>new products</h2>
+                                <h2>Quảng cáo</h2>
                                 <h6>
                                     save up to <br />
                                     <strong>40%</strong>off
@@ -769,7 +709,7 @@
             </div>
         </div>
         <BookViewer
-            v-if="book.ebooks"
+            v-if="book.ebooks.length"
             v-bind:ebook="book.ebooks"
             :key="book.book_id"
         />
@@ -806,7 +746,8 @@ export default {
                 is_special: "",
                 categoryIds: [],
                 book_description: "",
-                comments: []
+                comments: [],
+                ebooks:[]
             },
             categories: [],
             isFavorite: false,
