@@ -195,7 +195,7 @@ export default {
                     okText: "Đóng",
                     animation: "zoom"
                 };
-                this.$dialog.alert("Bạn đã sửa thành công ", options);
+                this.$dialog.alert(res.status == 200 ? "Bạn đã sửa thành công " : "Không có quyền sửa", options);
             });
         },
         updatePass() {

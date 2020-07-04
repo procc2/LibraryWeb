@@ -73,17 +73,24 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if (Auth::user()->can('update-user')) {
+        if (Auth::user()->can('update-user') || intval(Auth::id()) === intval($id)) {
             $user = User::findOrFail($id);
             $roles = $request->input('roles');
             $user->update($request->all());
             $user->roles()->sync($roles);
-            return $user;
+            return response()->json([
+                'message' => 'Successfully updated.'
+            ], 200);
+        }else {
+            return response()->json([
+                'message' => 'Not Authorized.'
+            ], 403);
         }
     }
 
     public function updatePassword(Request $request)
     {
+        if (Auth::user()->can('update-user') || intval(Auth::id()) === intval($request->input('id'))) {
         $user = User::findOrFail($request->input('id'));
         $currentPassword = $request->input("currentPassword");
 
@@ -98,6 +105,10 @@ class UserController extends Controller
         } else {
             return response()->json([
                 'message' => 'Wrong credential!!'
+            ], 403);
+        }}else{
+            return response()->json([
+                'message' => 'Not Authorized.'
             ], 403);
         }
     }
