@@ -53,6 +53,9 @@ Vue.use(VModal);
 Vue.use(VuejsDialog);
 
 const app = new Vue({
+    data:{
+        imageUrl : 'http://dmgxmuhskmu5e.cloudfront.net/book/image/'
+    },
     router,
     store,
 }).$mount('#app');

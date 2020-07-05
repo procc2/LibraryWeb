@@ -3,11 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\FileUpload;
-use Aws\Credentials\Credentials;
-use Aws\S3\S3Client;
 use Illuminate\Http\Request;
 use File;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
@@ -35,7 +32,9 @@ class FileController extends Controller
             $name = time() . '.' . explode('/', explode(':', substr($imageUpload, 0, strpos($imageUpload, ';')))[1])[1];
             $ext = explode('/', mime_content_type($imageUpload))[1];
             $type = $this->getType($ext);
-            \Image::make($request->get('image'))->save(config('const.book_asset_dir') . $type . '/' . $name);
+            $data = substr($imageUpload, strpos($imageUpload, ',') + 1);
+            // \Image::make($request->get('image'))->save(config('const.book_asset_dir') . $type . '/' . $name);
+            $this->addNewFile('book/'.$type.'/'.$name,$data);
 
             return $image::create([
                 'name' => $name,
@@ -62,10 +61,13 @@ class FileController extends Controller
                 ['extension','=',$ext]
             ])->first();
             if($old_file){
-                File::delete(config('const.book_ebook_dir').$old_file->name);
+                // File::delete(config('const.book_ebook_dir').$old_file->name);
+                $old_filePath = 'book/' . $type . '/' . $old_file->name;
+                $this->removeOldFile($old_filePath);
                 $old_file->delete();
             }
-            $ebookFile->move($upload_path, $generated_new_name);
+            // $ebookFile->move($upload_path, $generated_new_name);
+            $this->addNewFile('book/' . $type . '/' . $generated_new_name,$ebookFile);
             return $ebook::create([
                 'name' => $generated_new_name,
                 'type' => $type,
@@ -96,26 +98,31 @@ class FileController extends Controller
             ]);
             if($validator){
             $imageUpload = $request->get('image');
+            $ext = explode('/', mime_content_type($imageUpload))[1];
+            $type = $this->getType($ext);
+            
+            //remove old file
+            $file = FileUpload::where([
+                    ['book_id', $id],
+                    ['type','=',$type]
+                ])->first();
+                if($file)
+            $old_filePath = 'book/' . $type . '/' . $file->name;
+            $this->removeOldFile($old_filePath);
+
             $name = time() . '.' . explode('/', explode(':', substr($imageUpload, 0, strpos($imageUpload, ';')))[1])[1];
-            $data = substr($imageUpload, strpos($imageUpload, ',') + 1);
-            $path = Storage::disk('s3')->put('images/book/'.$name, base64_decode($data), 'public');
-            return $path;
-            // $ext = explode('/', mime_content_type($imageUpload))[1];
-            // $type = $this->getType($ext);
-            // $file = FileUpload::where([
-            //     ['book_id', $id],
-            //     ['type','=',$type]
-            // ])->first();
-            // $old_filename = config('const.book_asset_dir') . $file->type . '/' . $file->name;
-            // $new_filename = config('const.book_asset_dir') . $type . '/' . $name;
-            // File::delete($old_filename);
+            // $data = substr($imageUpload, strpos($imageUpload, ',') + 1);
+            $this->addNewFile('book/'.$type.'/'.$name,$imageUpload);
+            // $old_filePath = config('const.book_asset_dir') . $file->type . '/' . $file->name;
+            // $new_filePath = config('const.book_asset_dir') . $type . '/' . $name;
+            // File::delete($old_filePath);
             // \Image::make($request->get('image'))->save(config('const.book_asset_dir') . $type . '/' . $name);
-            // $file->name = $name;
-            // return response()->json($file->save());
+            $file->name = $name;
+            return response()->json($file->save());
 
 
-            // if (Storage::disk('local')->exists($old_filename)) {
-            //     if (Storage::disk('local')->move($old_filename, $new_filename)) {
+            // if (Storage::disk('local')->exists($old_filePath)) {
+            //     if (Storage::disk('local')->move($old_filePath, $new_filePath)) {
             //         $file->name = $name;
             //         return response()->json($file->save());
             //     }
@@ -156,5 +163,22 @@ class FileController extends Controller
     private function allExtensions()
     {
         return array_merge($this->image_ext, $this->audio_ext, $this->video_ext, $this->document_ext);
+    }
+
+    private function removeOldFile($path){
+        if(Storage::disk('s3')->exists($path)){
+            Storage::disk('s3')->delete($path);
+        }
+    }
+
+    private function addNewFile($path,$data)
+    {
+        $base64Data = substr($data, strpos($data, ',') + 1);
+        if ( base64_encode(base64_decode($base64Data, true)) === $base64Data){
+            $base64Data = substr($data, strpos($data, ',') + 1);
+            Storage::disk('s3')->put($path, base64_decode($base64Data), 'public');
+        } else {
+            Storage::disk('s3')->put($path, file_get_contents($data), 'public');
+        }
     }
 }
