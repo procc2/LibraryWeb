@@ -73,17 +73,6 @@
                             <template v-slot:cell(index)="row">
                                 {{ row.index + 1 }}
                             </template>
-                            <template v-slot:cell(image)="row">
-                                <span class="thumb" v-if="row.item.images[0]"
-                                    ><img
-                                        width="80px"
-                                        height="150px"
-                                        :src="
-                                            '/dist/book/image/' +
-                                                row.item.images[0].name
-                                        "
-                                /></span>
-                            </template>
                             <template v-slot:cell(role)="row">
                                 {{ row.item.roles.length
                                                 ? row.item.roles[0].name

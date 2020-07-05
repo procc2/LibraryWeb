@@ -53,7 +53,7 @@
                                                     v-if="detail.book.images[0]"
                                                     ><img
                                                         :src="
-                                                            '/dist/book/image/' +
+                                                            $parent.imageUrl +
                                                                 detail.book
                                                                     .images[0]
                                                                     .name

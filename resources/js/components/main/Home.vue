@@ -4,7 +4,7 @@
         <h2 class="h2-bar">Ấn phẩm đặc biệt</h2>
         <div class="row">
             <div class="col-md-3 col-sm-6 product-item text-center" v-for="book in specialProducts" :key="book.book_id">
-                <router-link :to="{ name : 'detailProduct', params : {bookId: book.book_id}}" v-if="book.images[0]"><img width="80" height="144" :src="'/dist/book/image/'  + book.images[0].name"></router-link>
+                <router-link :to="{ name : 'detailProduct', params : {bookId: book.book_id}}" v-if="book.images[0]"><img width="80" height="144" :src="$parent.imageUrl  + book.images[0].name"></router-link>
                 <h3><router-link :to="{ name : 'detailProduct', params : {bookId: book.book_id}}">{{book.book_name}}</router-link></h3>
                 <p>Tác giả: {{book.author.author_name}}</p>
                 <p>Tình trạng: {{book.is_on_loan}}</p>
@@ -18,7 +18,7 @@
         <div class="row">
             
             <div class="col-md-3 col-sm-6 product-item text-center" v-for="book in newProducts" :key="book.book_id">
-                <router-link :to="{ name : 'detailProduct', params : {bookId: book.book_id}}" v-if="book.images[0]"><img width="80" height="144" :src="'/dist/book/image/'  + book.images[0].name"></router-link>
+                <router-link :to="{ name : 'detailProduct', params : {bookId: book.book_id}}" v-if="book.images[0]"><img width="80" height="144" :src="$parent.imageUrl  + book.images[0].name"></router-link>
                 <h3><router-link :to="{ name : 'detailProduct', params : {bookId: book.book_id}}">{{book.book_name}}</router-link></h3>
                 <p>Tác giả: {{book.author.author_name}}</p>
                 <p>Tình trạng: {{book.is_on_loan}}</p>
@@ -79,7 +79,7 @@
                     >
                         <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                             <div class="product__thumb">
-                                <router-link :to="{ name : 'detailProduct', params : {bookId: book.book_id}}" class="first__img"  v-if="book.images[0]"><img :src="'/dist/book/image/'  + book.images[0].name" width="270" height="340" alt="product image"></router-link>
+                                <router-link :to="{ name : 'detailProduct', params : {bookId: book.book_id}}" class="first__img"  v-if="book.images[0]"><img :src="$parent.imageUrl  + book.images[0].name" width="270" height="340" alt="product image"></router-link>
                                 <div class="hot__box">
                                     <span class="hot-label">BEST SALLER</span>
                                 </div>
@@ -285,7 +285,7 @@
                                     <div class="product product__style--3">
                                         <div class="product__thumb">
                                             
-                                            <router-link :to="{ name : 'detailProduct', params : {bookId: products[2*index].book_id}}" class="first__img"  v-if="products[2*index].images[0]"><img :src="'/dist/book/image/'  + products[2*index].images[0].name" width="270" height="340" alt="product image"></router-link>
+                                            <router-link :to="{ name : 'detailProduct', params : {bookId: products[2*index].book_id}}" class="first__img"  v-if="products[2*index].images[0]"><img :src="$parent.imageUrl  + products[2*index].images[0].name" width="270" height="340" alt="product image"></router-link>
                                             <router-link
                                                 class="second__img animation1"
                                                 :to="{ name : 'detailProduct', params : {bookId: products[2*index].book_id}}"
@@ -396,7 +396,7 @@
                                 <div class="col-lg-3 col-md-4 col-sm-6 col-12" v-if="products[2 * index + 1] != null">
                                     <div class="product product__style--3">
                                         <div class="product__thumb">
-                                            <router-link :to="{ name : 'detailProduct', params : {bookId: products[2*index + 1].book_id}}" class="first__img"  v-if="products[2*index + 1].images[0]"><img :src="'/dist/book/image/'  + products[2*index + 1].images[0].name" alt="product image"></router-link>
+                                            <router-link :to="{ name : 'detailProduct', params : {bookId: products[2*index + 1].book_id}}" class="first__img"  v-if="products[2*index + 1].images[0]"><img :src="$parent.imageUrl  + products[2*index + 1].images[0].name" alt="product image"></router-link>
                                             <router-link
                                                 class="second__img animation1"
                                                 :to="{ name : 'detailProduct', params : {bookId: products[2*index + 1].book_id}}"
@@ -4455,7 +4455,7 @@
                     <div class="product__thumb">
                         <router-link :to="{ name : 'detailProduct', params : {bookId: book.book_id}}" class="first__img" 
                             ><img
-                                :src="'/dist/book/image/'  + book.images[0].name"
+                                :src="$parent.imageUrl  + book.images[0].name"
                                 alt="product image"
                         /></router-link>
                     </div>

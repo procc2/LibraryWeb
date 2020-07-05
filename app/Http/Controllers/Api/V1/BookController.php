@@ -40,7 +40,6 @@ class BookController extends Controller
     public function store(Request $request)
     {
         if (Auth::user()->can('update-book')) {
-            return "abcd";
             $book = Book::create($request->all());
             $categoryIds = $request->input('categoryIds');
             foreach ($categoryIds as $categoryId) {

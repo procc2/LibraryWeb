@@ -80,7 +80,7 @@
                                         width="80px"
                                         height="150px"
                                         :src="
-                                            '/dist/book/image/' +
+                                            $parent.imageUrl +
                                                 row.item.images[0].name
                                         "
                                 /></span>

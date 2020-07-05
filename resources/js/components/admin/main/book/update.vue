@@ -75,10 +75,11 @@
                                 </div>
 
                                 <ImageUpload
+                                    v-if="book.images.length"
                                     ref="imageUpload"
-                                    v-bind:image="
+                                    v-bind:currentImage="
                                         book.images[0]
-                                            ? '/dist/book/image/' +
+                                            ? $parent.imageUrl +
                                               book.images[0].name
                                             : null
                                     "
@@ -132,6 +133,15 @@
                       :value="category.category_id"
                     >{{category.category_name}}</option>
                   </select>-->
+                                </div>
+                                <div class="form-group">
+                                    <label>Tóm tắt ấn phẩm</label>
+                                    <textarea
+                                        class="form-control"
+                                        rows="3"
+                                        v-model="book.book_summary"
+                                        required
+                                    ></textarea>
                                 </div>
                                 <div class="form-group">
                                     <label>Thông tin chi tiết ấn phẩm</label>
@@ -213,6 +223,7 @@ export default {
                 remaining_stock: 1,
                 is_special: 0,
                 categoryIds: [],
+                book_summary: "",
                 book_description: "",
                 images: []
             },
@@ -269,7 +280,7 @@ export default {
                             // .then(() => app.$router.push({ path: "/book" }));
                         }
                         await app.$refs.ebookUpload
-                                .uploadEbook(app.$route.params.bookId)
+                                .uploadEbook(resp.data.book_id)
 
                         app.$router.push({ path: "/book" })
                     })

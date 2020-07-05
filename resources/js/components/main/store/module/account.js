@@ -1,5 +1,6 @@
 import { userService } from '../../service/user.service';
 import { router } from "../../../../router";
+import { error } from 'jquery';
 
 const token = localStorage.getItem('token');
 
@@ -55,7 +56,8 @@ const actions = {
     async update({},user){
         return await userService.update(user)
         .then(
-            user => user.data
+            user => user,
+            error => error.response
         );
     },
     async updatePassword({},data){

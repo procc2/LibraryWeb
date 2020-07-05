@@ -40,7 +40,7 @@
                                                 <a href="#">×</a>
                                             </td>
                                             <td class="product-thumbnail" v-if="book.images">
-                                                <router-link :to="{ name : 'detailProduct', params : {bookId: book.book_id}}" class="first__img"  v-if="book.images[0]"><img :src="'/dist/book/image/'  + book.images[0].name" alt="product image" style="max-width: 100px;
+                                                <router-link :to="{ name : 'detailProduct', params : {bookId: book.book_id}}" class="first__img"  v-if="book.images[0]"><img :src="$parent.imageUrl  + book.images[0].name" alt="product image" style="max-width: 100px;
     max-height: 100px;"></router-link>
                                             </td>
                                             <td class="product-name">

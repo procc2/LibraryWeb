@@ -129,7 +129,7 @@
                                             v-if="book.images[0]"
                                             ><img
                                                 :src="
-                                                    '/dist/book/image/' +
+                                                    $parent.imageUrl +
                                                         book.images[0].name
                                                 "
                                                 alt="product image"
@@ -276,7 +276,7 @@
                                             "
                                             ><img
                                                 :src="
-                                                    '/dist/book/image/' +
+                                                    $parent.imageUrl +
                                                         paginationProducts[0]
                                                             .images[0].name
                                                 "
@@ -362,7 +362,7 @@
                                             v-if="book.images[0]"
                                             ><img
                                                 :src="
-                                                    '/dist/book/image/' +
+                                                    $parent.imageUrl +
                                                         book.images[0].name
                                                 "
                                                 alt="product image"

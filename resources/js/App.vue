@@ -1,13 +1,13 @@
 <template>
     <div>
         <top />
-        <search-bar/>
+        <search-bar />
         <slider v-if="$router.currentRoute.path == '/'" />
-        <bread-crumb v-if="$router.currentRoute.path != '/'"/>
+        <bread-crumb v-if="$router.currentRoute.path != '/'" />
         <router-view :key="$route.fullPath"></router-view>
         <foot />
-        <login/>
-        <register/>
+        <login />
+        <register />
     </div>
 </template>
 
@@ -23,20 +23,25 @@ import Register from "./components/main/Register.vue";
 import { mapState, mapActions } from "vuex";
 export default {
     name: "App",
+    data: function() {
+        return {
+            imageUrl: []
+        };
+    },
     components: {
-        'top': Header,
-        'slider': Slider,
-        'foot': Footer,
+        top: Header,
+        slider: Slider,
+        foot: Footer,
         "search-bar": SearchBar,
         "bread-crumb": BreadCrumb,
-        "login" : Login,
-        "register" : Register,
+        login: Login,
+        register: Register
     },
     created() {
-        this.getLoginState().then(()=>{
+        this.getLoginState().then(() => {
             this.getUserCart();
-        })
-        
+        });
+        this.imageUrl = this.$parent.imageUrl;
     },
     methods: {
         ...mapActions("account", ["getLoginState"]),

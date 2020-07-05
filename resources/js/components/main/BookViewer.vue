@@ -32,8 +32,8 @@ export default {
     },
     data() {
         return {
-            ebook:"",
-            src: "dist/book/ebook/"+ this.ebook[0].name,
+            // ebook:"",
+            src: "https://dmgxmuhskmu5e.cloudfront.net/book/document/"+ this.ebook[0].name,
             currentPage: 1,
             pageCount: 0,
             

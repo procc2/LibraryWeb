@@ -77,7 +77,7 @@ async function register(user) {
 async function update(user) {
     return await axios
         .put("api/v1/users/" + user.user_id, user)
-        .then(res => res.data);
+        .then(res => res);
 }
 
 async function resetRequest(email) {

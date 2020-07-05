@@ -33,7 +33,7 @@
                                                 v-if="item.images[0]"
                                                 ><img
                                                     :src="
-                                                        '/dist/book/image/' +
+                                                        $parent.imageUrl +
                                                             item.images[0].name
                                                     "
                                                     alt="product image"
