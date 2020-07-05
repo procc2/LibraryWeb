@@ -113,7 +113,7 @@
                                 <a
                                     href="javascript:void(0)"
                                     v-on:click="
-                                        deleteEntry(row.item.book_id, index)
+                                        deleteEntry(row.item.book_id, row.index)
                                     "
                                 >
                                     <span>
@@ -210,7 +210,7 @@ export default {
             .get("/api/v1/books")
             .then(function(res) {
                 app.books = res.data;
-                app.totalRows = app.books.length
+                app.totalRows = app.books.length;
                 console.log(app.books);
             })
             .catch(function(e) {
@@ -225,6 +225,11 @@ export default {
                     .delete("/api/v1/books/" + id)
                     .then(function(resp) {
                         app.books.splice(index, 1);
+                        axios
+                            .delete("/api/files/" + id)
+                            .catch(function(resp) {
+                                alert("Could not delete book");
+                            });
                     })
                     .catch(function(resp) {
                         alert("Could not delete book");

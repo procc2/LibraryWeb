@@ -120,7 +120,7 @@
                                 <a
                                     href="javascript:void(0)"
                                     v-on:click="
-                                        deleteEntry(row.item.user_id, index)
+                                        deleteEntry(row.item.user_id, row.index)
                                     "
                                 >
                                     <span>

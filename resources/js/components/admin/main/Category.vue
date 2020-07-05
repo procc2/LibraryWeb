@@ -71,7 +71,7 @@
                                 <a
                                     href="javascript:void(0)"
                                     v-on:click="
-                                        deleteEntry(row.item.category_id, index)
+                                        deleteEntry(row.item.category_id, row.index)
                                     "
                                 >
                                     <span>

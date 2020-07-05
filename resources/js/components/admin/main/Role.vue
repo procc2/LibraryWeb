@@ -55,7 +55,7 @@
                     </router-link>
                             </template>
                             <template v-slot:cell(delete)="row">
-                                <a href="javascript:void(0)" v-on:click="deleteEntry(row.item.id, index)">
+                                <a href="javascript:void(0)" v-on:click="deleteEntry(row.item.id, row.index)">
                       <span>
                         <svg class="glyph stroked cancel" style="width: 20px;height: 20px;">
                           <use xlink:href="#stroked-cancel" />

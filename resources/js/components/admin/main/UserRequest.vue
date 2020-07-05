@@ -117,7 +117,7 @@ for ($i=1;$i<=$totalPages;$i++) {
                                 <a
                                     href="#/request"
                                     v-on:click="
-                                        deleteEntry(request.user_id, index)
+                                        deleteEntry(request.user_id, row.index)
                                     "
                                 >
                                     <span>

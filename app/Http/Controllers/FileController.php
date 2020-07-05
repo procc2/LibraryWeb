@@ -132,6 +132,25 @@ class FileController extends Controller
         return response()->json(false);
     }
 
+    public function destroy($id)
+    {
+        if (\Auth::user()->can('delete-book')) {
+            $files = FileUpload::where([
+                ['book_id', $id],
+            ])->get();
+            if (!empty($files)) {
+                foreach ($files as $file) {
+                    $filePath = 'book/' . $file->type . '/' . $file->name;
+                    $this->removeOldFile($filePath);
+                }
+            }
+            return response()->json(true);
+        }
+        return response()->json([
+            'message' => 'Not Authorized.'
+        ], 403);
+    }
+
     /**
      * Get type by extension
      * @param  string $ext Specific extension
