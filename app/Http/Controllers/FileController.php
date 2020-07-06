@@ -20,7 +20,6 @@ class FileController extends Controller
         $max_size = (int) ini_get('upload_max_filesize') * 1024;
         $all_ext = implode(',', $this->allExtensions());
         
-        //TODO: 
         if ($request->get('image')) {
             $validator = Validator::make($request->all(), [
                 'image' => 'required|image64:' . $all_ext . '|max:' . $max_size
@@ -32,9 +31,7 @@ class FileController extends Controller
             $name = time() . '.' . explode('/', explode(':', substr($imageUpload, 0, strpos($imageUpload, ';')))[1])[1];
             $ext = explode('/', mime_content_type($imageUpload))[1];
             $type = $this->getType($ext);
-            $data = substr($imageUpload, strpos($imageUpload, ',') + 1);
-            // \Image::make($request->get('image'))->save(config('const.book_asset_dir') . $type . '/' . $name);
-            $this->addNewFile('book/'.$type.'/'.$name,$data);
+            $this->addNewFile('book/'.$type.'/'.$name,$imageUpload);
 
             return $image::create([
                 'name' => $name,
@@ -61,12 +58,10 @@ class FileController extends Controller
                 ['extension','=',$ext]
             ])->first();
             if($old_file){
-                // File::delete(config('const.book_ebook_dir').$old_file->name);
                 $old_filePath = 'book/' . $type . '/' . $old_file->name;
                 $this->removeOldFile($old_filePath);
                 $old_file->delete();
             }
-            // $ebookFile->move($upload_path, $generated_new_name);
             $this->addNewFile('book/' . $type . '/' . $generated_new_name,$ebookFile);
             return $ebook::create([
                 'name' => $generated_new_name,
@@ -111,21 +106,11 @@ class FileController extends Controller
             $this->removeOldFile($old_filePath);
 
             $name = time() . '.' . explode('/', explode(':', substr($imageUpload, 0, strpos($imageUpload, ';')))[1])[1];
-            // $data = substr($imageUpload, strpos($imageUpload, ',') + 1);
             $this->addNewFile('book/'.$type.'/'.$name,$imageUpload);
-            // $old_filePath = config('const.book_asset_dir') . $file->type . '/' . $file->name;
-            // $new_filePath = config('const.book_asset_dir') . $type . '/' . $name;
-            // File::delete($old_filePath);
-            // \Image::make($request->get('image'))->save(config('const.book_asset_dir') . $type . '/' . $name);
+           
             $file->name = $name;
             return response()->json($file->save());
 
-
-            // if (Storage::disk('local')->exists($old_filePath)) {
-            //     if (Storage::disk('local')->move($old_filePath, $new_filePath)) {
-            //         $file->name = $name;
-            //         return response()->json($file->save());
-            //     }
             }
         }
 
@@ -194,7 +179,6 @@ class FileController extends Controller
     {
         $base64Data = substr($data, strpos($data, ',') + 1);
         if ( base64_encode(base64_decode($base64Data, true)) === $base64Data){
-            $base64Data = substr($data, strpos($data, ',') + 1);
             Storage::disk('s3')->put($path, base64_decode($base64Data), 'public');
         } else {
             Storage::disk('s3')->put($path, file_get_contents($data), 'public');

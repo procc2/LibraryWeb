@@ -72,8 +72,7 @@
                                     href="javascript:void(0)"
                                     v-on:click="
                                         deleteEntry(
-                                            row.item.publisher_id,
-                                            index
+                                            row.item.publisher_id
                                         )
                                     "
                                 >
@@ -124,7 +123,11 @@ export default {
                 { key: "edit", label: "Sửa" },
                 { key: "delete", label: "Xóa" }
             ],
-            publishers: []
+            publishers: [],
+            totalRows: 1,
+            currentPage: 1,
+            perPage: 10,
+            sortDesc: true,
         };
     },
     mounted() {
@@ -141,12 +144,14 @@ export default {
             });
     },
     methods: {
-        deleteEntry(id, index) {
+        deleteEntry(id) {
             if (confirm("Do you really want to delete it?")) {
                 var app = this;
                 axios
                     .delete("/api/v1/publishers/" + id)
                     .then(function(resp) {
+                        const index = app.publishers.findIndex(publisher => publisher.publisher_id === id)
+                        if(~index)
                         app.publishers.splice(index, 1);
                     })
                     .catch(function(resp) {

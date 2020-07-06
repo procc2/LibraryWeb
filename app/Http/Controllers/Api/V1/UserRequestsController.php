@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\UserRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserRequestsController extends Controller
 {
@@ -77,10 +78,12 @@ class UserRequestsController extends Controller
      */
     public function update(Request $request, $id)
     {
+        if (Auth::user()->can('update-request')) {
         $userReq = UserRequest::findOrFail($id);
         $userReq->update($request->all());
 
         return $userReq;
+        }
     }
 
     /**
@@ -91,6 +94,10 @@ class UserRequestsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if (Auth::user()->can('delete-request')) {
+            $userReq = UserRequest::findOrFail($id);
+            $userReq->delete();
+            return '';
+        }
     }
 }

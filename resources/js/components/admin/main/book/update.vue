@@ -75,7 +75,6 @@
                                 </div>
 
                                 <ImageUpload
-                                    v-if="book.images.length"
                                     ref="imageUpload"
                                     v-bind:currentImage="
                                         book.images[0]

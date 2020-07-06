@@ -113,7 +113,7 @@
                                 <a
                                     href="javascript:void(0)"
                                     v-on:click="
-                                        deleteEntry(row.item.book_id, row.index)
+                                        deleteEntry(row.item.book_id)
                                     "
                                 >
                                     <span>
@@ -218,12 +218,14 @@ export default {
             });
     },
     methods: {
-        deleteEntry(id, index) {
+        deleteEntry(id) {
             if (confirm("Do you really want to delete it?")) {
                 var app = this;
                 axios
                     .delete("/api/v1/books/" + id)
                     .then(function(resp) {
+                        const index = app.books.findIndex(book => book.book_id === id)
+                        if(~index)
                         app.books.splice(index, 1);
                         axios
                             .delete("/api/files/" + id)

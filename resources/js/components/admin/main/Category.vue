@@ -71,7 +71,7 @@
                                 <a
                                     href="javascript:void(0)"
                                     v-on:click="
-                                        deleteEntry(row.item.category_id, row.index)
+                                        deleteEntry(row.item.category_id)
                                     "
                                 >
                                     <span>
@@ -140,12 +140,14 @@ export default {
             });
     },
     methods: {
-        deleteEntry(id, index) {
+        deleteEntry(id) {
             if (confirm("Do you really want to delete it?")) {
                 var app = this;
                 axios
                     .delete("/api/v1/categories/" + id)
                     .then(function(resp) {
+                        const index = app.categories.findIndex(category => category.category_id === id)
+                        if(~index)
                         app.categories.splice(index, 1);
                     })
                     .catch(function(resp) {

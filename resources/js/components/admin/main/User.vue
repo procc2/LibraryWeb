@@ -120,7 +120,7 @@
                                 <a
                                     href="javascript:void(0)"
                                     v-on:click="
-                                        deleteEntry(row.item.user_id, row.index)
+                                        deleteEntry(row.item.user_id)
                                     "
                                 >
                                     <span>
@@ -219,12 +219,14 @@ export default {
             });
     },
     methods: {
-        deleteEntry(id, index) {
+        deleteEntry(id) {
             if (confirm("Do you really want to delete it?")) {
                 var app = this;
                 axios
                     .delete("/api/v1/users/" + id)
                     .then(function(resp) {
+                        const index = app.users.findIndex(user => user.user_id === id)
+                        if(~index)
                         app.users.splice(index, 1);
                     })
                     .catch(function(resp) {

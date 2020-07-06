@@ -71,7 +71,7 @@
                                 <a
                                     href="javascript:void(0)"
                                     v-on:click="
-                                        deleteEntry(row.item.author_id, row.index)
+                                        deleteEntry(row.item.author_id)
                                     "
                                 >
                                     <span>
@@ -115,6 +115,10 @@ export default {
     },
     data: function() {
         return {
+            totalRows: 1,
+            currentPage: 1,
+            perPage: 10,
+            sortDesc: true,
             fields: [
                 { key: "index", label: "#" },
                 { key: "author_name", label: "Tên tác giả" },
@@ -138,12 +142,14 @@ export default {
             });
     },
     methods: {
-        deleteEntry(id, index) {
+        deleteEntry(id) {
             if (confirm("Do you really want to delete it?")) {
                 var app = this;
                 axios
                     .delete("/api/v1/authors/" + id)
                     .then(function(resp) {
+                        const index = app.authors.findIndex(author => author.author_id === id)
+                        if(~index)
                         app.authors.splice(index, 1);
                     })
                     .catch(function(resp) {

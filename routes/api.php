@@ -51,22 +51,27 @@ Route::group(['prefix' => '/v1', 'namespace' => 'Api\V1', 'as' => 'api.','middle
     Route::delete('userCarts', 'CartsController@destroyAll');
     Route::resource('roles', 'RolesController', ['except' => ['create', 'edit']]);
     Route::resource('comments', 'CommentsController', ['except' => ['create', 'edit']]);
-    Route::resource('books', 'BookController', ['except' => ['create', 'edit','show']]);
-
+    Route::resource('books', 'BookController', ['except' => ['create', 'edit','show','index']]);
+    Route::resource('categories', 'CategoryController', ['except' => ['create', 'edit','show','index']]);
+    Route::resource('userRequests', 'UserRequestsController', ['except' => ['create', 'edit','store','show']]);
     });
     Route::get("/filterBooks",'BookController@getWithFilter');
     Route::resource('books', 'BookController')->only([
         'index', 'show'
     ]);
-    Route::resource('categories', 'CategoryController', ['except' => ['create', 'edit']]);
+    Route::resource('categories', 'CategoryController')->only([
+        'index', 'show'
+    ]);
 
-    Route::resource('userRequests', 'UserRequestsController', ['except' => ['create', 'edit']]);
+    Route::resource('userRequests', 'UserRequestsController')->only([
+        'store', 'show'
+    ]);
     Route::resource('cards', 'CardsController', ['except' => ['create', 'edit']]);
 });
 
 Route::post('/files', 'FileController@store');
 Route::put('/files/{id}', 'FileController@edit');
-Route::delete('/files/{id}', 'FileController@destroy');
+Route::delete('/files/{id}', 'FileController@destroy')->middleware('auth:api');
 Route::group(['namespace' => 'Auth'], function () {
     Route::post('reset-password', 'ResetPasswordController@sendMail');
 });

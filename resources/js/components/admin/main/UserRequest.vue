@@ -115,9 +115,9 @@ for ($i=1;$i<=$totalPages;$i++) {
                             </template>
                             <template v-slot:cell(delete)="row">
                                 <a
-                                    href="#/request"
+                                    href="javascript:void(0)"
                                     v-on:click="
-                                        deleteEntry(request.user_id, row.index)
+                                        deleteEntry(row.item.id)
                                     "
                                 >
                                     <span>
@@ -162,6 +162,10 @@ export default {
     },
     data: function() {
         return {
+            totalRows: 1,
+            currentPage: 1,
+            perPage: 10,
+            sortDesc: true,
             fields: [
                 { key: "index", label: "#" },
                 { key: "request_type", label: "Loại yêu cầu" },
@@ -195,12 +199,14 @@ export default {
             });
     },
     methods: {
-        deleteEntry(id, index) {
+        deleteEntry(id) {
             if (confirm("Do you really want to delete it?")) {
                 var app = this;
                 axios
                     .delete("/api/v1/userRequests/" + id)
                     .then(function(resp) {
+                        const index = app.userRequests.findIndex(userReq => userReq.id === id)
+                        if(~index)
                         app.userRequests.splice(index, 1);
                     })
                     .catch(function(resp) {

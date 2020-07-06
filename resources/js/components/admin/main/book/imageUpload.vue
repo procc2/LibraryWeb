@@ -1,10 +1,9 @@
 <template>
     <div class="form-group">
         <label>Ảnh mô tả</label>
-        <div class="col-md-3">
+        <div class="col-md-3" v-if="image">
             <img
                 :src="image"
-                v-if="image"
                 class="img-responsive"
                 height="70"
                 width="90"
@@ -24,15 +23,17 @@
 export default {
     name: "ImageUpload",
     props: ["currentImage"],
+    watch: {
+        currentImage(newValue){
+            this.image = newValue;
+        }
+    },
     data() {
         return {
             image: "",
             has_change: false,
             new_image: false
         };
-    },
-    mounted() {
-        this.image = this.currentImage;
     },
     methods: {
         onImageChange(e) {
