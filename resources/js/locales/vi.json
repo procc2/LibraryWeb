@@ -1,0 +1,112 @@
+{
+  "user": {
+    "login-title": "Đăng nhập",
+    "register": "Đăng ký",
+    "forgot-password": "Quên mật khẩu",
+    "email": "E-mail",
+    "password": "Password",
+    "forgot-password-question": "Forget password?",
+    "fullname": "Full Name",
+    "login-button": "LOGIN",
+    "register-button": "REGISTER",
+    "reset-password-button": "RESET",
+    "view": "Danh sách tài khoản",
+    "username": "Username",
+    "role": "Quyền"
+  },
+  "menu": {
+    "app": "Trang chủ",
+    "user": "Người dùng",
+    "book": "Sách",
+    "loan": "Đơn mượn",
+    "search": "Tìm kiếm",
+    "login": "Đăng nhập",
+    "register": "Đăng ký",
+    "category" : "Thể loại",
+    "author" : "Tác giả",
+    "publisher" : "Nhà xuất bản",
+    "forgot-password": "Quên mật khẩu",
+    "reset-password": "Reset Password",
+    "error": "Error",
+    "applications": "Applications",
+    "library": "Thư viện",
+    "request" : "Yêu cầu",
+    "userRequest": "Yêu cầu người dùng",
+    "card":"Thẻ",
+    "data-list" : "Danh sách quản lý",
+    "insert" : "Thêm Mới",
+    "role" :"Quyền"
+  },
+  "book": {
+    "view": "Danh sách ấn phẩm",
+    "create" : "Thêm mới sách",
+    "author" : "Danh sách tác giả",
+    "publisher" : "Danh sách nhà xuất bản",
+    "category" : "Danh sách thể loại"
+  },
+  "pages": {
+    "add-new" : "Thêm mới",
+    "orderby" : "Sắp xếp theo",
+    "magic-is-in-the-details": "MAGIC IS IN THE DETAILS",
+    "error-title": "Ooops... looks like an error occurred!",
+    "error-code": "Error Code",
+    "go-back-home": "GO BACK HOME"
+  },
+  "table" : {
+    "bootstrap-custom" : "Danh sách"
+  },
+  "forms":{
+    "yes-radio" : "Có",
+    "no-radio" : "Không",
+    "create" : "Tạo mới",
+    "edit" : "Sửa",
+    "publisher": {
+      "title": "Nhà xuất bản",
+      "name" : "Tên nhà xuất bản"
+    },
+    "book" :{
+      "title" :"Sách",
+      "name" : "Tên sách",
+      "author" : {
+        "title": "Tác giả"
+      },
+      "publisher" : "Nhà xuất bản",
+      "remaining_stock" : {
+        "title" : "Số lượng sách",
+        "unit": "Quyển"
+      },
+      "file" : {
+        "upload-message" : "Thả file vào đây",
+        "title" : "Nội dung upload (Ảnh,ebook,...)"
+      },
+      "ebook" : "Ebook",
+      "special" : "Sản phẩm đặc biệt",
+      "category" :"Thể loại",
+      "summary": "Tóm tắt",
+      "description" : "Thông tin thêm"
+    },
+    "user":{
+      "role" : {
+        "title" : "Quyền",
+        "admin" : "Quản trị viên",
+        "developer": "Người phát triển",
+        "student" : "Sinh viên",
+        "customer" : "Khách ngoài",
+        "staff" : "Nhân viên"
+      }
+    },
+    "role" : {
+      "title": "Quyền người dùng",
+      "name" :"Tên quyền",
+      "slug" : "Ký tự"
+    },
+    "category" : {
+      "title": "Thể loại",
+      "name" :"Tên thể loại"
+    },
+    "author" : {
+      "title": "Tác giả",
+      "name" :"Tên Tác giả"
+    }
+  }
+}

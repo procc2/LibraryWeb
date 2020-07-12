@@ -69,7 +69,7 @@ Route::group(['prefix' => '/v1', 'namespace' => 'Api\V1', 'as' => 'api.','middle
     Route::resource('cards', 'CardsController', ['except' => ['create', 'edit']]);
 });
 
-Route::post('/files', 'FileController@store');
+Route::post('/files', 'FileController@store')->middleware('auth:api');
 Route::put('/files/{id}', 'FileController@edit');
 Route::delete('/files/{id}', 'FileController@destroy')->middleware('auth:api');
 Route::group(['namespace' => 'Auth'], function () {

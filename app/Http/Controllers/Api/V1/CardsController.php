@@ -15,7 +15,7 @@ class CardsController extends Controller
      */
     public function index()
     {
-        return Card::all();
+        return Card::with('user:user_id,name')->get();
     }
 
     /**

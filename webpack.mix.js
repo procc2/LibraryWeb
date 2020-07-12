@@ -12,13 +12,16 @@ const mix = require('laravel-mix');
  */
 
 mix.js('resources/js/app.js', 'public/js')
-    .sass('resources/sass/app.scss', 'public/css')
+    .sass('resources/js/components/admin/assets/css/sass/themes/piaf.light.orange.scss', 'public/css')
     .copyDirectory('resources/images', 'public/images')
     .copyDirectory('resources/fonts', 'public/fonts')
+    .copyDirectory('resources/js/components/admin/assets/fonts/iconsmind-s/font', 'public/admin/lte/font')
+    .copyDirectory('resources/js/components/admin/assets/fonts/simple-line-icons/fonts', 'public/admin/lte/fonts')
     .styles([
-        'node_modules/bootstrap/dist/css/bootstrap.min.css',
+        "resources/js/components/admin/assets/css/vendor/dropzone.min.css",
         'node_modules/vue-select/dist/vue-select.css',
-        'resources/sass/admin/*'
+        'resources/js/components/admin/assets/fonts/iconsmind-s/css/*',
+        'resources/js/components/admin/assets/fonts/simple-line-icons/css/simple-line-icons.css'
     ], 'public/admin/lte/css/library.min.css')
     .scripts([
         'resources/js/admin/*'

@@ -13,14 +13,14 @@ class FileController extends Controller
     private $image_ext = ['jpg', 'jpeg', 'png', 'gif'];
     private $audio_ext = ['mp3', 'ogg', 'mpga'];
     private $video_ext = ['mp4', 'mpeg'];
-    private $document_ext = ['doc', 'docx', 'pdf', 'odt'];
+    private $document_ext = ['doc', 'docx', 'pdf', 'odt', 'epub', 'azw3'];
 
     public function store(Request $request)
     {
         $max_size = (int) ini_get('upload_max_filesize') * 1024;
         $all_ext = implode(',', $this->allExtensions());
         
-        if ($request->get('image')) {
+        if ($request->get('image') && $request->has('bookId')) {
             $validator = Validator::make($request->all(), [
                 'image' => 'required|image64:' . $all_ext . '|max:' . $max_size
             ]);
@@ -41,14 +41,14 @@ class FileController extends Controller
             ]);
             }
         }
-        if ($request->file('ebook')) {
-            $ebookFile = $request->file('ebook');
-            $ext = $ebookFile->getClientOriginalExtension();
-            $size = $ebookFile->getSize()/1048576;
-            if(in_array($ext,$this->document_ext) && $size < $max_size){
+        if ($request->file('file') && $request->has('bookId')) {
+            $file = $request->file('file');
+            $ext = $file->getClientOriginalExtension();
+            $size = $file->getSize()/1048576;
+            
+            if(in_array($ext,$this->allExtensions()) && $size < $max_size){
             $ebook = new FileUpload();
 
-            $upload_path = config('const.book_ebook_dir');
             $generated_new_name = time() . '.' . $ext;
             $type = $this->getType($ext);
 
@@ -62,7 +62,7 @@ class FileController extends Controller
                 $this->removeOldFile($old_filePath);
                 $old_file->delete();
             }
-            $this->addNewFile('book/' . $type . '/' . $generated_new_name,$ebookFile);
+            $this->addNewFile('book/' . $type . '/' . $generated_new_name,$file);
             return $ebook::create([
                 'name' => $generated_new_name,
                 'type' => $type,
@@ -71,7 +71,9 @@ class FileController extends Controller
             ]);
             }
         }
-        return response()->json(false);
+        return response()->json([
+            'message' => 'Unprocessable Entity!'
+        ], 422);
     }
 
     /**

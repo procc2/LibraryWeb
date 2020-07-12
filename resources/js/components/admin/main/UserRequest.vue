@@ -1,243 +1,380 @@
 <template>
-    <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
-        <!-- <?php
-if (isset($_GET['page'])){
-    $page=$_GET['page'];
-}else{$page=1;}
-$rowsPerPage=5;
-$perRow = $page*$rowsPerPage-$rowsPerPage;
-$sql="SELECT * FROM thanhvien ORDER BY id_thanhvien ASC LIMIT $perRow,$rowsPerPage";
-$query=mysqli_query($conn,$sql);
-$totalRows=mysqli_num_rows(mysqli_query($conn,"SELECT * FROM thanhvien"));
-$totalPages=ceil($totalRows/$rowsPerPage);
-$listPage="";
-for ($i=1;$i<=$totalPages;$i++) {
-    if ($page == $i) {
-        $listPage .= '<li class="active"><a href="quantri.php?page_layout=danhsachtv&page=' . $i . '">' . $i . '</a></li>';
-    } else {
-        $listPage .= '<li><a href="quantri.php?page_layout=danhsachtv&page=' . $i . '">' . $i . '</a></li>';
-    }
-}
-    ?>-->
-
-        <div class="row">
-            <ol class="breadcrumb">
-                <li>
-                    <a href="quantri.php">
-                        <svg class="glyph stroked home">
-                            <use xlink:href="#stroked-home" />
-                        </svg>
-                    </a>
-                </li>
-                <li class="active"></li>
-            </ol>
-        </div>
-        <!--/.row-->
-        <div class="row">
-            <div class="col-lg-12">
-                <h1 class="page-header">Quản lý thành viên</h1>
-            </div>
-        </div>
-        <!--/.row-->
-
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="panel panel-default">
-                    <div class="panel-body" style="position: relative;">
-                        <b-table
-                            :items="userRequests"
-                            :fields="fields"
-                            :current-page="currentPage"
-                            :per-page="perPage"
-                            ref="table"
-                            striped
-                            responsive="sm"
-                        >
-                            <template v-slot:cell(index)="row">
-                                {{ row.index + 1 }}
-                            </template>
-                            <template v-slot:cell(status)="row">
-                                {{ status[row.item.status] }}
-                            </template>
-                            <template v-slot:cell(request_type)="row">
-                                {{ requestType[row.item.request_type] }}
-                            </template>
-
-                            <template v-slot:cell(description)="row">
-                                {{
-                                    row.item.description
-                                        ? row.item.description
-                                        : "Không"
-                                }}
-                            </template>
-
-                            <template v-slot:cell(approve)="row">
-                                <a
-                                    href="javascript:void(0)"
-                                    v-on:click="
-                                        approve(
-                                            row.item.user_id,
-                                            row.item.id,
-                                            1
-                                        )
-                                    "
+    <b-row>
+        <b-colxx class="disable-text-selection">
+            <b-row>
+                <b-colxx xxs="12">
+                    <h1>{{ $t("menu.data-list") }}</h1>
+                    <div class="top-right-button-container">
+                        <b-button-group>
+                            <b-dropdown
+                                split
+                                right
+                                class="check-button"
+                                variant="primary"
+                                @click="selectAll(true)"
+                            >
+                                <label
+                                    slot="button-content"
+                                    class="custom-control custom-checkbox pl-4 mb-0 d-inline-block"
                                 >
-                                    <span>
-                                        <svg
-                                            class="glyph stroked checkmark"
-                                            style="width: 20px;height: 20px;"
-                                        >
-                                            <use
-                                                xlink:href="#stroked-checkmark"
-                                            />
-                                        </svg>
-                                    </span>
-                                </a>
-                                <a
-                                    href="javascript:void(0)"
-                                    v-on:click="
-                                        approve(
-                                            row.item.user_id,
-                                            row.item.id,
-                                            2
-                                        )
-                                    "
-                                >
-                                    <span>
-                                        <svg
-                                            class="glyph stroked cancel"
-                                            style="width: 20px;height: 20px;"
-                                        >
-                                            <use xlink:href="#stroked-cancel" />
-                                        </svg>
-                                    </span>
-                                </a>
-                            </template>
-                            <template v-slot:cell(delete)="row">
-                                <a
-                                    href="javascript:void(0)"
-                                    v-on:click="
-                                        deleteEntry(row.item.id)
-                                    "
-                                >
-                                    <span>
-                                        <svg
-                                            class="glyph stroked cancel"
-                                            style="width: 20px;height: 20px;"
-                                        >
-                                            <use xlink:href="#stroked-cancel" />
-                                        </svg>
-                                    </span>
-                                </a>
-                            </template>
-                        </b-table>
-
-                        <b-col sm="7" md="6" class="my-1">
-                            <b-pagination
-                                v-model="currentPage"
-                                :total-rows="totalRows"
-                                :per-page="perPage"
-                                size="md"
-                                class="my-0"
-                            ></b-pagination>
-                        </b-col>
+                                    <input
+                                        v-shortkey="{
+                                            select: ['ctrl', 'a'],
+                                            undo: ['ctrl', 'd']
+                                        }"
+                                        class="custom-control-input"
+                                        type="checkbox"
+                                        :checked="isSelectedAll"
+                                        @shortkey="keymap"
+                                    />
+                                    <span
+                                        :class="{
+                                            'custom-control-label': true,
+                                            indeterminate: isAnyItemSelected
+                                        }"
+                                        >&nbsp;</span
+                                    >
+                                </label>
+                                <b-dropdown-item>
+                                    {{ $t("pages.delete") }}
+                                </b-dropdown-item>
+                                <b-dropdown-item>
+                                    {{ $t("pages.another-action") }}
+                                </b-dropdown-item>
+                            </b-dropdown>
+                        </b-button-group>
                     </div>
-                </div>
-            </div>
-        </div>
-        <!--/.row-->
-    </div>
+                    <piaf-breadcrumb />
+                    <div class="mb-2 mt-2">
+                        <b-button
+                            v-b-toggle.displayOptions
+                            variant="empty"
+                            class="pt-0 pl-0 d-inline-block d-md-none"
+                        >
+                            {{ $t("pages.display-options") }}
+                            <i class="simple-icon-arrow-down align-middle" />
+                        </b-button>
+                        <b-collapse id="displayOptions" class="d-md-block">
+                            <div class="d-block d-md-inline-block pt-1">
+                                <b-dropdown
+                                    id="ddown1"
+                                    :text="
+                                        `${$t('pages.orderby')} ${sort.label}`
+                                    "
+                                    variant="outline-dark"
+                                    class="mr-1 float-md-left btn-group"
+                                    size="xs"
+                                >
+                                    <b-dropdown-item
+                                        v-for="(order, index) in sortOptions"
+                                        :key="index"
+                                        @click="changeOrderBy(order)"
+                                    >
+                                        {{ order.label }}
+                                    </b-dropdown-item>
+                                </b-dropdown>
+
+                                <div
+                                    class="search-sm d-inline-block float-md-left mr-1 align-top"
+                                >
+                                    <b-input
+                                        v-model="search"
+                                        :placeholder="$t('menu.search')"
+                                    />
+                                </div>
+                            </div>
+                            <div class="float-md-right pt-1">
+                                <span class="text-muted text-small mr-1 mb-2">
+                                    of {{ userRequests.length }}</span
+                                >
+                                <b-dropdown
+                                    id="ddown2"
+                                    right
+                                    :text="`${perPage}`"
+                                    variant="outline-dark"
+                                    class="d-inline-block"
+                                    size="xs"
+                                >
+                                    <b-dropdown-item
+                                        v-for="(size, index) in pageSizes"
+                                        :key="index"
+                                        @click="changePageSize(size)"
+                                    >
+                                        {{ size }}
+                                    </b-dropdown-item>
+                                </b-dropdown>
+                            </div>
+                        </b-collapse>
+                    </div>
+                    <div class="separator mb-5" />
+                </b-colxx>
+            </b-row>
+            <template v-if="isLoad">
+                <b-card class="mb-4" :title="$t('table.bootstrap-custom')">
+                    <b-table
+                        ref="custom-table"
+                        class="vuetable"
+                        sort-by="title"
+                        sort-desc.sync="false"
+                        selectable
+                        :fields="bootstrapTable.fields"
+                        :select-mode="bootstrapTable.selectMode"
+                        :current-page="currentPage"
+                        :per-page="perPage"
+                        :items="userRequests"
+                        :filter="search"
+                        selected-variant="primary"
+                        @row-selected="rowSelected"
+                    >
+                        <template v-slot:cell(index)="row">
+                            {{ row.index + 1 }}
+                        </template>
+                        <template v-slot:cell(status)="row">
+                            <b-badge
+                                class="mb-1 badge-pill"
+                                :variant="status[row.item.status].variant"
+                            >
+                            {{ status[row.item.status].label }}
+                            </b-badge>
+                        </template>
+                        <template v-slot:cell(request_type)="row">
+                            {{ requestType[row.item.request_type] }}
+                        </template>
+
+                        <template v-slot:cell(description)="row">
+                            {{
+                                row.item.description
+                                    ? row.item.description
+                                    : "Không"
+                            }}
+                        </template>
+
+                        <template v-slot:cell(approve)="row">
+                            <a
+                                href="javascript:void(0)"
+                                v-on:click="
+                                    approve(row.item.user_id, row.item.id, 1)
+                                "
+                            >
+                                <span>
+                                    <svg
+                                        class="glyph stroked checkmark"
+                                        style="width: 20px;height: 20px;"
+                                    >
+                                        <use xlink:href="#stroked-checkmark" />
+                                    </svg>
+                                </span>
+                            </a>
+                            <a
+                                href="javascript:void(0)"
+                                v-on:click="
+                                    approve(row.item.user_id, row.item.id, 2)
+                                "
+                            >
+                                <span>
+                                    <svg
+                                        class="glyph stroked cancel"
+                                        style="width: 20px;height: 20px;"
+                                    >
+                                        <use xlink:href="#stroked-cancel" />
+                                    </svg>
+                                </span>
+                            </a>
+                        </template>
+                        <template v-slot:cell(delete)="row">
+                            <a
+                                href="javascript:void(0)"
+                                @click="deleteEntry(row.item.id)"
+                            >
+                                <span>
+                                    <svg
+                                        class="glyph stroked cancel"
+                                        style="width: 20px;height: 20px;"
+                                    >
+                                        <use xlink:href="#stroked-cancel" />
+                                    </svg>
+                                </span>
+                            </a>
+                        </template>
+                    </b-table>
+                    <b-pagination
+                        v-model="currentPage"
+                        size="sm"
+                        align="center"
+                        :total-rows="totalRows"
+                        :per-page="perPage"
+                    >
+                        <template v-slot:next-text>
+                            <i class="simple-icon-arrow-right" />
+                        </template>
+                        <template v-slot:prev-text>
+                            <i class="simple-icon-arrow-left" />
+                        </template>
+                        <template v-slot:first-text>
+                            <i class="simple-icon-control-start" />
+                        </template>
+                        <template v-slot:last-text>
+                            <i class="simple-icon-control-end" />
+                        </template>
+                    </b-pagination>
+
+                    <b-alert
+                        v-if="bootstrapTable.selected.length > 0"
+                        show
+                        variant="primary"
+                    >
+                        Selected Items :<br />
+                        <pre>{{ bootstrapTable.selected }}</pre>
+                    </b-alert>
+                </b-card>
+            </template>
+            <template v-else>
+                <div class="loading" />
+            </template>
+        </b-colxx>
+    </b-row>
 </template>
 
 <script>
-import { BTable, BCard, BRow, BButton, BCol, BPagination } from "bootstrap-vue";
 export default {
-    components: {
-        BTable,
-        BCard,
-        BRow,
-        BButton,
-        BCol,
-        BPagination
-    },
-    data: function() {
+    data() {
         return {
-            totalRows: 1,
+            pageSizes: [4, 8, 12],
+            isLoad: true,
             currentPage: 1,
-            perPage: 10,
-            sortDesc: true,
-            fields: [
-                { key: "index", label: "#" },
-                { key: "request_type", label: "Loại yêu cầu" },
-                { key: "user.name", label: "Tên người dùng" },
-                { key: "description", label: "Chi tiết" },
-                { key: "status", label: "Trạng thái" },
-                { key: "approve", label: "Phê duyệt" },
-                { key: "delete", label: "Xóa" }
+            perPage: 5,
+            totalRows: 0,
+            selectedItems: [],
+            sort: {
+                column: "title",
+                label: "Product Name"
+            },
+            sortOptions: [
+                {
+                    column: "title",
+                    label: "Product Name"
+                },
+                {
+                    column: "category",
+                    label: "Category"
+                },
+                {
+                    column: "status",
+                    label: "Status"
+                }
             ],
-            userRequests: [],
+            bootstrapTable: {
+                selected: [],
+                selectMode: "multi",
+                fields: [
+                    { key: "index", label: "#" },
+                    { key: "request_type", label: "Loại yêu cầu" },
+                    { key: "user.name", label: "Tên người dùng" },
+                    { key: "description", label: "Chi tiết" },
+                    { key: "status", label: "Trạng thái" },
+                    { key: "approve", label: "Phê duyệt" },
+                    { key: "delete", label: "Xóa" }
+                ]
+            },
             requestType: {
                 "create-card": "Yêu cầu tạo thẻ"
             },
             status: {
-                0: "Chờ duyệt",
-                1: "Đã duyệt",
-                2: "Từ chối"
-            }
+                0: { label: "Chờ duyệt", variant: "outline-primary" },
+                1: { label: "Đã duyệt", variant: "outline-success" },
+                2: { label: "Từ chối", variant: "danger" }
+            },
+            userRequests: [],
+            search: ""
         };
     },
+    computed: {
+        isSelectedAll() {
+            return this.selectedItems.length >= this.userRequests.length;
+        },
+        isAnyItemSelected() {
+            return (
+                this.selectedItems.length > 0 &&
+                this.selectedItems.length < this.items.length
+            );
+        }
+    },
+    watch: {
+        search() {
+            this.page = 1;
+        }
+    },
     mounted() {
-        var app = this;
-        axios
-            .get("/api/v1/userRequests")
-            .then(function(res) {
-                app.userRequests = res.data;
-                app.totalRows = app.userRequests.length;
-            })
-            .catch(function(e) {
-                throw e;
-            });
+        this.loadItems();
     },
     methods: {
-        deleteEntry(id) {
-            if (confirm("Do you really want to delete it?")) {
-                var app = this;
-                axios
-                    .delete("/api/v1/userRequests/" + id)
-                    .then(function(resp) {
-                        const index = app.userRequests.findIndex(userReq => userReq.id === id)
-                        if(~index)
-                        app.userRequests.splice(index, 1);
-                    })
-                    .catch(function(resp) {
-                        alert("Could not delete company");
-                    });
+        loadItems() {
+            this.isLoad = false;
+
+            axios
+                .get("/api/v1/userRequests")
+                .then(response => {
+                    return response.data;
+                })
+                .then(res => {
+                    this.userRequests = res;
+                    this.totalRows = res.length;
+                    this.isLoad = true;
+                });
+        },
+
+        changePageSize(perPage) {
+            this.perPage = perPage;
+        },
+        changeOrderBy(sort) {
+            this.sort = sort;
+        },
+        addNewItem() {
+            console.log("adding item : ", this.newItem);
+        },
+        selectAll(isToggle) {
+            if (this.selectedItems.length >= this.items.length) {
+                if (isToggle) this.selectedItems = [];
+            } else {
+                this.selectedItems = this.items.map(x => x.id);
             }
         },
-        approve(user_id, id, status) {
-            var app = this;
-            if (confirm("Do you really want to do it?")) {
-                axios
-                    .put("/api/v1/userRequests/" + id, {
-                        status
-                    })
-                    .then(function(resp) {
-                        axios
-                            .post("/api/v1/cards/", { user_id })
-                            .then(function(resp) {
-                                console.log(resp);
-                            })
-                            .catch(function(resp) {
-                                alert("Could not delete card");
-                            });
-                    })
-                    .catch(function(resp) {
-                        alert("Could not delete company");
-                    });
+        keymap(event) {
+            switch (event.srcKey) {
+                case "select":
+                    this.selectAll(false);
+                    break;
+                case "undo":
+                    this.selectedItems = [];
+                    break;
             }
+        },
+        rowSelected(items) {
+            this.bootstrapTable.selected = items;
+        },
+        deleteEntry(id) {
+            this.$bvModal
+                .msgBoxConfirm("Are you sure?")
+                .then(res => {
+                    if ((res = true)) {
+                        var app = this;
+                        axios
+                            .delete("/api/v1/userRequests/" + id)
+                            .then(resp => {
+                                const index = app.userRequests.findIndex(
+                                    userReq => userReq.id === id
+                                );
+                                if (~index) app.userRequests.splice(index, 1);
+                            })
+                            .catch(resp => {
+                                alert("Could not delete company");
+                            });
+                    }
+                })
+                .catch(err => {
+                    alert(err);
+                });
         }
     }
 };
 </script>
-
-<style></style>

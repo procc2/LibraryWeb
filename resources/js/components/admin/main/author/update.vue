@@ -1,113 +1,118 @@
 <template>
-    <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
-        <div class="row">
-            <ol class="breadcrumb">
-                <li>
-                    <a href="#"
-                        ><svg class="glyph stroked home">
-                            <use xlink:href="#stroked-home"></use></svg
-                    ></a>
-                </li>
-                <li class="active"></li>
-            </ol>
-        </div>
-        <!--/.row-->
+  <div>
+    <b-row>
+      <b-colxx xxs="12">
+        <piaf-breadcrumb :heading="$t('menu.author')" />
+        <div class="separator mb-5" />
+      </b-colxx>
+    </b-row>
+    <!--/.row-->
 
-        <div class="row">
-            <div class="col-lg-12">
-                <h1 class="page-header">Thêm mới danh mục</h1>
-            </div>
-        </div>
-        <!--/.row-->
-
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="panel panel-default">
-                    <div class="panel-heading">Thêm mới danh mục</div>
-                    <div class="panel-body">
-                        <div class="col-md-12">
-                            <form role="form" v-on:submit="saveForm()">
-                                <div class="form-group">
-                                    <label>Tên danh mục</label>
-                                    <input
-                                        v-model="author.author_name"
-                                        class="form-control"
-                                        type="text"
-                                        required=""
-                                    />
-                                </div>
-                                <button
-                                    type="submit"
-                                    class="btn btn-primary"
-                                    name="submit"
-                                >
-                                    Thêm mới
-                                </button>
-                                <button type="reset" class="btn btn-default">
-                                    Làm mới
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- /.col-->
-        </div>
-        <!-- /.row -->
-    </div>
+    <b-row>
+      <b-colxx xxs="12">
+        <b-card
+          class="mb-4"
+          :title="$t('forms.author.title')"
+        >
+          <b-form @submit.prevent="saveForm">
+            <b-form-group
+              label-cols="2"
+              horizontal
+              :label="$t('forms.author.name')"
+            >
+              <b-form-input
+                v-model="author.author_name"
+                :placeholder="$t('forms.author.name')"
+              />
+            </b-form-group>
+            <b-button
+              type="submit"
+              variant="primary"
+              class="mt-4"
+              :disabled="processing"
+              :class="{'btn-multiple-state btn-shadow': true,
+                       'show-spinner': processing,
+                       'show-success': !processing && submitError===false,
+                       'show-fail': !processing && submitError }"
+            >
+              <span class="spinner d-inline-block">
+                <span class="bounce1" />
+                <span class="bounce2" />
+                <span class="bounce3" />
+              </span>
+              <span class="icon success">
+                <i class="simple-icon-check" />
+              </span>
+              <span class="icon fail">
+                <i class="simple-icon-exclamation" />
+              </span>
+              <span class="label">{{ $t('forms.create') }}</span>
+            </b-button>
+          </b-form>
+        </b-card>
+      </b-colxx>
+    </b-row>
+  </div>
 </template>
 <script>
 export default {
+    data() {
+        return {
+            author: {
+                author_name: ""
+            },
+            processing: false,
+            submitError: null
+        };
+    },
     mounted() {
         let app = this;
-        let id = app.$route.params.id;
-        console.log(app.$route.params.id);
+        let { id } = app.$route.params;
         if (typeof id !== "undefined") {
             app.author_id = id;
             axios
                 .get("/api/v1/authors/" + id)
-                .then(function(resp) {
+                .then(resp => {
                     app.author = resp.data;
                 })
-                .catch(function() {
-                    alert("Could not load your company");
+                .catch(e => {
+                    throw e;
                 });
         }
     },
-    data: function() {
-        return {
-            author: {
-                author_name: ""
-            }
-        };
-    },
     methods: {
         saveForm() {
-            event.preventDefault();
             var app = this;
-            var author = app.author;
-            console.log(author);
+            app.processing = true;
+            event.preventDefault();
+            
+            var { author } = app;
             if (typeof app.$route.params.id !== "undefined") {
                 axios
-                    .put("/api/v1/authors/" + app.$route.params.id, author)
-                    .then(function(resp) {
-                        console.log(resp);
+                    .put(
+                        "/api/v1/authors/" + app.$route.params.id,
+                        author
+                    )
+                    .then(resp => {
+                        app.processing = false;
                         app.$router.push({ path: "/author" });
                     })
-                    .catch(function(e) {
+                    .catch(e => {
+                        app.processing = false;
+                        app.submitError = true;
                         throw e;
-                        alert("Could not create new author");
                     });
             } else {
                 axios
                     .post("/api/v1/authors", author)
-                    .then(function(resp) {
-                        console.log(resp);
+                    .then(resp => {
+                        app.processing = false;
                         app.$router.push({ path: "/author" });
                     })
-                    .catch(function(e) {
+                    .catch(e => {
+                        app.processing = false;
+                        app.submitError = true;
                         throw e;
-                        alert("Could not create new author");
                     });
             }
         }

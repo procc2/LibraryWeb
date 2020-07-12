@@ -20,6 +20,7 @@ import Role from "./components/admin/main/Role.vue";
 import UpdateRole from "./components/admin/main/role/update.vue";
 import Introduction from "./components/admin/main/Introduction.vue";
 import UserRequest from "./components/admin/main/UserRequest.vue";
+import Card from "./components/admin/main/Card.vue";
 
 let routes = [];
 const backendRoutes = [
@@ -155,6 +156,14 @@ const backendRoutes = [
         path: "/userRequest",
         component: UserRequest,
         name: "userRequest",
+        meta: {
+            requiredRoles: ["admin", "developer", "staff"]
+        }
+    },
+    {
+        path: "/card",
+        component: Card,
+        name: "card",
         meta: {
             requiredRoles: ["admin", "developer", "staff"]
         }

@@ -1,164 +1,152 @@
 <template>
-    <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
-        <div class="row">
-            <ol class="breadcrumb">
-                <li>
-                    <a href="#"
-                        ><svg class="glyph stroked home">
-                            <use xlink:href="#stroked-home"></use></svg
-                    ></a>
-                </li>
-                <li class="active"></li>
-            </ol>
-        </div>
-        <!--/.row-->
+  <div>
+    <b-row>
+      <b-colxx xxs="12">
+        <piaf-breadcrumb :heading="$t('menu.user')" />
+        <div class="separator mb-5" />
+      </b-colxx>
+    </b-row>
+    <!--/.row-->
 
-        <div class="row">
-            <div class="col-lg-12">
-                <h1 class="page-header">Cập nhật thành viên</h1>
-            </div>
-        </div>
-        <!--/.row-->
-
-        <div class="row">
-            <div class="col-lg-6">
-                <div class="panel panel-default">
-                    <div class="panel-heading">Cập nhật thành viên</div>
-                    <div class="panel-body">
-                        <div class="col-md-12">
-                            <form role="form" v-on:submit="saveForm()">
-                                <div class="form-group">
-                                    <label>Email đăng nhập</label>
-                                    <input
-                                        class="form-control"
-                                        type="email"
-                                        required=""
-                                        v-model="user.email"
-                                    />
-                                    <label>Tên</label>
-                                    <input
-                                        class="form-control"
-                                        type="text"
-                                        required=""
-                                        v-model="user.name"
-                                    />
-                                    <label>Quyền sử dụng hệ thống</label>
-                                    <div class="radio" v-for="(role,index) in allRoles" :key="index">
-                                        <label>
-                                            <input
-                                                type="radio"
-                                                v-model="currentRole"
-                                                id="optionsRadios1"
-                                                :value="role.id"
-                                            />{{role.name}}
-                                        </label>
-                                    </div>
-                                    <!-- <div class="radio">
-                                        <label>
-                                            <input
-                                                type="radio"
-                                                v-model="user.roles"
-                                                id="optionsRadios2"
-                                                value="1"
-                                            />1: Quyền admin giao diện
-                                        </label>
-                                    </div>
-                                    <div class="radio">
-                                        <label>
-                                            <input
-                                                type="radio"
-                                                v-model="user.roles"
-                                                id="optionsRadios3"
-                                                value="2"
-                                            />2: Quyền admin hệ thống
-                                        </label>
-                                    </div> -->
-                                </div>
-                                <button type="submit" class="btn btn-primary">
-                                    Cập nhật | Thêm Mới
-                                </button>
-                                <button type="reset" class="btn btn-default">
-                                    Làm mới
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                <!-- /.col-->
-            </div>
-            <!-- /.row -->
-            <div class="col-lg-6">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        Hướng dẫn thêm thành viên quản trị mới
-                    </div>
-                    <div class="panel-body">
-                        <p>
-                            Quyền quản trị phân cấp từ 0 -> 1 -> 2 tùy theo
-                            thành viên hay admin
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <b-row>
+      <b-colxx xxs="12">
+        <b-card
+          class="mb-4"
+          :title="$t('forms.user.title')"
+        >
+          <b-form @submit.prevent="saveForm">
+            <b-form-group
+              label-cols="2"
+              horizontal
+              :label="$t('forms.user.email')"
+            >
+              <b-form-input
+                v-model="user.email"
+                :placeholder="$t('forms.user.email')"
+              />
+            </b-form-group>
+            <b-form-group
+              label-cols="2"
+              horizontal
+              :label="$t('forms.user.name')"
+            >
+              <b-form-input
+                v-model="user.name"
+                :placeholder="$t('forms.user.name')"
+              />
+            </b-form-group>
+            <b-form-group
+              label-cols="2"
+              horizontal
+              :label="$t('forms.book.role.title')"
+            >
+              <b-form-radio-group
+                v-model="currentRole"
+                stacked
+                class="pt-2"
+                :options="horizontalFormRadios"
+              />
+            </b-form-group>
+            <b-button
+              type="submit"
+              variant="primary"
+              class="mt-4"
+              :disabled="processing"
+              :class="{'btn-multiple-state btn-shadow': true,
+                       'show-spinner': processing,
+                       'show-success': !processing && submitError===false,
+                       'show-fail': !processing && submitError }"
+            >
+              <span class="spinner d-inline-block">
+                <span class="bounce1" />
+                <span class="bounce2" />
+                <span class="bounce3" />
+              </span>
+              <span class="icon success">
+                <i class="simple-icon-check" />
+              </span>
+              <span class="icon fail">
+                <i class="simple-icon-exclamation" />
+              </span>
+              <span class="label">{{ $t('forms.create') }}</span>
+            </b-button>
+          </b-form>
+        </b-card>
+      </b-colxx>
+    </b-row>
+  </div>
 </template>
 <script>
 export default {
-    mounted() {
-        let app = this;
-        let id = app.$route.params.id;
-        console.log(app.$route.params.id);
-        if (typeof id !== "undefined") {
-            app.id = id;
-            axios
-                .get("/api/v1/users/" + id)
-                .then(function(resp) {
-                    app.user = resp.data;
-                    app.currentRole = app.user.roles[0].id;
-                })
-                .catch(function(e) {
-                    throw(e);
-                    alert("Could not load your user");
-                });
-        }
-        axios
-            .get("/api/v1/roles")
-            .then(function(res) {
-                app.allRoles = res.data;
-            })
-            .catch(function(e) {
-                throw e;
-            });
-    },
-    data: function() {
+    data() {
         return {
             user: {
                 name: "",
                 email: "",
                 roles: []
             },
-            currentRole:"",
-            allRoles:[]
+            currentRole: "",
+            allRoles: [],
+            processing: false,
+            submitError: null,
+            horizontalFormRadios: [
+              { text: this.$t('forms.user.role.developer'), value: 1 },
+              { text: this.$t('forms.user.role.admin'), value: 2 },
+              { text: this.$t('forms.user.role.customer'), value: 3 },
+              { text: this.$t('forms.user.role.student'), value: 4 },
+              { text: this.$t('forms.user.role.staff'), value: 5 },
+      ],
         };
+    },
+    mounted() {
+        let app = this;
+        let { id } = app.$route.params;
+        if (typeof id !== "undefined") {
+            app.id = id;
+            axios
+                .get("/api/v1/users/" + id)
+                .then(resp => {
+                    app.user = resp.data;
+                    app.currentRole = app.user.roles[0].id;
+                })
+                .catch(e => {
+                    throw e;
+                });
+        }
+        axios
+            .get("/api/v1/roles")
+            .then(res => {
+                app.allRoles = res.data;
+            })
+            .catch(e => {
+                throw e;
+            });
     },
     methods: {
         saveForm() {
             event.preventDefault();
             var app = this;
-            var user = app.user;
-            console.log(user);
+            app.processing = true;
+            event.preventDefault();
+            
+            var { user } = app;
             user.roles = [app.currentRole];
-            axios
-                .put("/api/v1/users/" + app.$route.params.id, user)
-                .then(function(resp) {
-                    console.log(resp);
-                    app.$router.push({ path: "/user" });
-                })
-                .catch(function(e) {
-                    throw e;
-                    alert("Could not create new user");
-                });
+            if (typeof app.$route.params.id !== "undefined") {
+                axios
+                    .put(
+                        "/api/v1/users/" + app.$route.params.id,
+                        user
+                    )
+                    .then(resp => {
+                        app.processing = false;
+                        app.$router.push({ path: "/user" });
+                    })
+                    .catch(e => {
+                        app.processing = false;
+                        app.submitError = true;
+                        throw e;
+                    });
+            } 
         }
     }
 };
