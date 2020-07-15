@@ -215,7 +215,7 @@ export default {
             submitError: null,
             dropzoneOptions: {
                 autoQueue: false,
-                url: 'http://127.0.0.1:8000/api/files',
+                url: 'api/files',
                 thumbnailHeight: null,
                 thumbnailWidth: null,
                 maxFilesize: 40,

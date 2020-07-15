@@ -1,128 +1,141 @@
 <template>
-    <!-- cart-main-area start -->
-    <div class="cart-main-area section-padding--lg bg--white">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 col-sm-12 ol-lg-12">
-                    <form action="#">
-                        <div class="table-content wnro__table table-responsive">
-                            <table>
-                                <thead>
-                                    <tr class="title-top">
-                                        <th class="product-thumbnail">
-                                            Hình ảnh
-                                        </th>
-                                        <th class="product-name">Sách</th>
-                                        <th class="product-price">Đặc biệt</th>
-                                        <th class="product-quantity">
-                                            Số lượng
-                                        </th>
-                                        <th class="product-remove">Remove</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr v-for="item in items" :key="item.id">
-                                        <td class="product-thumbnail">
-                                            <router-link
-                                                :to="{
-                                                    name: 'detailProduct',
-                                                    params: {
-                                                        bookId: item.book_id
-                                                    }
-                                                }"
-                                                v-if="item.images[0]"
-                                                ><img
-                                                    :src="
-                                                        $parent.imageUrl +
-                                                            item.images[0].name
-                                                    "
-                                                    alt="product image"
-                                            /></router-link>
-                                        </td>
-                                        <td class="product-name">
-                                            <router-link
-                                                :to="{
-                                                    name: 'detailProduct',
-                                                    params: {
-                                                        bookId: item.book_id
-                                                    }
-                                                }"
-                                                >{{
-                                                    item.book_name
-                                                }}</router-link
-                                            >
-                                        </td>
-                                        <td class="product-price">
-                                            <span class="amount">
-                                                {{
-                                                    item.is_special
-                                                        ? "Đúng"
-                                                        : "Không"
-                                                }}
-                                            </span>
-                                        </td>
-                                        <td class="product-quantity">
-                                            <input
-                                                type="number"
-                                                value="1"
-                                                disabled
-                                            />
-                                        </td>
-                                        <td class="product-remove">
-                                            <a
-                                                href="javascript:void(0)"
-                                                v-on:click="removeProduct(item)"
-                                                >X</a
-                                            >
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </form>
-                    <div class="cartbox__btn">
-                        <ul
-                            class="cart__btn__list d-flex flex-wrap flex-md-nowrap flex-lg-nowrap justify-content-between"
+  <!-- cart-main-area start -->
+  <div class="cart-main-area section-padding--lg bg--white">
+    <div class="container">
+      <div
+        v-if="items.length"
+        class="row"
+      >
+        <div class="col-md-12 col-sm-12 ol-lg-12">
+          <form action="#">
+            <div class="table-content wnro__table table-responsive">
+              <table>
+                <thead>
+                  <tr class="title-top">
+                    <th class="product-thumbnail">
+                      Hình ảnh
+                    </th>
+                    <th class="product-name">
+                      Sách
+                    </th>
+                    <th class="product-price">
+                      Đặc biệt
+                    </th>
+                    <th class="product-quantity">
+                      Số lượng
+                    </th>
+                    <th class="product-remove">
+                      Remove
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    v-for="item in items"
+                    :key="item.id"
+                  >
+                    <td class="product-thumbnail">
+                      <router-link
+                        v-if="item.images[0]"
+                        :to="{
+                          name: 'detailProduct',
+                          params: {
+                            bookId: item.book_id
+                          }
+                        }"
+                      >
+                        <img
+                          :src="
+                            $parent.imageUrl +
+                              item.images[0].name
+                          "
+                          alt="product image"
                         >
-                            <!-- <li><a href="#">Coupon Code</a></li>
+                      </router-link>
+                    </td>
+                    <td class="product-name">
+                      <router-link
+                        :to="{
+                          name: 'detailProduct',
+                          params: {
+                            bookId: item.book_id
+                          }
+                        }"
+                      >
+                        {{
+                          item.book_name
+                        }}
+                      </router-link>
+                    </td>
+                    <td class="product-price">
+                      <span class="amount">
+                        {{
+                          item.is_special
+                            ? "Đúng"
+                            : "Không"
+                        }}
+                      </span>
+                    </td>
+                    <td class="product-quantity">
+                      <input
+                        type="number"
+                        value="1"
+                        disabled
+                      >
+                    </td>
+                    <td class="product-remove">
+                      <a
+                        href="javascript:void(0)"
+                        @click="removeProduct(item)"
+                      >X</a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </form>
+          <div class="cartbox__btn">
+            <ul
+              class="cart__btn__list d-flex flex-wrap flex-md-nowrap flex-lg-nowrap justify-content-between"
+            >
+              <!-- <li><a href="#">Coupon Code</a></li>
                             <li><a href="#">Apply Code</a></li> -->
-                            <!-- <li><a href="#">Update Cart</a></li> -->
-                            <li>
-                                <a
-                                    href="javascript:void(0)"
-                                    v-on:click="addBorrowRequest()"
-                                    >Check Out</a
-                                >
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-6 offset-lg-6">
-                    <div class="cartbox__total__area">
-                        <div
-                            class="cartbox-total d-flex justify-content-between"
-                        >
-                            <ul class="cart__total__list">
-                                <li>Tổng số sách</li>
-                                <li>Thời gian mượn</li>
-                            </ul>
-                            <ul class="cart__total__tk">
-                                <li>{{ items.length }}</li>
-                                <li>60 ngày</li>
-                            </ul>
-                        </div>
-                        <div class="cart__total__amount">
-                            <span>Hạn đến lấy </span>
-                            <span>{{ deadLine }}</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+              <!-- <li><a href="#">Update Cart</a></li> -->
+              <li>
+                <a
+                  href="javascript:void(0)"
+                  @click="addBorrowRequest()"
+                >Check Out</a>
+              </li>
+            </ul>
+          </div>
         </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-6 offset-lg-6">
+          <div class="cartbox__total__area">
+            <div
+              class="cartbox-total d-flex justify-content-between"
+            >
+              <ul class="cart__total__list">
+                <li>Tổng số sách</li>
+                <li>Thời gian mượn</li>
+              </ul>
+              <ul class="cart__total__tk">
+                <li>{{ items.length }}</li>
+                <li>60 ngày</li>
+              </ul>
+            </div>
+            <div class="cart__total__amount">
+              <span>Hạn đến lấy </span>
+              <span>{{ deadLine }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <!-- cart-main-area end -->
+  </div>
+  <!-- cart-main-area end -->
 </template>
 
 <script>
@@ -132,7 +145,7 @@ export default {
         ...mapState("cart", ["items"]),
         ...mapState("account", ["user"])
     },
-    data: function() {
+    data() {
         return {
             deadLine: ""
         };
@@ -141,7 +154,8 @@ export default {
         this.getNow();
     },
     methods: {
-        ...mapActions("cart", ["removeProduct", "removeAllProduct"]),
+        ...mapActions("cart", ["removeProduct",
+"removeAllProduct"]),
         addBorrowRequest() {
             var app = this;
             let options = {
@@ -151,11 +165,11 @@ export default {
             };
             this.$dialog
                 .confirm("Bạn chắc chắn muốn mượn ?", options)
-                .then(function(dialog) {
+                .then(dialog => {
                     console.log("Clicked on proceed");
                     app.requestLoan();
                 })
-                .catch(function(e) {
+                .catch(e => {
                     console.log(e);
                     console.log("Clicked on cancel");
                 });
@@ -166,41 +180,46 @@ export default {
                 loan_is_active: "0",
                 user_id: app.user.user_id
             };
-            var bookIds = app.items.map(function(item) {
+            var bookIds = app.items.map(item => {
                 return item.book_id;
             });
             app.removeAllProduct();
 
             axios
                 .post("/api/v1/loans", loan)
-                .then(function(resp) {
+                .then(resp => {
                     console.log(resp.data);
                     var loan_id = resp.data.id;
+                    let options = {
+                    okText: "Đóng",
+                    animation: "zoom"
+                };
                     axios
                         .post("/api/v1/loanDetails", {
                             loan_id,
                             bookIds
                         })
                         .then(function(resp) {
-                            console.log(resp.data);
-                            // app.$modal.show("borrowRequestSuccess");
+                            app.$dialog.alert("Bạn đã tạo đơn hàng thành công, bạn đã có thể đến thư viện để mượn sách qua thông tin đã đặt ", options).then(() => {
+                                app.$router.push('/');
+                            });
                         })
                         .catch(function(e) {
-                            console.log(e.response);
+                            app.$dialog.alert("Có lỗi xảy ra !! ", options);
                             if (e.response.status == 409) {
-                                // app.$modal.show("error");
+                                // App.$modal.show("error");
                             }
                         });
-                    // app.$modal.show("borrowRequestSuccess");
+                    // App.$modal.show("borrowRequestSuccess");
                 })
-                .catch(function(e) {
+                .catch(e => {
                     console.log(e.response);
                     if (e.response.status == 409) {
-                        // app.$modal.show("error");
+                        // App.$modal.show("error");
                     }
                 });
         },
-        getNow: function() {
+        getNow() {
             const today = new Date();
             const date =
                 today.getFullYear() +

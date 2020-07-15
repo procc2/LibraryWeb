@@ -4,9 +4,13 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Loan;
+use App\Mail\CompleteOrderNotify;
+use App\User;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class LoanController extends Controller
 {
@@ -17,8 +21,8 @@ class LoanController extends Controller
      */
     public function index()
     {
-        if(Auth::user()->can('view-loan'))
-        return Loan::with('user:name,user_id','details','details.book')->get();
+        if (Auth::user()->can('view-loan'))
+            return Loan::with('user:name,user_id', 'details', 'details.book')->get();
     }
 
     /**
@@ -48,6 +52,12 @@ class LoanController extends Controller
         //     ], 409);
         // }
         $loan = Loan::create($request->all());
+        $user = User::findOrFail($request->user_id);
+        try {
+            Mail::to($user)->send(new CompleteOrderNotify($loan));
+        } catch (Exception $e) {
+            throw ($e);
+        }
         return $loan;
     }
 
@@ -59,8 +69,13 @@ class LoanController extends Controller
      */
     public function show($id)
     {
-        return Loan::with('user:name,user_id','details')->where('user_id',$id)->get();
-
+        if(Auth::user()->can('view-loan') || intval(Auth::id()) === intval($id))
+        return Loan::with('user:name,user_id', 'details')->where('user_id', $id)->get();
+        else {
+            return response()->json([
+                'message' => 'Not Authorized.'
+            ], 403);
+        }
     }
 
     /**

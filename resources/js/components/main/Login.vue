@@ -57,13 +57,19 @@
               </ValidationProvider>
             </div>
             <div class="form__btn">
-              <button
+              <b-button
                 type="submit"
                 class="btn btn-primary"
                 name="submit"
+                :disabled="processing ? true : false"
               >
+                <b-spinner
+                  v-if="processing"
+                  small
+                  type="grow"
+                />
                 {{ $t('user.login-button') }}
-              </button>
+              </b-button>
               <label class="label-for-checkbox">
                 <input
                   id="rememberme"
@@ -163,7 +169,8 @@ export default {
                 remember_me: false
             },
             resetEmail: "",
-            forgotPass: false
+            forgotPass: false,
+            processing: false
         };
     },
     computed: {
@@ -181,10 +188,12 @@ export default {
 "resetPasswordRequest"]),
         ...mapActions("cart", ["getUserCart"]),
         submit() {
+          this.processing = true;
             const { email, password } = this.user;
             if (email && password) {
                 this.login({ email, password }).then(() => {
                     if (this.status.loggedIn) {
+                        this.processing = false;
                         this.$modal.hide("login");
                         this.getUserCart();
                     }
