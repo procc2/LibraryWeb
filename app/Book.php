@@ -7,16 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 class Book extends Model
 {
     protected $primaryKey = 'book_id';
-    protected $fillable = ['book_name', 'book_summary', 'book_description', 'author_id','publisher_id','remaining_stock','is_special'];
+    protected $fillable = ['book_name', 'book_summary', 'book_description','publisher_id','remaining_stock','is_special'];
 
     public function categories()
     {
         return $this->belongsToMany(Category::class,null,'book_id','category_id');
     }
 
-    public function author()
-    {
-        return $this->belongsTo(Author::class,'author_id');
+    public function authors(){
+        return $this->belongsToMany(Author::class,'book_author','book_id','author_id');
     }
 
     public function publisher()

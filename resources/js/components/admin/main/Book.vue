@@ -183,12 +183,14 @@
                 </a>
               </router-link>
             </template>
-            <template v-slot:cell(status)="row">
+            <template v-slot:cell(authors)="row">
               <b-badge
+                v-for="author in row.item.authors"
+                :key="author.author_id"
                 class="mb-1 badge-pill"
-                variant="outline-primary"
+                variant="primary"
               >
-                Đang mở
+                {{author.author_name}}
               </b-badge>
             </template>
             <template v-slot:cell(delete)="row">
@@ -284,7 +286,7 @@ export default {
                 { key: "image", label: "Ảnh mô tả" },
                 { key: "book_name", label: "Tên sách", sortable: true },
                 {
-                    key: "author.author_name",
+                    key: "authors",
                     label: "Tên tác giả",
                     sortable: true
                 },
@@ -372,7 +374,7 @@ export default {
         },
         deleteEntry(id) {
             this.$bvModal
-                .msgBoxConfirm("Are you sure?")
+                .msgBoxConfirm(this.$t("book.confirm-delete"))
                 .then(res => {
                     if (res = true) {
                         var app = this;

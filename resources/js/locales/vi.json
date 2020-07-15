@@ -4,12 +4,14 @@
     "register": "Đăng ký",
     "forgot-password": "Quên mật khẩu",
     "email": "E-mail",
-    "password": "Password",
-    "forgot-password-question": "Forget password?",
-    "fullname": "Full Name",
-    "login-button": "LOGIN",
-    "register-button": "REGISTER",
+    "password": "Mật khẩu",
+    "forgot-password-question": "Quên Mật khẩu ?",
+    "fullname": "Tên",
+    "login-button": "ĐĂNG NHẬP",
+    "register-button": "ĐĂNG KÝ",
     "reset-password-button": "RESET",
+    "reset-password": "Reset Password",
+    "remember-me" : "Ghi nhớ đăng nhập",
     "view": "Danh sách tài khoản",
     "username": "Username",
     "role": "Quyền"
@@ -42,7 +44,12 @@
     "create" : "Thêm mới sách",
     "author" : "Danh sách tác giả",
     "publisher" : "Danh sách nhà xuất bản",
-    "category" : "Danh sách thể loại"
+    "category" : "Danh sách thể loại",
+    "confirm-delete" : "Bạn có chắc chắn muốn xóa sản phẩm này ? ",
+    "go-detail" : "Chi tiết",
+    "view-detail" : "Xem chi tiết sách",
+    "best-saler" : "HAY CHỌN",
+    "new-book" : "Sách mới"
   },
   "pages": {
     "add-new" : "Thêm mới",

@@ -62,7 +62,7 @@ Route::group(['prefix' => '/v1', 'namespace' => 'Api\V1', 'as' => 'api.','middle
     Route::resource('categories', 'CategoryController')->only([
         'index', 'show'
     ]);
-
+    Route::get('topCategory', 'CategoryController@getTopCategory');
     Route::resource('userRequests', 'UserRequestsController')->only([
         'store', 'show'
     ]);

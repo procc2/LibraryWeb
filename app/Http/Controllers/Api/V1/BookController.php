@@ -20,7 +20,7 @@ class BookController extends Controller
      */
     public function index()
     {
-        return Book::with('author:author_id,author_name', 'publisher:publisher_id,publisher_name', 'images:book_id,name', 'ebooks', 'categories:category_name')->get();
+        return Book::with('authors', 'publisher:publisher_id,publisher_name', 'images:book_id,name', 'ebooks', 'categories:category_name','authors')->get();
     }
 
     /**
@@ -41,6 +41,7 @@ class BookController extends Controller
     {
         if (Auth::user()->can('update-book')) {
             $book = Book::create($request->all());
+            $book->authors()->sync($request->input('authors'));
             $categoryIds = $request->input('categoryIds');
             foreach ($categoryIds as $categoryId) {
                 $book->categories()->attach($categoryId);
@@ -57,7 +58,7 @@ class BookController extends Controller
      */
     public function show($id)
     {
-        $book = Book::with('author:author_id,author_name', 'publisher:publisher_id,publisher_name', 'images', 'ebooks', 'categories:category_name', 'comments', 'comments.user:name,user_id')->findOrFail($id);
+        $book = Book::with('publisher:publisher_id,publisher_name', 'images', 'ebooks', 'categories:category_name', 'comments', 'comments.user:name,user_id','authors')->findOrFail($id);
         $book->setAttribute("categoryIds", $book->categories()->get());
 
         return $book;
@@ -86,6 +87,7 @@ class BookController extends Controller
         if (Auth::user()->can('update-book')) {
             $book = Book::findOrFail($id);
             $book->update($request->all());
+            $book->authors()->sync($request->input('authors'));
             $categoryIds = $request->input('categoryIds');
             if (!is_array($categoryIds[0]) && (!$categoryIds[0] instanceof Traversable))
                 $book->categories()->sync($categoryIds);
@@ -114,23 +116,24 @@ class BookController extends Controller
         $categoryId = $request->input('categoryId');
         if ($categoryId != NULL) {
             $category = Category::findOrFail($categoryId);
-            return $category->books()->with('author:author_id,author_name', 'publisher:publisher_id,publisher_name', 'images:book_id,name', 'ebooks', 'categories:category_name')->get();
+            return $category->books()->with('authors', 'publisher:publisher_id,publisher_name', 'images:book_id,name', 'ebooks', 'categories:category_name')->get();
         }
         $authorId = $request->input('authorId');
         if ($authorId != NULL) {
-            $author = Author::findOrFail($authorId);
-            return $author->books()->with('author:author_id,author_name', 'publisher:publisher_id,publisher_name', 'images:book_id,name', 'ebooks', 'categories:category_name')->get();
+            return Book::with('authors', 'publisher:publisher_id,publisher_name', 'images:book_id,name', 'ebooks', 'categories:category_name')->whereHas('authors',function($query) use($authorId){
+                return $query->where('authors.author_id',$authorId);
+            })->get();
         }
         $publisherId = $request->input('publisherId');
         if ($publisherId != NULL) {
             $publisher = Publisher::findOrFail($publisherId);
-            return $publisher->books()->with('author:author_id,author_name', 'publisher:publisher_id,publisher_name', 'images:book_id,name', 'ebooks', 'categories:category_name')->get();
+            return $publisher->books()->with('authors', 'publisher:publisher_id,publisher_name', 'images:book_id,name', 'ebooks', 'categories:category_name')->get();
         }
         if ($request->exists('special')) {
-            $books = Book::with('author:author_id,author_name', 'publisher:publisher_id,publisher_name', 'images:book_id,name', 'ebooks', 'categories:category_name')->where('is_special', 1)->limit(10)->get();
+            $books = Book::with('authors', 'publisher:publisher_id,publisher_name', 'images:book_id,name', 'ebooks', 'categories:category_name')->where('is_special', 1)->limit(10)->get();
         }
         if ($request->exists('new')) {
-            $books = Book::with('author:author_id,author_name', 'publisher:publisher_id,publisher_name', 'images:book_id,name', 'ebooks', 'categories:category_name')->orderBy('created_at', 'desc')->limit(10)->get();
+            $books = Book::with('authors', 'publisher:publisher_id,publisher_name', 'images:book_id,name', 'ebooks', 'categories:category_name')->orderBy('updated_at', 'desc')->limit(10)->get();
         }
 
         // foreach ($books as $key => $book) {
@@ -187,7 +190,7 @@ class BookController extends Controller
             ], 201);
         } else if ($userId && !$bookId) {
             $user = User::findOrFail($userId);
-            return $user->favorites()->with('author:author_id,author_name', 'publisher:publisher_id,publisher_name', 'images:book_id,name', 'categories:category_name')->where('favorites.user_id', $userId)->get();
+            return $user->favorites()->with('authors', 'publisher:publisher_id,publisher_name', 'images:book_id,name', 'categories:category_name')->where('favorites.user_id', $userId)->get();
         }
     }
 }

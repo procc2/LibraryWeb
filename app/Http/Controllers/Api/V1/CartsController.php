@@ -64,7 +64,7 @@ class CartsController extends Controller
      */
     public function show($id)
     {
-        $carts = Book::with('cart', 'images:name,book_id','author:author_id,author_name')->whereHas('cart', function ($query) use ($id) {
+        $carts = Book::with('cart', 'images:name,book_id','authors')->whereHas('cart', function ($query) use ($id) {
             $query->where('user_id', '=', $id);
         })->get();
         return $carts;

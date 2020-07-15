@@ -31,10 +31,11 @@
               :label="$t('forms.book.author.title')"
             >
               <v-select
-                v-model="book.author_id"
+                v-model="book.authors"
+                multiple
                 :placeholder="$t('forms.book.author.title')"
                 label="author_name"
-                :options="authors"
+                :options="allAuthors"
                 :reduce="author => author.author_id"
               />
             </b-form-group>
@@ -196,6 +197,7 @@ export default {
                 book_id: "",
                 book_name: "",
                 book_image: "",
+                authors: [],
                 author_id: "",
                 publisher_id: "",
                 remaining_stock: 1,
@@ -208,7 +210,7 @@ export default {
             },
             categories: [],
             publishers: [],
-            authors: [],
+            allAuthors: [],
             processing: false,
             submitError: null,
             dropzoneOptions: {
@@ -235,7 +237,7 @@ export default {
             app.categories = res.data;
         });
         await axios.get("/api/v1/authors").then(res => {
-            app.authors = res.data;
+            app.allAuthors = res.data;
         });
         axios.get("/api/v1/publishers").then(res => {
             app.publishers = res.data;
@@ -304,7 +306,7 @@ export default {
                     });
                 
             }
-            if (app.$refs.myVueDropzone.dropzone.getAcceptedFiles()) {
+            if (app.$refs.myVueDropzone.dropzone.getAcceptedFiles().length) {
                 await app.$refs.myVueDropzone.dropzone.getAcceptedFiles().forEach(async file => {
                   await app.$refs.myVueDropzone.dropzone.enqueueFile(file);
                 });

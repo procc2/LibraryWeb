@@ -13,7 +13,7 @@ class CreateBooksAuthorsTable extends Migration
      */
     public function up()
     {
-        Schema::create('books_authors', function (Blueprint $table) {
+        Schema::create('book_author', function (Blueprint $table) {
             $table->integer('book_id')->unsigned();
             $table->integer('author_id')->unsigned();
 

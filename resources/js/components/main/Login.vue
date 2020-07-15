@@ -9,72 +9,86 @@
       class="my__account__wrapper"
     >
       <h3 class="account__title">
-        Login
+        {{ $t('user.login-title') }}
       </h3>
-      <form @submit.prevent="handleSubmit()">
-        <div class="account__form">
-          <div class="input__box">
-            <label>Username or email address <span>*</span></label>
-            <input
-              v-model="user.email"
-              type="text"
-              :class="{ 'is-invalid': !user.email }"
-            >
-            <div
-              v-show="!user.email"
-              class="invalid-feedback"
-            >
-              Username is required
-            </div>
-          </div>
-          <div class="input__box">
-            <label>Password<span>*</span></label>
-            <input
-              v-model="user.password"
-              type="password"
-              :class="{
-                'is-invalid': !user.password
-              }"
-            >
-            <div
-              v-show="!user.password"
-              class="invalid-feedback"
-            >
-              Password is required
-            </div>
-          </div>
-          <div class="form__btn">
-            <button
-              type="submit"
-              class="btn btn-primary"
-              name="submit"
-            >
-              Login
-            </button>
-            <label class="label-for-checkbox">
-              <input
-                id="rememberme"
-                v-model="user.remember_me"
-                class="input-checkbox"
-                type="checkbox"
-                :disabled="status.loggingIn"
+      <ValidationObserver v-slot="{ handleSubmit }">
+        <form @submit.prevent="handleSubmit(submit)">
+          <div class="account__form">
+            <div class="input__box">
+              <label>{{ $t('user.email') }} <span>*</span></label>
+              <ValidationProvider
+                v-slot="{ errors }"
+                name="email"
+                rules="required|email"
               >
-              <span>Remember me</span>
-            </label>
+                <input
+                  v-model="user.email"
+                  type="email"
+                  class="form-control"
+                  :class="{
+                    'is-invalid': errors.length
+                  }"
+                >
+                <div class="invalid-feedback">
+                  {{ errors[0] }}
+                </div>
+              </ValidationProvider>
+            </div>
+            <div class="input__box">
+              <label>{{ $t('user.password') }}<span>*</span></label>
+              <ValidationProvider
+                v-slot="{ errors }"
+                name="password"
+                rules="required"
+              >
+                <input
+                  v-model="user.password"
+                  type="password"
+                  class="form-control"
+                  :class="{
+                    'is-invalid': errors.length
+                  }"
+                >
+                <div
+                  class="invalid-feedback"
+                >
+                  {{ errors[0] }}
+                </div>
+              </ValidationProvider>
+            </div>
+            <div class="form__btn">
+              <button
+                type="submit"
+                class="btn btn-primary"
+                name="submit"
+              >
+                {{ $t('user.login-button') }}
+              </button>
+              <label class="label-for-checkbox">
+                <input
+                  id="rememberme"
+                  v-model="user.remember_me"
+                  class="input-checkbox"
+                  type="checkbox"
+                  :disabled="status.loggingIn"
+                >
+                <span>{{ $t('user.remember-me') }}</span>
+              </label>
+            </div>
+            <a
+              class="forget_pass"
+              href="javascript:void(0)"
+              @click="forgotPass = !forgotPass"
+            >{{ $t('user.forgot-password-question') }}</a>
           </div>
-          <a
-            class="forget_pass"
-            href="javascript:void(0)"
-            @click="forgotPass = !forgotPass"
-          >Lost your password?</a>
+        </form>
+        <div
+          v-if="alert.message"
+          :class="`alert ${alert.type}`"
+        >
+          {{ alert.message }}
         </div>
-      </form>
-      <div
-        v-if="alert.message"
-        :class="`alert ${alert.type}`"
-      >
-        {{ alert.message }}
-      </div>
+      </ValidationObserver>
     </div>
 
     <div
@@ -82,22 +96,21 @@
       class="my__account__wrapper"
     >
       <h3 class="account__title">
-        Reset Password
+        {{ $t('user.reset-password') }}
       </h3>
       <form @submit.prevent="resetRequest()">
         <div class="account__form">
           <div class="input__box">
-            <label>Username or email address <span>*</span></label>
+            <label>{{ $t('user.email') }} <span>*</span></label>
             <input
               v-model="resetEmail"
               type="text"
-              :class="{ 'is-invalid': !user.email }"
             >
             <div
-              v-show="!user.email"
+              v-show="resetEmail == null"
               class="invalid-feedback"
             >
-              Username is required
+              Email đang để trống !!
             </div>
           </div>
           <div class="form__btn">
@@ -115,7 +128,7 @@
               class="btn btn-primary"
               name="submit"
             >
-              Reset Password
+              {{ $t('user.reset-password-button') }}
             </button>
           </div>
         </div>
@@ -129,8 +142,19 @@
 
 <script>
 import { mapState, mapActions } from "vuex";
+import {
+    ValidationProvider,
+    ValidationObserver,
+    extend
+} from "vee-validate/dist/vee-validate.full";
+import { email } from 'vee-validate/dist/rules';
+
+extend('email', email);
 
 export default {
+    components: {
+        ValidationProvider, ValidationObserver
+    },
     data() {
         return {
             user: {
@@ -156,7 +180,7 @@ export default {
 "logout",
 "resetPasswordRequest"]),
         ...mapActions("cart", ["getUserCart"]),
-        handleSubmit() {
+        submit() {
             const { email, password } = this.user;
             if (email && password) {
                 this.login({ email, password }).then(() => {
@@ -189,7 +213,7 @@ export default {
         })
     },
     watch: {
-        $route(to, from) {
+        $route() {
             this.clearAlert();
         }
     }

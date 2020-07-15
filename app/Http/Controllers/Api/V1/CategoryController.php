@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Book;
 use App\Category;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -97,11 +98,8 @@ class CategoryController extends Controller
        }
     }
 
-    // public function getCategoriesByBook($bookId)
-    // {
-    //     return Category::whereHas('books', function ($query) use($bookId)
-    //     {
-    //         $query->where('books.book_id',$bookId);
-    //     })->get();
-    // }
+    public function getTopCategory()
+    {
+        return Category::withCount('books')->orderBy('books_count','DESC')->take(10)->get();
+    }
 }
