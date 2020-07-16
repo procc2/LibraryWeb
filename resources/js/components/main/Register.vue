@@ -49,6 +49,12 @@
                 <div class="invalid-feedback">
                   {{ errors[0] }}
                 </div>
+                <div
+                  v-if="alert.message"
+                  :class="`alert ${alert.type}`"
+                >
+                  {{ alert.message }}
+                </div>
               </ValidationProvider>
             </div>
             <div class="input__box">
@@ -57,9 +63,10 @@
                 v-slot="{ errors }"
                 name="password"
                 rules="required|min:8|verify_password"
+                vid="password"
               >
                 <input
-                  v-model="user.password_confirmation"
+                  v-model="user.password"
                   type="password"
                   class="form-control"
                   :class="{
@@ -77,11 +84,11 @@
               <label>Nhập lại Password<span>*</span></label>
               <ValidationProvider
                 v-slot="{ errors }"
-                name="password"
-                rules="required|min:8|verify_password"
+                name="password confirmation"
+                rules="required|min:8|confirmed:password"
               >
                 <input
-                  v-model="user.password"
+                  v-model="user.password_confirmation"
                   type="password"
                   class="form-control"
                   :class="{
@@ -112,7 +119,8 @@ import {
     ValidationObserver,
     extend
 } from "vee-validate/dist/vee-validate.full";
-
+import { confirmed } from 'vee-validate/dist/rules';
+extend('confirmed', confirmed);
 extend('verify_password', value => {
         var strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
         if (strongRegex.test(value)) {
@@ -132,12 +140,16 @@ export default {
                 name: "",
                 email: "",
                 password: "",
-                password_confirmation: ""
+                password_confirmation: "",
+                roles: [3]
             },
         };
     },
     computed: {
-        ...mapState("account", ["status"])
+        ...mapState("account", ["status"]),
+        ...mapState({
+            alert: state => state.alert
+        })
     },
     methods: {
         ...mapActions("account", ["register"]),

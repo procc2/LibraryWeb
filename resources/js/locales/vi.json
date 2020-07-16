@@ -37,7 +37,8 @@
     "card":"Thẻ",
     "data-list" : "Danh sách quản lý",
     "insert" : "Thêm Mới",
-    "role" :"Quyền"
+    "role" :"Quyền",
+    "permission" :"Quyền người dùng"
   },
   "book": {
     "view": "Danh sách ấn phẩm",

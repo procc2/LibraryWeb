@@ -21,8 +21,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::group([
     'prefix' => 'auth'
 ], function () {
-    Route::post('login', 'AuthController@login');
-    Route::post('signup', 'AuthController@signup');
+    Route::post('login', 'AuthController@login')->middleware('throttle:10,1');
+    Route::post('signup', 'AuthController@signup')->middleware('throttle:10,1');
   
     Route::group([
       'middleware' => 'auth:api'

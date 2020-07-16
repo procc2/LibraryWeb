@@ -54,6 +54,12 @@
                 >
                   {{ errors[0] }}
                 </div>
+                <div
+                  v-if="alert.message"
+                  :class="`alert ${alert.type}`"
+                >
+                  {{ alert.message }}
+                </div>
               </ValidationProvider>
             </div>
             <div class="form__btn">
@@ -88,12 +94,6 @@
             >{{ $t('user.forgot-password-question') }}</a>
           </div>
         </form>
-        <div
-          v-if="alert.message"
-          :class="`alert ${alert.type}`"
-        >
-          {{ alert.message }}
-        </div>
       </ValidationObserver>
     </div>
 
@@ -197,6 +197,10 @@ export default {
                         this.$modal.hide("login");
                         this.getUserCart();
                     }
+                    this.processing = false;
+                })
+                .catch(() => {
+                  this.processing = false; 
                 });
             }
         },

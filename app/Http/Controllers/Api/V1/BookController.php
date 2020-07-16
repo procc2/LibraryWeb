@@ -41,7 +41,7 @@ class BookController extends Controller
     {
         if (Auth::user()->can('update-book')) {
             $book = Book::create($request->all());
-            $book->authors()->sync($request->input('authors'));
+            $book->authors()->attach($request->input('authors'));
             $categoryIds = $request->input('categoryIds');
             foreach ($categoryIds as $categoryId) {
                 $book->categories()->attach($categoryId);
@@ -87,6 +87,7 @@ class BookController extends Controller
         if (Auth::user()->can('update-book')) {
             $book = Book::findOrFail($id);
             $book->update($request->all());
+            \Log::info($request->input('authors'));
             $book->authors()->sync($request->input('authors'));
             $categoryIds = $request->input('categoryIds');
             if (!is_array($categoryIds[0]) && (!$categoryIds[0] instanceof Traversable))

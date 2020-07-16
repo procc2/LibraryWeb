@@ -251,13 +251,14 @@ export default {
                 .get("/api/v1/books/" + bookId)
                 .then(resp => {
                     app.book = resp.data;
+                    app.book.authors = app.book.authors.map(x => x.author_id);
                     app.book.images.forEach(image => {
-                      var file = { size: 0.3, name: image.name };
+                      var file = { size: 3, name: image.name };
                       var url = imageUrl + image.name;
                       app.$refs.myVueDropzone.manuallyAddFile(file, url); 
                     });
                     app.book.ebooks.forEach(ebook => {
-                      var file = { size: 0.3, name: ebook.name };
+                      var file = { size: 3, name: ebook.name };
                       var url = ebookUrl + ebook.name;
                       app.$refs.myVueDropzone.manuallyAddFile(file, url);
                     });
@@ -284,9 +285,6 @@ export default {
             ) {
                 await axios
                     .put("/api/v1/books/" + app.$route.params.bookId, book)
-                    .then(() => {
-                        app.processing = false;
-                    })
                     .catch(e => {
                         app.processing = false;
                         app.submitError = true;

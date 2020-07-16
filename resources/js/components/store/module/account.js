@@ -12,11 +12,20 @@ const actions = {
             .then(
                 user => {
                     commit('loginSuccess', user);
-                    // router.push('/');
+                    // Router.push('/');
                 },
                 error => {
                     commit('loginFailure', error);
-                    dispatch('alert/error', error, { root: true });
+                    var err_message;
+                    if (error.response.status == "401") {
+                        err_message = "Sai mật khẩu hoặc tên đăng nhập, vui lòng thử lại";
+                    } else if (error.response.status == "429") {
+                        err_message = "Nhập sai quá nhiều lần, xin vui lòng đợi 1 phút tiếp theo";
+                    } else {
+                        err_message = "Lỗi không xác định !!";
+                    }
+                    
+                    dispatch('alert/error', err_message, { root: true });
                 }
             );
     },
@@ -25,13 +34,13 @@ const actions = {
         dispatch('cart/removeAllProduct', null, { root: true });
         commit('logout');
     },
-    async getLoginState({ commit }){
+    async getLoginState({ commit }) {
         await userService.getUserByToken(token)
         .then(
             user => {
                 commit('loginSuccess', user);
             }
-        )
+        );
     },
     async register({ dispatch, commit }, user) {
         commit('registerRequest', user);
@@ -41,30 +50,38 @@ const actions = {
                 user => {
                     commit('registerSuccess', user);
                     setTimeout(() => {
-                        // hiển thị message thành công sau redirect sang trang 
+                        // Hiển thị message thành công sau redirect sang trang 
                         dispatch('alert/success', 'Registration successful', { root: true });
-                    })
+                    });
                 },
                 error => {
                     commit('registerFailure', error);
-                    dispatch('alert/error', error, { root: true });
+                    var err_message;
+                    if (error.response.status == "422") {
+                        err_message = "Tài khoản đã tồn tại !";
+                    } else if (error.response.status == "429") {
+                        err_message = "Nhập sai quá nhiều lần, xin vui lòng đợi 1 phút tiếp theo";
+                    } else {
+                        err_message = "Lỗi không xác định !!";
+                    }
+                    dispatch('alert/error', err_message, { root: true });
                 }
             );
     },
-    async update({},user){
+    async update({}, user) {
         return await userService.update(user)
         .then(
             user => user,
             error => error.response
         );
     },
-    async updatePassword({},data){
+    async updatePassword({}, data) {
         return await userService.updatePassword(data)
         .then(
             res => res
         );
     },
-    async resetPasswordRequest({},email){
+    async resetPasswordRequest({}, email) {
         return await userService.resetRequest(email);        
     }
 };
@@ -91,13 +108,12 @@ const mutations = {
         state.status = { registering: true };
     },
     registerSuccess(state, user) {
-        state.status = { registered : true};
+        state.status = { registered: true };
     },
     registerFailure(state, error) {
         state.status = {};
     }
 };
-
 export const account = {
     namespaced: true,
     state,

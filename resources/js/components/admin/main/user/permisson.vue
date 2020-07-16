@@ -1,102 +1,107 @@
 <template>
-    <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
-        <div class="row">
-            <ol class="breadcrumb">
-                <li>
-                    <a href="#"
-                        ><svg class="glyph stroked home">
-                            <use xlink:href="#stroked-home"></use></svg
-                    ></a>
-                </li>
-                <li class="active"></li>
-            </ol>
-        </div>
-        <!--/.row-->
+  <div>
+    <b-row>
+      <b-colxx xxs="12">
+        <piaf-breadcrumb :heading="$t('menu.data-list')" />
+        <div class="separator mb-5" />
+      </b-colxx>
+    </b-row>
+    <!--/.row-->
 
-        <div class="row">
-            <div class="col-lg-12">
-                <h1 class="page-header">Cập nhật quyền</h1>
-            </div>
-        </div>
-        <!--/.row-->
-
-        <div class="row">
-            <div class="col-lg">
-                <div class="panel panel-default">
-                    <div class="panel-heading">Cập nhật quyền</div>
-                    <div class="panel-body">
-                        <div class="col-md-12">
-                            <form v-on:submit.prevent="updatePermission()" role="form">
-                                <div class="form-group">
-                                    <label>Danh sách quyền hệ thống</label>
-                                    
-                                </div>
-                                <div class="checkbox" v-for="(permission,
-                                        index) in permissons"
-                                        :key="index">
-                                    <input
-                                        class="form-check-input"
-                                        type="checkbox"
-                                        
-                                        v-model="checkedPermissions"
-                                        v-bind:value="permission.id"
-                                    />
-                                    <label
-                                        class="form-check-label"
-                                        >{{permission.name}}</label
-                                    >
-                                </div>
-                                <button type="submit" class="btn btn-primary">
-                                    Cập nhật | Thêm Mới
-                                </button>
-                                <button type="reset" class="btn btn-default">
-                                    Làm mới
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                <!-- /.col-->
-            </div>
-        </div>
-    </div>
+    <b-row>
+      <b-colxx xxs="12">
+        <b-card
+          class="mb-4"
+          :title="$route.params.user ? $route.params.user.name : $t('menu.permission')"
+        >
+          <b-form @submit.prevent="updatePermission">
+            <b-form-group
+              v-for="(permission,
+                      index) in permissons"
+              :key="index"
+              label-cols="2"
+              horizontal
+              :label="permission.name"
+            >
+              <b-form-checkbox
+                v-model="checkedPermissions"
+                type="checkbox"
+                :value="permission.id"
+              />
+            </b-form-group>
+            
+            <b-button
+              type="submit"
+              variant="primary"
+              class="mt-4"
+              :disabled="processing"
+              :class="{'btn-multiple-state btn-shadow': true,
+                       'show-spinner': processing,
+                       'show-success': !processing && submitError===false,
+                       'show-fail': !processing && submitError }"
+            >
+              <span class="spinner d-inline-block">
+                <span class="bounce1" />
+                <span class="bounce2" />
+                <span class="bounce3" />
+              </span>
+              <span class="icon success">
+                <i class="simple-icon-check" />
+              </span>
+              <span class="icon fail">
+                <i class="simple-icon-exclamation" />
+              </span>
+              <span class="label">{{ $t('forms.edit') }}</span>
+            </b-button>
+          </b-form>
+        </b-card>
+      </b-colxx>
+    </b-row>
+  </div>
 </template>
 
 <script>
 export default {
-    data: function() {
+    data() {
         return {
             permissons: [],
-            checkedPermissions: []
+            checkedPermissions: [],
+            processing: false,
+            submitError: null
         };
     },
     mounted() {
         var app = this;
-        if(app.$route.params.user)
-        app.checkedPermissions = app.$route.params.user.permissions.map(function(permission) {
+        if (app.$route.params.user) app.checkedPermissions = app.$route.params.user.permissions.map(permission => {
                 return permission.id;
             });
         axios
             .get("/api/v1/permissions")
-            .then(function(res) {
+            .then(res => {
                 app.permissons = res.data;
             })
-            .catch(function(e) {
+            .catch(e => {
                 throw e;
             });
     },
     methods: {
-        updatePermission(){
+        updatePermission() {
             var app = this;
+            app.processing = true;
+            event.preventDefault();
+
             var data = {
-                'userId' : app.$route.params.user.user_id,
-                'permissions' : app.checkedPermissions
-            }
-            axios.post("/api/v1/permissions",data)
-            .then(function(res) {
-                console.log(res);
+                'userId': app.$route.params.user.user_id,
+                'permissions': app.checkedPermissions
+            };
+            axios.post("/api/v1/permissions", data)
+            .then(() => {
+                app.processing = false;
+                app.$router.push({ path: "/user" });
             })
-            .catch(function(e) {
+            .catch(e => {
+                app.processing = false;
+                app.submitError = true;
                 throw e;
             });
         }

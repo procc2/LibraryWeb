@@ -382,7 +382,7 @@ export default {
                             .delete("/api/v1/books/" + id)
                             .then(resp => {
                                 const index = app.books.findIndex(
-                                    userReq => userReq.id === id
+                                    book => book.book_id === id
                                 );
                                 if (~index) app.books.splice(index, 1);
                             })
