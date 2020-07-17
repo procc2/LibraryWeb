@@ -262,12 +262,12 @@ export default {
             selectedItems: [],
             sort: {
                 column: "title",
-                label: "Product Name"
+                label: "Tên sách"
             },
             sortOptions: [
                 {
                     column: "title",
-                    label: "Product Name"
+                    label: "Tên sách"
                 },
                 {
                     column: "category",

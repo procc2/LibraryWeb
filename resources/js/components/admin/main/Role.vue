@@ -226,12 +226,12 @@ export default {
             selectedItems: [],
             sort: {
                 column: "title",
-                label: "Product Name"
+                label: "Tên Quyền"
             },
             sortOptions: [
                 {
                     column: "title",
-                    label: "Product Name"
+                    label: "Tên Quyền"
                 },
                 {
                     column: "category",

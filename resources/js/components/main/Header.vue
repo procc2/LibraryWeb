@@ -490,9 +490,6 @@
                                                             }}</router-link
                                                         >
                                                     </h6>
-                                                    <span class="prize"
-                                                        >$30.00</span
-                                                    >
                                                     <div
                                                         class="product_prize d-flex justify-content-between"
                                                     >

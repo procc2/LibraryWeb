@@ -242,12 +242,12 @@ export default {
             selectedItems: [],
             sort: {
                 column: "title",
-                label: "Product Name"
+                label: "Số thẻ"
             },
             sortOptions: [
                 {
                     column: "title",
-                    label: "Product Name"
+                    label: "Số thẻ"
                 },
                 {
                     column: "category",
@@ -370,7 +370,7 @@ export default {
                             .delete("/api/v1/cards/" + id)
                             .then(resp => {
                                 const index = app.cards.findIndex(
-                                    userReq => userReq.id === id
+                                    card => card.id === id
                                 );
                                 if (~index) app.cards.splice(index, 1);
                             })

@@ -290,12 +290,12 @@ export default {
       selectedItems: [],
       sort: {
         column: "title",
-        label: "Product Name"
+        label: "Số đơn mượn"
       },
       sortOptions: [
         {
           column: "title",
-          label: "Product Name"
+          label: "Số đơn mượn"
         },
         {
           column: "loan",
@@ -400,7 +400,7 @@ export default {
                     })
                     .then(res => {
                         console.log(res);
-                        app.loadData();
+                        app.loadItems();
                     })
                     .catch(e => {
                         throw e;
