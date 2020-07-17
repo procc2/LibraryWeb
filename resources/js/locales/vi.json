@@ -94,6 +94,9 @@
       "description" : "Thông tin thêm"
     },
     "user":{
+      "title" : "Tài khoản người dùng",
+      "email" : "E-mail",
+      "name" : "Tên ",
       "role" : {
         "title" : "Quyền",
         "admin" : "Quản trị viên",

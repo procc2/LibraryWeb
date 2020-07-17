@@ -17,7 +17,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return Category::all();
+        return Category::withCount('books')->orderBy('books_count','DESC')->get();
     }
 
     /**
